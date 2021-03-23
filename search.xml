@@ -1,503 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>Annotation(java注解)</title>
-    <url>/2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<p>注解提供一种为程序元素设置元数据的方法。元数据就是关于数据的数据，可以用来生成文档，进行代码分析或者使编译器对元数据进行编译检查。<br>可以使用注解解析工具或编译器对其进行解析，也可以指定注解在编译期或运行期有效。<br>　　　　　　　　　　　　　　　　　　　　　　<br>注解的基本原则是：无论增加或者删除一个注解都不能对代码造成干扰。</p>
-<h2 id="系统注解"><a href="#系统注解" class="headerlink" title="系统注解"></a>系统注解</h2><p>　　1. Override：保证override函数的正确生明</p>
-<p>　　2. Deprecated：对于过时不再使用的函数添加该注解，当该函数被调用时，编译时会提示。与javadoc的@deprecated类似，但前者不可以带参数</p>
-<p>　　3. SupressWarnings： 配合参数表示关闭特定的警告信息。参数有：</p>
-<p>　　　　　|参数名 | 语法格式 |<br>        | :— |  :—  |<br>     　　| deprecation | 使用了过时的类或者方法的警告  |<br>    　　 | unchecked |  执行了未检查的转换时警告  |<br>        | fallthrough |  switch语句某case下没有break语句直接通往下一个case的警告  |<br>    　　 | path |  在类路径或者源文件路径中存在不存在的路径的警告  |<br>        | finally |  finally语句不能正确执行的警告 |<br>        | all |  关闭所有警告信息  |</p>
-<h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><pre><code>元注解的作用就是负责注解其他注解。Java5定义了4个标准的Meta Annotation类型，它们被用来提供对其它 Annotation类型作说明。
-</code></pre>
-<p>　　　1. Target</p>
-<p>　　　　　　作用：用于描述注解的使用范围，即被描述的注解可以用在什么地方</p>
-<p>　　　　　　用法： @Target(ElementType.参数,…)</p>
-<p>　　　　　　参数：</p>
-<p>　　　　　　　　　CONSTRUCTOR：用于描述构造器</p>
-<p>　　　　　　　　　FIELD：用于描述域</p>
-<p>　　　　　　　　　LOCAL_VARIABLE：用于描述局部变量</p>
-<p>　　　　　　　　　METHOD：用于描述方法</p>
-<p>　　　　　　　　　PACKAGE：用于描述包</p>
-<p>　　　　　　　　　PARAMETER：用于描述参数</p>
-<p>　　　　　　　　　TYPE：用于描述类、接口(包括注解类型) 或enum声明</p>
-<p>　　　2. Retention</p>
-<p>　　　　　　作用： 标识该Annotation的生命周期</p>
-<p>　　　　　　用法：　@Retention(RetentionPolicy.参数)</p>
-<p>　　　　　　参数：</p>
-<p>　　　　　　　　　SOURCE:在源文件中有效（即源文件保留），被编译器丢弃</p>
-<p>　　　　　　　　　CLASS:在class文件中有效（即class保留），编译在class文件中的Annotation可能会被虚拟机忽略</p>
-<p>　　　　　　　　　RUNTIME:在运行时有效（即运行时保留）</p>
-<p>　　　3. Documented</p>
-<p>　　　　　　<em><strong>@Documented是一个标记注解，没有成员</strong></em></p>
-<p>　　　　　　作用：用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。</p>
-<p>　　　4.　Inherited</p>
-<p>　　　　　　<em><strong>@Inherited 是一个标记注解。</strong></em></p>
-<p>　　　　　  　作用: 如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个Annotation将被用于该class的子类。</p>
-<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>　　　Annotation类型使用关键字@interface而非interface，注意开头的@符号。interface可以被实现或者继承，Annotation不可以。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>C++之extern</title>
-    <url>/2019/03/17/C-%E4%B9%8Bextern/</url>
-    <content><![CDATA[<p>extern可以置于变量或者函数前，以标示变量或者函数的定义在别的文件中，提示编译器遇到此变量和函数时在其他模块中寻找其定义。<br>此外extern也可用来进行链接指定。</p>
-<h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><ol>
-<li><p>与“C”连用进行链接指定</p>
-<p>比如: </p>
-<p><code>extern &quot;C&quot; void fun(int a, int b);</code></p>
-<p> 则告诉编译器在编译fun这个函数名时按着C的规则去翻译相应的函数名</p>
-</li>
-<li><p>extern声明变量</p>
-<p> 比如，头文件 testExample.h</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;声明</span><br><span class="line">extern int a;</span><br><span class="line">extern int b;</span><br></pre></td></tr></table></figure>
-<p> 源程序 testExample.c</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &quot;testExample.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;定义</span><br><span class="line">int a &#x3D; 1;</span><br><span class="line">int b &#x3D; 2;</span><br></pre></td></tr></table></figure>
-<p>主函数 main.c</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;testExample.h&quot;</span><br><span class="line"></span><br><span class="line">int main(void) &#123;</span><br><span class="line">    printf(&quot;a &#x3D; %d , b &#x3D; %d\n&quot;, a, b);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中，a，b的声明也可放在main.c中。此时，就不需要包含 testExample.h这个头文件了。代码如下：</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">extern int a;</span><br><span class="line">extern int b;</span><br><span class="line"></span><br><span class="line">int main(void) &#123;</span><br><span class="line">    printf(&quot;a &#x3D; %d , b &#x3D; %d\n&quot;, a, b);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>extern声明函数</p>
-<p>比如，头文件 testExample.h</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;声明</span><br><span class="line">extern int a;</span><br><span class="line">extern int b;</span><br><span class="line">&#x2F;&#x2F;函数声明</span><br><span class="line">extern int add(int a, int b);</span><br></pre></td></tr></table></figure>
-<p>源程序 testExample.c</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &quot;testExample.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;定义</span><br><span class="line">int a &#x3D; 1;</span><br><span class="line">int b &#x3D; 2;</span><br><span class="line">int add(int a, int b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>主函数 main.c</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;testExample.h&quot;</span><br><span class="line"></span><br><span class="line">int main(void) &#123;</span><br><span class="line">    printf(&quot;a &#x3D; %d , b &#x3D; %d\n&quot;, a, b);</span><br><span class="line">    printf(&quot;add(a, b) &#x3D; %d\n&quot;, add(a, b));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中，a，b的声明也可放在main.c中。此时，就不需要包含 testExample.h这个头文件了。代码如下：</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">extern int a;</span><br><span class="line">extern int b;</span><br><span class="line">   </span><br><span class="line">&#x2F;&#x2F;函数声明</span><br><span class="line">extern int add(int a, int b);</span><br><span class="line">int main(void) &#123;</span><br><span class="line">    printf(&quot;a &#x3D; %d , b &#x3D; %d\n&quot;, a, b);</span><br><span class="line">    printf(&quot;add(a, b) &#x3D; %d\n&quot;, add(a, b));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="extern-与-static"><a href="#extern-与-static" class="headerlink" title="extern 与 static"></a>extern 与 static</h1><p>(1) extern 表明引用外部其他模块/单元定义的变量或者函数。</p>
-<p>(2) static 表示静态变量，分配内存的时候, 存储在静态区而不是栈上面。static修饰全局变量的作用域只能是本身的编译单元，所以一般定义static全局变量时，都把它放在原文件中而不是头文件。</p>
-<p><em><strong>extern和static不能同时修饰一个变量</strong></em></p>
-<h1 id="extern-与-const"><a href="#extern-与-const" class="headerlink" title="extern 与 const"></a>extern 与 const</h1><p>C++中const修饰的全局常量据有跟static相同的特性，即它们只能作用于本编译模块中。但是const可以与extern连用来声明该常量可以作用于其他编译模块中。当与extern一起合作的时候，它的特性就跟extern的一样，表示一个定义了的全局变量。</p>
-]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>java.nio.bytebuffer解析</title>
+      <link href="2021/03/23/java-nio-bytebuffer%E8%A7%A3%E6%9E%90/"/>
+      <url>2021/03/23/java-nio-bytebuffer%E8%A7%A3%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<p>ByteBuffer继承自抽象类Buffer，用于在堆内存中预留一部分空间对IO数据做临时存储，以提高读写效率。与CharBuffer、IntBuffer等Buffer的其他子类的<br>区别在于数据类型的不同，但是关于缓冲区读写区域的管理全部由父类Buffer负责。<br><br> ByteBuffer类的定义：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public abstract class ByteBuffer</span><br><span class="line">extends Buffer</span><br><span class="line">implements Comparable&lt;ByteBuffer&gt;</span><br></pre></td></tr></table></figure><h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>ByteBuffer自定义的属性字段：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">** 不为空，仅用于JVM堆缓存区  *&#x2F;</span><br><span class="line">final byte[] hb;                  &#x2F;&#x2F; Non-null only for heap buffers</span><br><span class="line">&#x2F;** 数组的偏移量 *&#x2F;</span><br><span class="line">final int offset;</span><br><span class="line">&#x2F;** 是否只读 *&#x2F;</span><br><span class="line">boolean isReadOnly;   </span><br><span class="line">&#x2F;** 是否采用默认排序：默认为大端序，为false时是小端序*&#x2F;</span><br><span class="line">boolean bigEndian &#x3D; true;                                   &#x2F;&#x2F; package-private</span><br><span class="line">&#x2F;&#x2F; 本缓存的字节数据排列的顺序</span><br><span class="line">boolean nativeByteOrder &#x3D; (Bits.byteOrder() &#x3D;&#x3D; ByteOrder.BIG_ENDIAN);&#x2F;&#x2F; package-private</span><br></pre></td></tr></table></figure><p>继承自父类Buffer的属性字段：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Buffer本质上是一个数组，它是通过下面的属性来实现工作区域上数据的读写管理的。</span><br><span class="line">&#x2F;&#x2F; Invariants: mark &lt;&#x3D; position &lt;&#x3D; limit &lt;&#x3D; capacity</span><br><span class="line">&#x2F;&#x2F; 保存某个时刻的position指针的值，通过调用mark()实现可以与reset()函数搭配使用；当mark被置为负值时，表示废弃标记。</span><br><span class="line">private int mark &#x3D; -1;</span><br><span class="line">&#x2F;&#x2F; 缓冲区下一个可读&#x2F;可写的元素的位置</span><br><span class="line">private int position &#x3D; 0;</span><br><span class="line">&#x2F;&#x2F; 表示代操作数据的界限，limit-position&#x3D;remaining</span><br><span class="line">private int limit;</span><br><span class="line">&#x2F;&#x2F; 表示缓冲空间的总容量</span><br><span class="line">private int capacity;</span><br></pre></td></tr></table></figure><h2 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h2><ol><li>因为Buffer的本质是一个数组，所以在使用Buffer之前需要为其分配内存空间。ByteBuffer的创建可以通过分配内存空间或者将现有的字节数组包装到缓冲区中：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;直接分配内存，与操作系统的耦合性更高，速度更快，但是分配的开销更大</span><br><span class="line">public static ByteBuffer allocateDirect(int capacity) &#123;</span><br><span class="line">    return new DirectByteBuffer(capacity);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 在java堆上分配内存</span><br><span class="line">public static ByteBuffer allocate(int capacity) &#123;</span><br><span class="line">    if (capacity &lt; 0)</span><br><span class="line">        throw new IllegalArgumentException();</span><br><span class="line">    return new HeapByteBuffer(capacity, capacity);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;将array从offset开始的length长的subArray包装到缓冲区buffer中，buffer的position等于offset，limit&#x3D;offset+length</span><br><span class="line">public static ByteBuffer wrap(byte[] array,</span><br><span class="line">                                int offset, int length)</span><br><span class="line">&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        return new HeapByteBuffer(array, offset, length);</span><br><span class="line">    &#125; catch (IllegalArgumentException x) &#123;</span><br><span class="line">        throw new IndexOutOfBoundsException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 将array数组包装到缓冲区，数组和butebuffer的任意一方存在改动都会互相影响</span><br><span class="line">public static ByteBuffer wrap(byte[] array) &#123;</span><br><span class="line">    return wrap(array, 0, array.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><em><strong>ByteBuffer.warp(byte[])以一个数组创建buffer后，该buffer默认处于读模式，即position=0,limit=capacity。此时若使用put进行写入，将从0位置开始覆盖掉初始化数组的数据。因此，若初始化的数据是有用数据，在写入开始前应使用compact()压实后，从尾部开始写入。</strong></em></p><ol start="2"><li>缓冲区数据的读写<br>Buffer的工作方式主要为向缓冲区写入数据或者从缓冲区读取数据。<br><br>Buffer的缓冲区长度capacity在初始化之后就是不可修改的，只能通过position与limit划分活动区域。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 获取活动区域的数据长度</span><br><span class="line">public final int remaining() &#123;</span><br><span class="line">    int rem &#x3D; limit - position;</span><br><span class="line">    return rem &gt; 0 ? rem : 0;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 判断该缓冲区是否还存在活动区域</span><br><span class="line">public final boolean hasRemaining() &#123;</span><br><span class="line">    return position &lt; limit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>缓冲区数据的读写方法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 相对位置读，读取的字节是该缓冲区的当前position，读完后，position+1</span><br><span class="line">public abstract byte get();</span><br><span class="line">&#x2F;&#x2F; 相对位置写，写入的字节是该缓冲区的当前position，写完后，position+1</span><br><span class="line">public abstract ByteBuffer put(byte b);</span><br><span class="line">&#x2F;&#x2F; 绝对位置读（绝对位置的读写是不会修改positon的值的）</span><br><span class="line">public abstract byte get(int index);</span><br><span class="line">&#x2F;&#x2F; 绝对位置写</span><br><span class="line"> public abstract ByteBuffer put(int index, byte b);</span><br><span class="line">&#x2F;&#x2F; 相对位置读取大块量数据到数组中</span><br><span class="line">public ByteBuffer get(byte[] dst, int offset, int length) &#123;</span><br><span class="line">    checkBounds(offset, length, dst.length);</span><br><span class="line">    if (length &gt; remaining())</span><br><span class="line">        throw new BufferUnderflowException();</span><br><span class="line">    int end &#x3D; offset + length;</span><br><span class="line">    for (int i &#x3D; offset; i &lt; end; i++)</span><br><span class="line">        dst[i] &#x3D; get();</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line"> public ByteBuffer get(byte[] dst) &#123;</span><br><span class="line">    return get(dst, 0, dst.length);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 相对位置写入大批量数据</span><br><span class="line">public ByteBuffer put(ByteBuffer src) &#123;</span><br><span class="line">    if (src &#x3D;&#x3D; this)</span><br><span class="line">        throw new IllegalArgumentException();</span><br><span class="line">    if (isReadOnly())</span><br><span class="line">        throw new ReadOnlyBufferException();</span><br><span class="line">    int n &#x3D; src.remaining();</span><br><span class="line">    if (n &gt; remaining())</span><br><span class="line">        throw new BufferOverflowException();</span><br><span class="line">    for (int i &#x3D; 0; i &lt; n; i++)</span><br><span class="line">        put(src.get());</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">public ByteBuffer put(byte[] src, int offset, int length) &#123;</span><br><span class="line">    checkBounds(offset, length, src.length);</span><br><span class="line">    if (length &gt; remaining())</span><br><span class="line">        throw new BufferOverflowException();</span><br><span class="line">    int end &#x3D; offset + length;</span><br><span class="line">    for (int i &#x3D; offset; i &lt; end; i++)</span><br><span class="line">        this.put(src[i]);</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">public final ByteBuffer put(byte[] src) &#123;</span><br><span class="line">    return put(src, 0, src.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer可以通过调用asXXXBuffer()转换成XXX类型的Buffer，例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 转换得到IntBuffer</span><br><span class="line">public abstract IntBuffer asIntBuffer();</span><br><span class="line">&#x2F;&#x2F; 对应的还有IntBuffer响应的读写方法</span><br><span class="line">public abstract int getInt();</span><br><span class="line">public abstract ByteBuffer putInt(int value);</span><br><span class="line">public abstract int getInt(int index);</span><br><span class="line">public abstract ByteBuffer putInt(int index, int value);</span><br></pre></td></tr></table></figure>其他方法，一般在读写模式切换前会调用clear()、flip()、compact()等方法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 清空缓冲区，该方法并不会真的清除缓冲区的数据</span><br><span class="line">public final Buffer clear() &#123;</span><br><span class="line">    position &#x3D; 0;</span><br><span class="line">    limit &#x3D; capacity;</span><br><span class="line">    mark &#x3D; -1;</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 翻转方法，向前反转活动区域，一般用于准备数据读取</span><br><span class="line">public final Buffer flip() &#123;</span><br><span class="line">    limit &#x3D; position;</span><br><span class="line">    position &#x3D; 0;</span><br><span class="line">    mark &#x3D; -1;</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;** The bytes between the buffer&#39;s current position and its limit, if any, are copied to the beginning of the buffer. </span><br><span class="line">* That is, the byte at index p &#x3D; position() is copied to index zero, </span><br><span class="line">*    the byte at index p + 1 is copied to index one, </span><br><span class="line">*    and so forth until the byte at index limit() - 1 is copied to index n &#x3D; limit() - 1 - p. </span><br><span class="line">* The buffer&#39;s position is then set to n+1 and its limit is set to its capacity. </span><br><span class="line">*&#x2F;</span><br><span class="line">&#x2F;&#x2F; 向前压实“活动区域”，准备开始写入。将Buffer中剩余的数据区域移动到头部，再将“活动区域”设置为除数据区域外的末尾部分。</span><br><span class="line">public abstract ByteBuffer compact();</span><br><span class="line"></span><br></pre></td></tr></table></figure></li></ol>]]></content>
+      
+      
       <categories>
-        <category>C++</category>
+          
+          <category> java </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title>RocketMQ源码解析之通信模块Remoting</title>
-    <url>/2021/03/11/RocketMQ%E4%B9%8BRemoting%E6%A8%A1%E5%9D%97%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<p>rocketmq-remoting模块是RocketMQ消息队列中负责网络通信的模块，底层框架是依赖于Netty的。<br><br>为了实现客户端与服务器之间高效的数据请求与接收，RocketMQ自定义了通信协议。<br><br>RemotingCommand这个类封装了消息消息传输过程中的所有数据内容，并负责消息的编码和解码操作。</p>
-<h2 id="RocketMQ的消息格式"><a href="#RocketMQ的消息格式" class="headerlink" title="RocketMQ的消息格式"></a>RocketMQ的消息格式</h2><p>RocketMQ的一条消息包含四个部分：<br><img src="/2021/03/11/RocketMQ%E4%B9%8BRemoting%E6%A8%A1%E5%9D%97%E8%A7%A3%E6%9E%90/%E6%B6%88%E6%81%AF%E6%A0%BC%E5%BC%8F.png" alt="消息格式.png"></p>
-<ol>
-<li>消息长度：消息的总长度，占4个字节</li>
-<li>序列化类型&amp;消息头长度：占4个字节，第一个字节代表序列化类型，后三个字节为消息头的长度</li>
-<li>消息头：RocketMQ定义的通用消息头数据加上不同请求或者响应的自定义字段</li>
-<li>消息正文</li>
-</ol>
-<p>下面是RocketMQ官方定义的消息头的字段：</p>
-<table>
-<thead>
-<tr>
-<th>Header字段</th>
-<th>类型</th>
-<th>Request说明</th>
-<th>Response说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>code</td>
-<td>int</td>
-<td>请求操作码，应答方根据不同的请求码进行不同的业务处理</td>
-<td>应答响应码。0表示成功，非0则表示各种错误</td>
-</tr>
-<tr>
-<td>language</td>
-<td>LanguageCode</td>
-<td>请求方实现的语言</td>
-<td>应答方实现的语言</td>
-</tr>
-<tr>
-<td>version</td>
-<td>int</td>
-<td>请求方程序的版本</td>
-<td>应答方程序的版本</td>
-</tr>
-<tr>
-<td>opaque</td>
-<td>int</td>
-<td>相当于requestId，在同一个连接上的不同请求标识码，与响应消息中的相对应</td>
-<td>应答不做修改直接返回</td>
-</tr>
-<tr>
-<td>flag</td>
-<td>int</td>
-<td>区分是普通RPC还是onewayRPC得标志</td>
-<td>区分是普通RPC还是onewayRPC得标志</td>
-</tr>
-<tr>
-<td>remark</td>
-<td>String</td>
-<td>传输自定义文本信息</td>
-<td>传输自定义文本信息</td>
-</tr>
-<tr>
-<td>extFields</td>
-<td>HashMap&lt;String, String&gt;</td>
-<td>请求自定义扩展信息</td>
-<td>响应自定义扩展信息</td>
-</tr>
-</tbody></table>
-<p>RemotingCommand类里关于消息Header的数据声明：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 响应码&#x2F;请求操作码</span><br><span class="line">private int code;</span><br><span class="line">&#x2F;&#x2F; RocketMQ定义的枚举类型，支持JAVA、CPP、PYTHON、GO、OHP、RUBY等</span><br><span class="line">private LanguageCode language &#x3D; LanguageCode.JAVA;</span><br><span class="line">private int version &#x3D; 0;</span><br><span class="line">&#x2F;&#x2F; 请求码</span><br><span class="line">private int opaque &#x3D; requestId.getAndIncrement();</span><br><span class="line">&#x2F;&#x2F; flag为0表示request， flag为1表示response， flag为2或者3，表示OneWayRPC</span><br><span class="line">private int flag &#x3D; 0;</span><br><span class="line">private String remark;</span><br><span class="line">private HashMap&lt;String, String&gt; extFields;</span><br><span class="line">&#x2F;&#x2F; 不同请求类型的请求头的特殊字段的序列化处理类，与extFields搭配使用</span><br><span class="line">private transient CommandCustomHeader customHeader;</span><br><span class="line">&#x2F;&#x2F; 当前RPC的序列化方式，默认与服务器配置相同。RocketMQ支持两种序列化方式：Json以及自定义的RocketMQ消息</span><br><span class="line">private SerializeType serializeTypeCurrentRPC &#x3D; serializeTypeConfigInThisServer;</span><br></pre></td></tr></table></figure>
-<h2 id="消息编码"><a href="#消息编码" class="headerlink" title="消息编码"></a>消息编码</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">* 消息编码</span><br><span class="line">* *&#x2F;</span><br><span class="line">public ByteBuffer encode() &#123;</span><br><span class="line">    &#x2F;&#x2F; 1&gt; header length size，RocketMQ消息的长度，占用4个字节</span><br><span class="line">    int length &#x3D; 4;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 2&gt; header data length 编码消息头并获取对应消息头的长度</span><br><span class="line">    byte[] headerData &#x3D; this.headerEncode();</span><br><span class="line">    length +&#x3D; headerData.length;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 3&gt; body data length 消息正文的数据长度</span><br><span class="line">    if (this.body !&#x3D; null) &#123;</span><br><span class="line">        length +&#x3D; body.length;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 分配4+length个字节的缓冲区，其中4是序列化方式+表示消息头长度的数值占用的字节</span><br><span class="line">    ByteBuffer result &#x3D; ByteBuffer.allocate(4 + length);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; length</span><br><span class="line">    result.putInt(length);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; header length</span><br><span class="line">    result.put(markProtocolType(headerData.length, serializeTypeCurrentRPC));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; header data</span><br><span class="line">    result.put(headerData);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; body data;</span><br><span class="line">    if (this.body !&#x3D; null) &#123;</span><br><span class="line">        result.put(this.body);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result.flip();</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private byte[] headerEncode() &#123;</span><br><span class="line">    this.makeCustomHeaderToNet();</span><br><span class="line">    if (SerializeType.ROCKETMQ &#x3D;&#x3D; serializeTypeCurrentRPC) &#123;</span><br><span class="line">        return RocketMQSerializable.rocketMQProtocolEncode(this);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return RemotingSerializable.encode(this);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void makeCustomHeaderToNet() &#123;</span><br><span class="line">    if (this.customHeader !&#x3D; null) &#123;</span><br><span class="line">        Field[] fields &#x3D; getClazzFields(customHeader.getClass());</span><br><span class="line">        if (null &#x3D;&#x3D; this.extFields) &#123;</span><br><span class="line">            this.extFields &#x3D; new HashMap&lt;String, String&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for (Field field : fields) &#123;</span><br><span class="line">            if (!Modifier.isStatic(field.getModifiers())) &#123;</span><br><span class="line">                String name &#x3D; field.getName();</span><br><span class="line">                if (!name.startsWith(&quot;this&quot;)) &#123;</span><br><span class="line">                    Object value &#x3D; null;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        field.setAccessible(true);</span><br><span class="line">                        value &#x3D; field.get(this.customHeader);</span><br><span class="line">                    &#125; catch (Exception e) &#123;</span><br><span class="line">                        log.error(&quot;Failed to access field [&#123;&#125;]&quot;, name, e);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if (value !&#x3D; null) &#123;</span><br><span class="line">                        this.extFields.put(name, value.toString());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public ByteBuffer encodeHeader() &#123;</span><br><span class="line">    return encodeHeader(this.body !&#x3D; null ? this.body.length : 0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public ByteBuffer encodeHeader(final int bodyLength) &#123;</span><br><span class="line">    &#x2F;&#x2F; 1&gt; header length size</span><br><span class="line">    int length &#x3D; 4;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 2&gt; header data length</span><br><span class="line">    byte[] headerData;</span><br><span class="line">    headerData &#x3D; this.headerEncode();</span><br><span class="line"></span><br><span class="line">    length +&#x3D; headerData.length;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 3&gt; body data length</span><br><span class="line">    length +&#x3D; bodyLength;</span><br><span class="line"></span><br><span class="line">    ByteBuffer result &#x3D; ByteBuffer.allocate(4 + length - bodyLength);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; length</span><br><span class="line">    result.putInt(length);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; header length</span><br><span class="line">    result.put(markProtocolType(headerData.length, serializeTypeCurrentRPC));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; header data</span><br><span class="line">    result.put(headerData);</span><br><span class="line"></span><br><span class="line">    result.flip();</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+        <tags>
+            
+            <tag> 网络通信 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>RocketMQ解析二</title>
+      <link href="2021/03/23/RocketMQ%E8%A7%A3%E6%9E%90%E4%BA%8C/"/>
+      <url>2021/03/23/RocketMQ%E8%A7%A3%E6%9E%90%E4%BA%8C/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>进程创建与退出</title>
+      <link href="2021/03/22/%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%80%80%E5%87%BA/"/>
+      <url>2021/03/22/%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%80%80%E5%87%BA/</url>
+      
+        <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><pre><code>最近在参与公司某项目平台组件代码评审的任务，刚好与操作系统的进程创建管理相关。于是，就想就着工作中发现的问题以及自己的一些总结来写点什么，既是复习又是学习。</code></pre><h1 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h1><pre><code>老生常谈，各博客平台写烂了的东西。</code></pre><h2 id="Linux系统特殊的进程"><a href="#Linux系统特殊的进程" class="headerlink" title="Linux系统特殊的进程"></a>Linux系统特殊的进程</h2><p>　　在Linux系统中，除了系统启动之后的第一个进程由系统来创建，其余的进程都必须由某个父进程来创建。</p><ul><li><p>0号进程：<br><br>　　在系统启动及完成初始化之后，Linux自动创建的进程叫做根进程。根进程是Linux中所有进程的祖宗，pid为0的Idle进程。这也是唯一一个不是由fork也不是由kernel_thread创建的进程。</p></li><li><p>1号进程init：<br><br>　　由Idle进程调用Kernel_thread创建一个内核线程去执行init函数，该内核线程即init进程，pid为1。init函数继续初始化，此时依旧共享父进程即0号进程的资源属性，直至init函数的最后调用系统的execve，以装入用户空间的可执行文件/sbin/init，此时进程pid1拥有自己的属性资源，且内核的初始化和启动过程结束。<br><br>　　<code>kernel_thread(kernel_init, NULL, CLONE_FS);</code><br><br>　　init进程是所有用户进程的祖先。</p></li><li><p>2号进程kthreadd：<br><br>　　由Idle进程调用Kernel_thread创建，运行在内核空间，负责所有内核进程的调度和管理，pid为2。<br><br>　　<code>pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);</code><br><br>　　会循环执行kthread函数，该函数的作用就是运行kthread_create_list全局链表中维护的kthread, 当我们调用kernel_thread创建的内核线程会被加入到此链表中。<br><br>　　该进程是所有内核进程的祖先。</p><h3 id="init与systemd"><a href="#init与systemd" class="headerlink" title="init与systemd"></a>init与systemd</h3><p>ubuntu9.10-14.10，系统的启动过程是：<br><br>　　　　开机自检BIOS====》加载MBR中的GRUB引导====》加载内核====》init进程初始化<br>之后，ubuntu对内核的初始化进行了改进，启动过程如下：<br><br>　　　　开机自检BIOS====》加载MBR中的GRUB2引导====》加载内核====》Systemd进程初始化</p><p>　　init进程与system进程的区别:</p><table><thead><tr><th align="left">init进程</th><th align="left">systemd进程</th></tr></thead><tbody><tr><td align="left"><br>　　　1. init进程的启动时间长，进程的启动是串行执行的<br>　　　2. 启动脚本复杂，init进程只是执行启动脚本，不管其他事情，脚本需要自己处理各种情况<br>　　　3. 位于/sbin/init</td><td align="left"><br>　　　1. 按需启动服务，减少系统资源消耗<br>　　　2. 尽可能并行启动进程，减少系统启动等待时间<br>　　　3. 位于 /usr/lib/systemd/systemd</td></tr></tbody></table></li></ul><h2 id="进程的创建"><a href="#进程的创建" class="headerlink" title="进程的创建"></a>进程的创建</h2><p>进程创建首先是在进程表中为进程建立一个进程控制块PCB。<br><br>PCB通常记载进程之相关信息，包括：</p><ul><li>进程状态：可以是new、ready、running、waiting或 blocked等。</li><li>程序计数器：下一条要运行的指令地址。</li><li>CPU寄存器：如累加器、变址寄存器、堆栈指针以及一般用途寄存器、状况代码等，</li><li>CPU调度算法：优先级、调度队列等指针以及其他参数。</li><li>存储器管理：如标签页表等。</li><li>输入输出状态：配置进程使用I/O设备，如磁带机等</li></ul><p>在 Linux 内核中,供用户创建进程的API调用有fork()，vfork()，clone() ，这三个函数的对应的系统调用是：sys_fork()、sys_clone()、sys_vfork()。<br>fork、vfork以及 clone 的区别：</p><table><thead><tr><th align="left">参数名</th><th align="left">语法格式</th></tr></thead><tbody><tr><td align="left">fork</td><td align="left">fork创造的子进程是父进程的完整副本，复制了父进程的资源: task_struct,打开文件表，信号，命名空间虚拟地址空间（包括堆栈等）等。（写时复制） <br>fork的实现：do_fork(CLONE_SIGCHLD,…)</td></tr><tr><td align="left">vfork</td><td align="left">vfork创建的子进程与父进程共享虚拟地址空间，所以子进程的改变会影响父进程中的数据。vfork创建子进程后，父进程会被阻塞直到子进程调用exec或exit。  <br>vfork的实现：do_fork(CLONE_VFORK</td></tr><tr><td align="left">clone</td><td align="left">系统调用fork()和vfork()是无参数的，而clone()则带有参数。fork()是全部复制，vfork()是共享内存，而clone()是则可以将父进程资源有选择地复制给子进程。<br>具体要复制哪些资源给子进程，由参数列表中的clone_flags决决定。<br>clone的实现：do_fork(CLONE_VM/CLONE_FS/CLONE_FILES/CLONE_SIGCHLD,…)</td></tr></tbody></table><p>fork与vfork都是由clone实现，底层是调用了内核的_do_fork函数。</p><h3 id="fork详解"><a href="#fork详解" class="headerlink" title="fork详解"></a>fork详解</h3><ol><li><p>写时复制：在fork之后exec之前两个进程用的是相同的物理空间（内存区），子进程的代码段、数据段、堆栈都是指向父进程的物理空间，也就是说，两者的虚拟空间不同，但其对应的物理空间是同一个。<br>当父子进程中有更改相应段的行为发生时，再为子进程相应的段分配物理空间，如果不是因为exec，内核会给子进程的数据段、堆栈段分配相应的物理空间（至此两者有各自的进程空间，互不影响），而代码段继续共享父进程的物理空间（两者的代码完全相同）。而如果是因为exec，由于两者执行的代码不同，子进程的代码段也会分配单独的物理空间。</p><br>因为当fork()后立即执行exec()，地址空间就无需被复制了。fork()的实际开销就是复制父进程的页表以及给子进程创建一个进程描述符。在一般情况下，进程创建后都为马上运行一个可执行的文件，这种优化，可以避免拷贝大量根本就不会被使用的数据(地址空间里常常包含数十兆的数据)。***<br>而vfork是连虚拟内存空间都不会创建，直接共享父进程的虚拟空间，即共享父进程的物理空间。***</li><li><p>fork的另一个特性是所有由父进程打开的描述符都被复制到子进程中。父、子进程中相同编号的文件描述符在内核中指向同一个file结构体，也就是说，file结构体的引用计数要增加。</p></li><li><p>fork创建进程失败返回-1，如果是子进程返回值为0，如果是父进程则返回子进程的pid。一个进程要执行一个不同的程序。比如fork后，子进程调用exec函数</p></li></ol><h2 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h2><p>当进程完成执行最后指令并且通过系统调用 exit() 向操作系统发出请求时，进程终止。这时，进程可以返回退出状态码（通常为整数）给父进程。所有进程资源，如物理和虚拟内存、打开文件和 I/O 缓冲区等，会由操作系统释放。</p><p>父进程需要通过调用wait()或者waitpid函数来收集子进程的退出状态。如果父进程未调用该函数来阻塞获取子进程的退出状态，那么子进程就是僵尸进程，会对系统造成危害。<br><br>这是因为即使进程退出时，操作系统会释放其占用的资源，但是它位于进程表中的项还是存在的，需要由父进程进行处理。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys&#x2F;types.h&gt; </span><br><span class="line">#include &lt;sys&#x2F;wait.h&gt;</span><br><span class="line">pid_t waitpid(pid_t pid,int *status,int options);</span><br></pre></td></tr></table></figure><p>其中：</p><ol><li>参数pid为欲等待的子进程识别码：</li></ol><table><thead><tr><th align="left">参数值</th><th align="left">说明</th></tr></thead><tbody><tr><td align="left">pid&lt;-1</td><td align="left">等待进程组号为pid绝对值的任何子进程。</td></tr><tr><td align="left">pid=-1</td><td align="left">等待任何子进程，此时的waitpid()函数就退化成了普通的wait()函数。</td></tr><tr><td align="left">pid=0</td><td align="left">等待进程组号与目前进程相同的任何子进程，也就是说任何和调用waitpid()函数的进程在同一个进程组的进程。</td></tr><tr><td align="left">pid&gt;0</td><td align="left">等待进程号为pid的子进程。</td></tr></tbody></table><p>pid为0与-1的区别在于：前者是收集所有子进程的退出状态码而后者是收集属于同一个进程组的子进程的退出状态码。父进程的子进程不一定与父进程或者其他兄弟进程同属于一个进程组。</p><ol start="2"><li>而参数*status将保存子进程的状态信息，有了这个信息父进程就可以了解子进程是否正常退出。</li></ol><table><thead><tr><th align="left">宏</th><th align="left">说明</th></tr></thead><tbody><tr><td align="left">WIFEXITED(status)</td><td align="left">如果子进程正常结束，它就返回真；否则返回假。</td></tr><tr><td align="left">WEXITSTATUS(status)</td><td align="left">如果WIFEXITED(status)为真，则可以用该宏取得子进程exit()返回的结束代码。</td></tr><tr><td align="left">WIFSIGNALED(status)</td><td align="left">如果子进程因为一个未捕获的信号而终止，它就返回真；否则返回假。</td></tr><tr><td align="left">WTERMSIG(status)</td><td align="left">如果WIFSIGNALED(status)为真，则可以用该宏获得导致子进程终止的信号代码。</td></tr><tr><td align="left">WIFSTOPPED(status)</td><td align="left">如果当前子进程被暂停了，则返回真；否则返回假。</td></tr><tr><td align="left">WSTOPSIG(status)</td><td align="left">如果WIFSTOPPED(status)为真，则可以使用该宏获得导致子进程暂停的信号代码。</td></tr></tbody></table><ol start="3"><li>参数options提供了一些另外的选项来控制waitpid()函数的行为。如果不想使用这些选项，则可以把这个参数设为0</li></ol><p>如果在调用waitpid()函数时，当指定等待的子进程已经停止运行或结束了，则waitpid()会立即返回；但是如果子进程还没有停止运行或结束，则调用waitpid()函数的父进程则会被阻塞，暂停运行。如果waitpid()函数执行成功，则返回子进程的进程号；如果有错误发生，则返回-1，并且将失败的原因存放在errno变量中。</p>]]></content>
+      
+      
       <categories>
-        <category>消息队列</category>
+          
+          <category> OS </category>
+          
       </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++学习之__attribute__机制</title>
-    <url>/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/</url>
-    <content><![CDATA[<p>__attribute__是GNU C特色之一，可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute)等.</p>
-<p>语法格式： __attribute __((abute-list))</p>
-<p>位置：声明结束符“；”的前面</p>
-<p><em>在使用__attribute__参数时，你也可以在参数的前后都加上“__”（两个下划线），例如，使用__aligned__而不是aligned，这样，你就可以在相应的头文件里使用它而不用关心头文件里是否有重名的宏定义。</em></p>
-<h1 id="函数属性"><a href="#函数属性" class="headerlink" title="函数属性"></a>函数属性</h1><p>函数属性可以帮助开发者把一些特性添加到函数声明中，从而可以使编译器在错误检查方面的功能更强大。</p>
-<p>GNU CC需要使用 –Wall，这是控制警告信息的一个很好的方式。</p>
-<p>下面是常见的属性参数：</p>
-<table>
-<thead>
-<tr>
-<th align="left">参数名</th>
-<th align="center">语法格式</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">noreturn</td>
-<td align="center">noreturn</td>
-<td align="left">该属性通知编译器函数从不返回值。<br>当遇到函数需要返回值却还没运行到返回值处就已退出来的情况，该属性可以避免出现错误信息。<br>C库函数中的abort（）和exit（）的声明格式就采用了这种格式：<br>   (1) extern void  exit(int)   <strong>attribute</strong>( ( noreturn ) );<br>   (2) extern void  abort(void)  <strong>attribute</strong>( ( noreturn ) );</td>
-</tr>
-<tr>
-<td align="left">noinline</td>
-<td align="center">noinline</td>
-<td align="left">用inline修饰的函数能否形成内联，需要看编译器对该函数定义的具体处理。该参数表示：不内联</td>
-</tr>
-<tr>
-<td align="left">always_inline</td>
-<td align="center">always_inline</td>
-<td align="left">总是内联</td>
-</tr>
-<tr>
-<td align="left">const</td>
-<td align="center">const</td>
-<td align="left">该属性只能用于带有数值类型参数的函数上，当重复调用带有数值参数的函数时，由于返回值是相同的。所以此时编译器可以进行优化处理，除第一次需要运算外， 其它只需要返回第一次的结果。<br> <em><strong>const参数不能用在带有指针类型参数的函数中，因为该属性不但影响函数的参数值，同样也影响到了参数指向的数据，它可能会对代码本身产生严重甚至是不可恢复的严重后果。</strong></em></td>
-</tr>
-<tr>
-<td align="left">format</td>
-<td align="center">format (archetype, string-index, first-to-check)</td>
-<td align="left">该属性可以给被声明的函数加上类似printf或者scanf的特征，它可以使编译器检查函数声明和函数实际调用参数之间的格式化字符串是否匹配。<br>format属性告诉编译器，按照 printf, scanf, strftime或strfmon的参数表格式规则对该函数的参数进行检查。<br>“archetype”指定是哪种风格；<br>“string-index”指定传入函数的第几个参数是格式化字符串；<br>“first-to-check”指定第一个可变参数所在的索引。</td>
-</tr>
-<tr>
-<td align="left">finstrument-functions</td>
-<td align="center">finstrument-functions</td>
-<td align="left">该参数可以使程序在编译时，在函数的入口和出口处生成instrumentation调用。增加的这两个函数分别为：<br> <code>void __cyg_profile_func_enter (void *this_fn, void *call_site);</code> <br> <code>void __cyg_profile_func_exit  (void *this_fn, void *call_site);</code><br>其中第一个参数为当前函数的起始地址，第二个参数为返回地址，即caller函数中的地址。</td>
-</tr>
-<tr>
-<td align="left">no_instrument_function</td>
-<td align="center">no_instrument_function</td>
-<td align="left">gcc加上“-finstrument-functions”选项用来跟踪函数的调用关系，在每个函数的入口和出口处会各增加一个额外的hook函数的调用。如果不想跟踪某个函数，可以给该函数指定“no_instrument_function”属性。</td>
-</tr>
-<tr>
-<td align="left">constructor</td>
-<td align="center">constructor/constructor(n)</td>
-<td align="left">若函数被设定为constructor属性，则该函数会在 main（）函数执行之前被自动的执行。<br>n表示当存在多个被修饰的函数时，执行的优先级顺序，如果没设置n，则执行顺序不确定，其中[0,100]是系统保留的,不可以调用。数值越小,越先调用。<br><em><strong>执行顺序为:load-&gt;constructor-&gt;main，因为：dyld（动态链接器，程序的最初起点）在加载 image（可以理解成 Mach-O 文件）时会先通知 objc runtime 去加载其中所有的类，每加载一个类时，它的 +load 随之调用，全部加载完成后，dyld 才会调用这个 image 中所有的 constructor 方法,然后才调用main函数.</strong></em></td>
-</tr>
-<tr>
-<td align="left">destructor</td>
-<td align="center">destructor/destructor(n)</td>
-<td align="left">与constructor相似，若函数被设定为destructor属性，则该函数会在main（）函数执行之后或者exit（）被调用后被自动的执行。<br>  拥有此类属性的函数经常隐式的用在程序的初始化数据方面。数值越大,越先调用</td>
-</tr>
-<tr>
-<td align="left">unavailable</td>
-<td align="center">unavailable(“错误信息”)</td>
-<td align="left">适用于方法、属性。告诉编译器不可用。如果使用了，就会编译失败，提示错误信息</td>
-</tr>
-<tr>
-<td align="left">deprecated</td>
-<td align="center">deprecated(“警告信息”)</td>
-<td align="left">适用于方法、属性。告诉编译器已经过时，如果使用了，会报过时警告</td>
-</tr>
-<tr>
-<td align="left">nonnull</td>
-<td align="center">nonnull(int,int,…)</td>
-<td align="left">编译器对函数参数进行NULL的检查,参数类型必须是指针类型(包括对象)</td>
-</tr>
-<tr>
-<td align="left">visibility</td>
-<td align="center">visibility(“visibilityType”)</td>
-<td align="left">该关键字与gcc编译参数-fvisibility=hidden配合使用。<br>visibility_type 是下列值之一：<br>  <strong>default</strong>:先使用-fvisibility=hidden将所有符号隐藏，然后在需要对外的符号前添加__attribute__((visibility(“default”)))属性来保证符号对外可见;<br>  <strong>hidden</strong>:该符号不存放在动态符号表中，因此，其他可执行文件或共享库都无法直接引用它。使用函数指针可进行间接引用。将-fvisibility设置为”default”或不设置这个属性，默认所有符号都对外可见，然后在不对外可见的函数或变量前添加__attribute__((visibility(“hidden”)))来隐藏该符号。<br>  <strong>internal</strong>:除非由特定于处理器的应用二进制接口 (psABI) 指定，否则，内部可见性意味着不允许从另一模块调用该函数;<br>  <strong>protected</strong>:该符号存放在动态符号表中，但定义模块内的引用将与局部符号绑定。也就是说，另一模块无法覆盖该符号。</td>
-</tr>
-</tbody></table>
-<h2 id="同时使用多个参数"><a href="#同时使用多个参数" class="headerlink" title="同时使用多个参数"></a>同时使用多个参数</h2><p>可以在同一个函数声明里使用多个__attribute__。使用方式上，你可以选择两个单独的__attribute__，或者把它们写在一起，比如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">extern void  die(const char *format， ...)   __attribute__( (noreturn))   __attribute__((format(printf, 1, 2)) );</span><br></pre></td></tr></table></figure>
-<p>或者:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">extern void  die(const char *format，...)    __attribute __( (noreturn,  format(printf, 1, 2)) );</span><br></pre></td></tr></table></figure>
-<p>如果带有该属性的自定义函数被追加到库的头文件里，那么所以调用该函数的程序都要做相应的检查。</p>
-<p>需要说明的是，__attribute__适用于函数的声明而不是函数的定义。所以，当需要使用该属性的函数时，必须在同一个文件里进行声明，例如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;* 函数声明 *&#x2F;</span><br><span class="line"></span><br><span class="line">void die( const char *format， ... ) __attribute __( (noreturn) ) __attribute __( ( format(printf，1，2) ) );</span><br><span class="line"></span><br><span class="line">void die( const char *format，... )</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">   &#x2F;* 函数定义 *&#x2F;  </span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="变量属性"><a href="#变量属性" class="headerlink" title="变量属性"></a>变量属性</h1><p>关键字__attribute__也可以对变量（variable）或结构体成员（structure field）进行属性设置。</p>
-<p>下面是常见的属性参数：</p>
-<table>
-<thead>
-<tr>
-<th align="left">参数名</th>
-<th align="center">语法格式</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">aligned</td>
-<td align="center">aligned(n)</td>
-<td align="left">让所作用的结构成员对齐在n字节自然边界上。如果结构中有成员的长度大于n，则按照最大成员的长度来对齐。<br> <em><strong>aligned后面必须跟2的次幂，其他的编译器报错。当我们传入1和2的时候，编译器模式都是以4字节对齐的，且只有结构体上下两个字段是char类型的才会将其合并处理</strong></em></td>
-</tr>
-<tr>
-<td align="left">packed</td>
-<td align="center">packed</td>
-<td align="left">用packed修饰后,变为1字节对齐,这个常用于与协议有关的网络传输中.</td>
-</tr>
-<tr>
-<td align="left">cleanup</td>
-<td align="center">cleanup(func)</td>
-<td align="left">声明到一个变量上，当这个变量作用域结束时，调用指定的一个函数。<br>   指定的函数传递的参数是变量的地址;<br>   当作用域内有多个cleanup的变量时,遵守先入后出的栈式结构。<br><em><strong>cleanup的执行先于dealloc</strong></em></td>
-</tr>
-</tbody></table>
-<h1 id="类型属性"><a href="#类型属性" class="headerlink" title="类型属性"></a>类型属性</h1><p>关键字__attribute__也可以对结构体（struct）或共用体（union）进行属性设置。</p>
-<p>下面是常见的属性参数：</p>
-<table>
-<thead>
-<tr>
-<th align="left">参数名</th>
-<th align="center">语法格式</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">aligned</td>
-<td align="center">aligned(n)</td>
-<td align="left">让所作用的结构成员对齐在n字节自然边界上。如果结构中有成员的长度大于n，则按照最大成员的长度来对齐。<br> <em><strong>aligned后面必须跟2的次幂，其他的编译器报错。当我们传入1和2的时候，编译器模式都是以4字节对齐的，且只有结构体上下两个字段是char类型的才会将其合并处理</strong></em></td>
-</tr>
-<tr>
-<td align="left">packed</td>
-<td align="center">packed</td>
-<td align="left">用packed修饰后,变为1字节对齐,这个常用于与协议有关的网络传输中.</td>
-</tr>
-<tr>
-<td align="left">deprecated</td>
-<td align="center">deprecated(“警告信息”)</td>
-<td align="left">适用于方法、属性。告诉编译器已经过时，如果使用了，会报过时警告</td>
-</tr>
-</tbody></table>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> OS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++学习之__attribute__机制</title>
+      <link href="2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/"/>
+      <url>2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/</url>
+      
+        <content type="html"><![CDATA[<p>__attribute__是GNU C特色之一，可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute)等.</p><p>语法格式： __attribute __((abute-list))</p><p>位置：声明结束符“；”的前面</p><p><em>在使用__attribute__参数时，你也可以在参数的前后都加上“__”（两个下划线），例如，使用__aligned__而不是aligned，这样，你就可以在相应的头文件里使用它而不用关心头文件里是否有重名的宏定义。</em></p><h1 id="函数属性"><a href="#函数属性" class="headerlink" title="函数属性"></a>函数属性</h1><p>函数属性可以帮助开发者把一些特性添加到函数声明中，从而可以使编译器在错误检查方面的功能更强大。</p><p>GNU CC需要使用 –Wall，这是控制警告信息的一个很好的方式。</p><p>下面是常见的属性参数：</p><table><thead><tr><th align="left">参数名</th><th align="center">语法格式</th><th align="left">说明</th></tr></thead><tbody><tr><td align="left">noreturn</td><td align="center">noreturn</td><td align="left">该属性通知编译器函数从不返回值。<br>当遇到函数需要返回值却还没运行到返回值处就已退出来的情况，该属性可以避免出现错误信息。<br>C库函数中的abort（）和exit（）的声明格式就采用了这种格式：<br>   (1) extern void  exit(int)   <strong>attribute</strong>( ( noreturn ) );<br>   (2) extern void  abort(void)  <strong>attribute</strong>( ( noreturn ) );</td></tr><tr><td align="left">noinline</td><td align="center">noinline</td><td align="left">用inline修饰的函数能否形成内联，需要看编译器对该函数定义的具体处理。该参数表示：不内联</td></tr><tr><td align="left">always_inline</td><td align="center">always_inline</td><td align="left">总是内联</td></tr><tr><td align="left">const</td><td align="center">const</td><td align="left">该属性只能用于带有数值类型参数的函数上，当重复调用带有数值参数的函数时，由于返回值是相同的。所以此时编译器可以进行优化处理，除第一次需要运算外， 其它只需要返回第一次的结果。<br> <em><strong>const参数不能用在带有指针类型参数的函数中，因为该属性不但影响函数的参数值，同样也影响到了参数指向的数据，它可能会对代码本身产生严重甚至是不可恢复的严重后果。</strong></em></td></tr><tr><td align="left">format</td><td align="center">format (archetype, string-index, first-to-check)</td><td align="left">该属性可以给被声明的函数加上类似printf或者scanf的特征，它可以使编译器检查函数声明和函数实际调用参数之间的格式化字符串是否匹配。<br>format属性告诉编译器，按照 printf, scanf, strftime或strfmon的参数表格式规则对该函数的参数进行检查。<br>“archetype”指定是哪种风格；<br>“string-index”指定传入函数的第几个参数是格式化字符串；<br>“first-to-check”指定第一个可变参数所在的索引。</td></tr><tr><td align="left">finstrument-functions</td><td align="center">finstrument-functions</td><td align="left">该参数可以使程序在编译时，在函数的入口和出口处生成instrumentation调用。增加的这两个函数分别为：<br> <code>void __cyg_profile_func_enter (void *this_fn, void *call_site);</code> <br> <code>void __cyg_profile_func_exit  (void *this_fn, void *call_site);</code><br>其中第一个参数为当前函数的起始地址，第二个参数为返回地址，即caller函数中的地址。</td></tr><tr><td align="left">no_instrument_function</td><td align="center">no_instrument_function</td><td align="left">gcc加上“-finstrument-functions”选项用来跟踪函数的调用关系，在每个函数的入口和出口处会各增加一个额外的hook函数的调用。如果不想跟踪某个函数，可以给该函数指定“no_instrument_function”属性。</td></tr><tr><td align="left">constructor</td><td align="center">constructor/constructor(n)</td><td align="left">若函数被设定为constructor属性，则该函数会在 main（）函数执行之前被自动的执行。<br>n表示当存在多个被修饰的函数时，执行的优先级顺序，如果没设置n，则执行顺序不确定，其中[0,100]是系统保留的,不可以调用。数值越小,越先调用。<br><em><strong>执行顺序为:load-&gt;constructor-&gt;main，因为：dyld（动态链接器，程序的最初起点）在加载 image（可以理解成 Mach-O 文件）时会先通知 objc runtime 去加载其中所有的类，每加载一个类时，它的 +load 随之调用，全部加载完成后，dyld 才会调用这个 image 中所有的 constructor 方法,然后才调用main函数.</strong></em></td></tr><tr><td align="left">destructor</td><td align="center">destructor/destructor(n)</td><td align="left">与constructor相似，若函数被设定为destructor属性，则该函数会在main（）函数执行之后或者exit（）被调用后被自动的执行。<br>  拥有此类属性的函数经常隐式的用在程序的初始化数据方面。数值越大,越先调用</td></tr><tr><td align="left">unavailable</td><td align="center">unavailable(“错误信息”)</td><td align="left">适用于方法、属性。告诉编译器不可用。如果使用了，就会编译失败，提示错误信息</td></tr><tr><td align="left">deprecated</td><td align="center">deprecated(“警告信息”)</td><td align="left">适用于方法、属性。告诉编译器已经过时，如果使用了，会报过时警告</td></tr><tr><td align="left">nonnull</td><td align="center">nonnull(int,int,…)</td><td align="left">编译器对函数参数进行NULL的检查,参数类型必须是指针类型(包括对象)</td></tr><tr><td align="left">visibility</td><td align="center">visibility(“visibilityType”)</td><td align="left">该关键字与gcc编译参数-fvisibility=hidden配合使用。<br>visibility_type 是下列值之一：<br>  <strong>default</strong>:先使用-fvisibility=hidden将所有符号隐藏，然后在需要对外的符号前添加__attribute__((visibility(“default”)))属性来保证符号对外可见;<br>  <strong>hidden</strong>:该符号不存放在动态符号表中，因此，其他可执行文件或共享库都无法直接引用它。使用函数指针可进行间接引用。将-fvisibility设置为”default”或不设置这个属性，默认所有符号都对外可见，然后在不对外可见的函数或变量前添加__attribute__((visibility(“hidden”)))来隐藏该符号。<br>  <strong>internal</strong>:除非由特定于处理器的应用二进制接口 (psABI) 指定，否则，内部可见性意味着不允许从另一模块调用该函数;<br>  <strong>protected</strong>:该符号存放在动态符号表中，但定义模块内的引用将与局部符号绑定。也就是说，另一模块无法覆盖该符号。</td></tr></tbody></table><h2 id="同时使用多个参数"><a href="#同时使用多个参数" class="headerlink" title="同时使用多个参数"></a>同时使用多个参数</h2><p>可以在同一个函数声明里使用多个__attribute__。使用方式上，你可以选择两个单独的__attribute__，或者把它们写在一起，比如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extern void  die(const char *format， ...)   __attribute__( (noreturn))   __attribute__((format(printf, 1, 2)) );</span><br></pre></td></tr></table></figure><p>或者:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extern void  die(const char *format，...)    __attribute __( (noreturn,  format(printf, 1, 2)) );</span><br></pre></td></tr></table></figure><p>如果带有该属性的自定义函数被追加到库的头文件里，那么所以调用该函数的程序都要做相应的检查。</p><p>需要说明的是，__attribute__适用于函数的声明而不是函数的定义。所以，当需要使用该属性的函数时，必须在同一个文件里进行声明，例如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* 函数声明 *&#x2F;</span><br><span class="line"></span><br><span class="line">void die( const char *format， ... ) __attribute __( (noreturn) ) __attribute __( ( format(printf，1，2) ) );</span><br><span class="line"></span><br><span class="line">void die( const char *format，... )</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">   &#x2F;* 函数定义 *&#x2F;  </span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h1 id="变量属性"><a href="#变量属性" class="headerlink" title="变量属性"></a>变量属性</h1><p>关键字__attribute__也可以对变量（variable）或结构体成员（structure field）进行属性设置。</p><p>下面是常见的属性参数：</p><table><thead><tr><th align="left">参数名</th><th align="center">语法格式</th><th align="left">说明</th></tr></thead><tbody><tr><td align="left">aligned</td><td align="center">aligned(n)</td><td align="left">让所作用的结构成员对齐在n字节自然边界上。如果结构中有成员的长度大于n，则按照最大成员的长度来对齐。<br> <em><strong>aligned后面必须跟2的次幂，其他的编译器报错。当我们传入1和2的时候，编译器模式都是以4字节对齐的，且只有结构体上下两个字段是char类型的才会将其合并处理</strong></em></td></tr><tr><td align="left">packed</td><td align="center">packed</td><td align="left">用packed修饰后,变为1字节对齐,这个常用于与协议有关的网络传输中.</td></tr><tr><td align="left">cleanup</td><td align="center">cleanup(func)</td><td align="left">声明到一个变量上，当这个变量作用域结束时，调用指定的一个函数。<br>   指定的函数传递的参数是变量的地址;<br>   当作用域内有多个cleanup的变量时,遵守先入后出的栈式结构。<br><em><strong>cleanup的执行先于dealloc</strong></em></td></tr></tbody></table><h1 id="类型属性"><a href="#类型属性" class="headerlink" title="类型属性"></a>类型属性</h1><p>关键字__attribute__也可以对结构体（struct）或共用体（union）进行属性设置。</p><p>下面是常见的属性参数：</p><table><thead><tr><th align="left">参数名</th><th align="center">语法格式</th><th align="left">说明</th></tr></thead><tbody><tr><td align="left">aligned</td><td align="center">aligned(n)</td><td align="left">让所作用的结构成员对齐在n字节自然边界上。如果结构中有成员的长度大于n，则按照最大成员的长度来对齐。<br> <em><strong>aligned后面必须跟2的次幂，其他的编译器报错。当我们传入1和2的时候，编译器模式都是以4字节对齐的，且只有结构体上下两个字段是char类型的才会将其合并处理</strong></em></td></tr><tr><td align="left">packed</td><td align="center">packed</td><td align="left">用packed修饰后,变为1字节对齐,这个常用于与协议有关的网络传输中.</td></tr><tr><td align="left">deprecated</td><td align="center">deprecated(“警告信息”)</td><td align="left">适用于方法、属性。告诉编译器已经过时，如果使用了，会报过时警告</td></tr></tbody></table>]]></content>
+      
+      
       <categories>
-        <category>C++</category>
+          
+          <category> C++ </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title>RocketMQ解析二</title>
-    <url>/2021/03/23/RocketMQ%E8%A7%A3%E6%9E%90%E4%BA%8C/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>java.nio.bytebuffer解析</title>
-    <url>/2021/03/23/java-nio-bytebuffer%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<p>ByteBuffer继承自抽象类Buffer，用于在堆内存中预留一部分空间对IO数据做临时存储，以提高读写效率。与CharBuffer、IntBuffer等Buffer的其他子类的<br>区别在于数据类型的不同，但是关于缓冲区读写区域的管理全部由父类Buffer负责。<br><br> ByteBuffer类的定义：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public abstract class ByteBuffer</span><br><span class="line">extends Buffer</span><br><span class="line">implements Comparable&lt;ByteBuffer&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>ByteBuffer自定义的属性字段：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">** 不为空，仅用于JVM堆缓存区  *&#x2F;</span><br><span class="line">final byte[] hb;                  &#x2F;&#x2F; Non-null only for heap buffers</span><br><span class="line">&#x2F;** 数组的偏移量 *&#x2F;</span><br><span class="line">final int offset;</span><br><span class="line">&#x2F;** 是否只读 *&#x2F;</span><br><span class="line">boolean isReadOnly;   </span><br><span class="line">&#x2F;** 是否采用默认排序：默认为大端序，为false时是小端序*&#x2F;</span><br><span class="line">boolean bigEndian &#x3D; true;                                   &#x2F;&#x2F; package-private</span><br><span class="line">&#x2F;&#x2F; 本缓存的字节数据排列的顺序</span><br><span class="line">boolean nativeByteOrder &#x3D; (Bits.byteOrder() &#x3D;&#x3D; ByteOrder.BIG_ENDIAN);&#x2F;&#x2F; package-private</span><br></pre></td></tr></table></figure>
-<p>继承自父类Buffer的属性字段：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; Buffer本质上是一个数组，它是通过下面的属性来实现工作区域上数据的读写管理的。</span><br><span class="line">&#x2F;&#x2F; Invariants: mark &lt;&#x3D; position &lt;&#x3D; limit &lt;&#x3D; capacity</span><br><span class="line">&#x2F;&#x2F; 保存某个时刻的position指针的值，通过调用mark()实现可以与reset()函数搭配使用；当mark被置为负值时，表示废弃标记。</span><br><span class="line">private int mark &#x3D; -1;</span><br><span class="line">&#x2F;&#x2F; 缓冲区下一个可读&#x2F;可写的元素的位置</span><br><span class="line">private int position &#x3D; 0;</span><br><span class="line">&#x2F;&#x2F; 表示代操作数据的界限，limit-position&#x3D;remaining</span><br><span class="line">private int limit;</span><br><span class="line">&#x2F;&#x2F; 表示缓冲空间的总容量</span><br><span class="line">private int capacity;</span><br></pre></td></tr></table></figure>
-<h2 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h2><ol>
-<li>因为Buffer的本质是一个数组，所以在使用Buffer之前需要为其分配内存空间。ByteBuffer的创建可以通过分配内存空间或者将现有的字节数组包装到缓冲区中：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;直接分配内存，与操作系统的耦合性更高，速度更快，但是分配的开销更大</span><br><span class="line">public static ByteBuffer allocateDirect(int capacity) &#123;</span><br><span class="line">    return new DirectByteBuffer(capacity);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 在java堆上分配内存</span><br><span class="line">public static ByteBuffer allocate(int capacity) &#123;</span><br><span class="line">    if (capacity &lt; 0)</span><br><span class="line">        throw new IllegalArgumentException();</span><br><span class="line">    return new HeapByteBuffer(capacity, capacity);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;将array从offset开始的length长的subArray包装到缓冲区buffer中，buffer的position等于offset，limit&#x3D;offset+length</span><br><span class="line">public static ByteBuffer wrap(byte[] array,</span><br><span class="line">                                int offset, int length)</span><br><span class="line">&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        return new HeapByteBuffer(array, offset, length);</span><br><span class="line">    &#125; catch (IllegalArgumentException x) &#123;</span><br><span class="line">        throw new IndexOutOfBoundsException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 将array数组包装到缓冲区，数组和butebuffer的任意一方存在改动都会互相影响</span><br><span class="line">public static ByteBuffer wrap(byte[] array) &#123;</span><br><span class="line">    return wrap(array, 0, array.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>缓冲区数据的读写<br>Buffer的工作方式主要为向缓冲区写入数据或者从缓冲区读取数据。<ol>
-<li>写入数据：</li>
-<li>读取数据：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 相对位置读，读取的字节是该缓冲区的当前position，读完后，position+1</span><br><span class="line">public abstract byte get();</span><br><span class="line">&#x2F;&#x2F; 相对位置写，写入的字节是该缓冲区的当前position，写完后，position+1</span><br><span class="line">public abstract ByteBuffer put(byte b);</span><br><span class="line">&#x2F;&#x2F; 绝对位置读（绝对位置的读写是不会修改positon的值的）</span><br><span class="line">public abstract byte get(int index);</span><br><span class="line">&#x2F;&#x2F; 绝对位置写</span><br><span class="line"> public abstract ByteBuffer put(int index, byte b);</span><br><span class="line">&#x2F;&#x2F; 相对位置读取大块量数据到数组中</span><br><span class="line">public ByteBuffer get(byte[] dst, int offset, int length) &#123;</span><br><span class="line">    checkBounds(offset, length, dst.length);</span><br><span class="line">    if (length &gt; remaining())</span><br><span class="line">        throw new BufferUnderflowException();</span><br><span class="line">    int end &#x3D; offset + length;</span><br><span class="line">    for (int i &#x3D; offset; i &lt; end; i++)</span><br><span class="line">        dst[i] &#x3D; get();</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line"> public ByteBuffer get(byte[] dst) &#123;</span><br><span class="line">    return get(dst, 0, dst.length);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 相对位置写入大批量数据</span><br><span class="line">public ByteBuffer put(ByteBuffer src) &#123;</span><br><span class="line">    if (src &#x3D;&#x3D; this)</span><br><span class="line">        throw new IllegalArgumentException();</span><br><span class="line">    if (isReadOnly())</span><br><span class="line">        throw new ReadOnlyBufferException();</span><br><span class="line">    int n &#x3D; src.remaining();</span><br><span class="line">    if (n &gt; remaining())</span><br><span class="line">        throw new BufferOverflowException();</span><br><span class="line">    for (int i &#x3D; 0; i &lt; n; i++)</span><br><span class="line">        put(src.get());</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">public ByteBuffer put(byte[] src, int offset, int length) &#123;</span><br><span class="line">    checkBounds(offset, length, src.length);</span><br><span class="line">    if (length &gt; remaining())</span><br><span class="line">        throw new BufferOverflowException();</span><br><span class="line">    int end &#x3D; offset + length;</span><br><span class="line">    for (int i &#x3D; offset; i &lt; end; i++)</span><br><span class="line">        this.put(src[i]);</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">public final ByteBuffer put(byte[] src) &#123;</span><br><span class="line">    return put(src, 0, src.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-]]></content>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>RocketMQ源码解析之通信模块Remoting</title>
+      <link href="2021/03/11/RocketMQ%E4%B9%8BRemoting%E6%A8%A1%E5%9D%97%E8%A7%A3%E6%9E%90/"/>
+      <url>2021/03/11/RocketMQ%E4%B9%8BRemoting%E6%A8%A1%E5%9D%97%E8%A7%A3%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<p>rocketmq-remoting模块是RocketMQ消息队列中负责网络通信的模块，底层框架是依赖于Netty的。<br><br>为了实现客户端与服务器之间高效的数据请求与接收，RocketMQ自定义了通信协议。<br><br>RemotingCommand这个类封装了消息消息传输过程中的所有数据内容，并负责消息的编码和解码操作。</p><h2 id="RocketMQ的消息格式"><a href="#RocketMQ的消息格式" class="headerlink" title="RocketMQ的消息格式"></a>RocketMQ的消息格式</h2><p>RocketMQ的一条消息包含四个部分：<br><img src="/2021/03/11/RocketMQ%E4%B9%8BRemoting%E6%A8%A1%E5%9D%97%E8%A7%A3%E6%9E%90/%E6%B6%88%E6%81%AF%E6%A0%BC%E5%BC%8F.png" alt="消息格式.png"></p><ol><li>消息长度：消息的总长度，占4个字节</li><li>序列化类型&amp;消息头长度：占4个字节，第一个字节代表序列化类型，后三个字节为消息头的长度</li><li>消息头：RocketMQ定义的通用消息头数据加上不同请求或者响应的自定义字段</li><li>消息正文</li></ol><p>下面是RocketMQ官方定义的消息头的字段：</p><table><thead><tr><th>Header字段</th><th>类型</th><th>Request说明</th><th>Response说明</th></tr></thead><tbody><tr><td>code</td><td>int</td><td>请求操作码，应答方根据不同的请求码进行不同的业务处理</td><td>应答响应码。0表示成功，非0则表示各种错误</td></tr><tr><td>language</td><td>LanguageCode</td><td>请求方实现的语言</td><td>应答方实现的语言</td></tr><tr><td>version</td><td>int</td><td>请求方程序的版本</td><td>应答方程序的版本</td></tr><tr><td>opaque</td><td>int</td><td>相当于requestId，在同一个连接上的不同请求标识码，与响应消息中的相对应</td><td>应答不做修改直接返回</td></tr><tr><td>flag</td><td>int</td><td>区分是普通RPC还是onewayRPC得标志</td><td>区分是普通RPC还是onewayRPC得标志</td></tr><tr><td>remark</td><td>String</td><td>传输自定义文本信息</td><td>传输自定义文本信息</td></tr><tr><td>extFields</td><td>HashMap&lt;String, String&gt;</td><td>请求自定义扩展信息</td><td>响应自定义扩展信息</td></tr></tbody></table><p>RemotingCommand类里关于消息Header的数据声明：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 响应码&#x2F;请求操作码</span><br><span class="line">private int code;</span><br><span class="line">&#x2F;&#x2F; RocketMQ定义的枚举类型，支持JAVA、CPP、PYTHON、GO、OHP、RUBY等</span><br><span class="line">private LanguageCode language &#x3D; LanguageCode.JAVA;</span><br><span class="line">private int version &#x3D; 0;</span><br><span class="line">&#x2F;&#x2F; 请求码</span><br><span class="line">private int opaque &#x3D; requestId.getAndIncrement();</span><br><span class="line">&#x2F;&#x2F; flag为0表示request， flag为1表示response， flag为2或者3，表示OneWayRPC</span><br><span class="line">private int flag &#x3D; 0;</span><br><span class="line">private String remark;</span><br><span class="line">private HashMap&lt;String, String&gt; extFields;</span><br><span class="line">&#x2F;&#x2F; 不同请求类型的请求头的特殊字段的序列化处理类，与extFields搭配使用</span><br><span class="line">private transient CommandCustomHeader customHeader;</span><br><span class="line">&#x2F;&#x2F; 当前RPC的序列化方式，默认与服务器配置相同。RocketMQ支持两种序列化方式：Json以及自定义的RocketMQ消息</span><br><span class="line">private SerializeType serializeTypeCurrentRPC &#x3D; serializeTypeConfigInThisServer;</span><br></pre></td></tr></table></figure><h2 id="消息编码"><a href="#消息编码" class="headerlink" title="消息编码"></a>消息编码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">* 消息编码</span><br><span class="line">* *&#x2F;</span><br><span class="line">public ByteBuffer encode() &#123;</span><br><span class="line">    &#x2F;&#x2F; 1&gt; header length size，RocketMQ消息的长度，占用4个字节</span><br><span class="line">    int length &#x3D; 4;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 2&gt; header data length 编码消息头并获取对应消息头的长度</span><br><span class="line">    byte[] headerData &#x3D; this.headerEncode();</span><br><span class="line">    length +&#x3D; headerData.length;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 3&gt; body data length 消息正文的数据长度</span><br><span class="line">    if (this.body !&#x3D; null) &#123;</span><br><span class="line">        length +&#x3D; body.length;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 分配4+length个字节的缓冲区，其中4是序列化方式+表示消息头长度的数值占用的字节</span><br><span class="line">    ByteBuffer result &#x3D; ByteBuffer.allocate(4 + length);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; length</span><br><span class="line">    result.putInt(length);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; header length</span><br><span class="line">    result.put(markProtocolType(headerData.length, serializeTypeCurrentRPC));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; header data</span><br><span class="line">    result.put(headerData);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; body data;</span><br><span class="line">    if (this.body !&#x3D; null) &#123;</span><br><span class="line">        result.put(this.body);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result.flip();</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private byte[] headerEncode() &#123;</span><br><span class="line">    this.makeCustomHeaderToNet();</span><br><span class="line">    if (SerializeType.ROCKETMQ &#x3D;&#x3D; serializeTypeCurrentRPC) &#123;</span><br><span class="line">        return RocketMQSerializable.rocketMQProtocolEncode(this);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return RemotingSerializable.encode(this);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void makeCustomHeaderToNet() &#123;</span><br><span class="line">    if (this.customHeader !&#x3D; null) &#123;</span><br><span class="line">        Field[] fields &#x3D; getClazzFields(customHeader.getClass());</span><br><span class="line">        if (null &#x3D;&#x3D; this.extFields) &#123;</span><br><span class="line">            this.extFields &#x3D; new HashMap&lt;String, String&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for (Field field : fields) &#123;</span><br><span class="line">            if (!Modifier.isStatic(field.getModifiers())) &#123;</span><br><span class="line">                String name &#x3D; field.getName();</span><br><span class="line">                if (!name.startsWith(&quot;this&quot;)) &#123;</span><br><span class="line">                    Object value &#x3D; null;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        field.setAccessible(true);</span><br><span class="line">                        value &#x3D; field.get(this.customHeader);</span><br><span class="line">                    &#125; catch (Exception e) &#123;</span><br><span class="line">                        log.error(&quot;Failed to access field [&#123;&#125;]&quot;, name, e);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if (value !&#x3D; null) &#123;</span><br><span class="line">                        this.extFields.put(name, value.toString());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public ByteBuffer encodeHeader() &#123;</span><br><span class="line">    return encodeHeader(this.body !&#x3D; null ? this.body.length : 0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public ByteBuffer encodeHeader(final int bodyLength) &#123;</span><br><span class="line">    &#x2F;&#x2F; 1&gt; header length size</span><br><span class="line">    int length &#x3D; 4;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 2&gt; header data length</span><br><span class="line">    byte[] headerData;</span><br><span class="line">    headerData &#x3D; this.headerEncode();</span><br><span class="line"></span><br><span class="line">    length +&#x3D; headerData.length;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 3&gt; body data length</span><br><span class="line">    length +&#x3D; bodyLength;</span><br><span class="line"></span><br><span class="line">    ByteBuffer result &#x3D; ByteBuffer.allocate(4 + length - bodyLength);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; length</span><br><span class="line">    result.putInt(length);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; header length</span><br><span class="line">    result.put(markProtocolType(headerData.length, serializeTypeCurrentRPC));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; header data</span><br><span class="line">    result.put(headerData);</span><br><span class="line"></span><br><span class="line">    result.flip();</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>java</category>
+          
+          <category> 消息队列 </category>
+          
       </categories>
-      <tags>
-        <tag>网络通信</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>进程创建与退出</title>
-    <url>/2021/03/22/%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%80%80%E5%87%BA/</url>
-    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><pre><code>最近在参与公司某项目平台组件代码评审的任务，刚好与操作系统的进程创建管理相关。于是，就想就着工作中发现的问题以及自己的一些总结来写点什么，既是复习又是学习。
-</code></pre>
-<h1 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h1><pre><code>老生常谈，各博客平台写烂了的东西。
-</code></pre>
-<h2 id="Linux系统特殊的进程"><a href="#Linux系统特殊的进程" class="headerlink" title="Linux系统特殊的进程"></a>Linux系统特殊的进程</h2><p>　　在Linux系统中，除了系统启动之后的第一个进程由系统来创建，其余的进程都必须由某个父进程来创建。</p>
-<ul>
-<li><p>0号进程：<br><br>　　在系统启动及完成初始化之后，Linux自动创建的进程叫做根进程。根进程是Linux中所有进程的祖宗，pid为0的Idle进程。这也是唯一一个不是由fork也不是由kernel_thread创建的进程。</p>
-</li>
-<li><p>1号进程init：<br><br>　　由Idle进程调用Kernel_thread创建一个内核线程去执行init函数，该内核线程即init进程，pid为1。init函数继续初始化，此时依旧共享父进程即0号进程的资源属性，直至init函数的最后调用系统的execve，以装入用户空间的可执行文件/sbin/init，此时进程pid1拥有自己的属性资源，且内核的初始化和启动过程结束。<br><br>　　<code>kernel_thread(kernel_init, NULL, CLONE_FS);</code><br><br>　　init进程是所有用户进程的祖先。</p>
-</li>
-<li><p>2号进程kthreadd：<br><br>　　由Idle进程调用Kernel_thread创建，运行在内核空间，负责所有内核进程的调度和管理，pid为2。<br><br>　　<code>pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);</code><br><br>　　会循环执行kthread函数，该函数的作用就是运行kthread_create_list全局链表中维护的kthread, 当我们调用kernel_thread创建的内核线程会被加入到此链表中。<br><br>　　该进程是所有内核进程的祖先。</p>
-<h3 id="init与systemd"><a href="#init与systemd" class="headerlink" title="init与systemd"></a>init与systemd</h3><p>ubuntu9.10-14.10，系统的启动过程是：<br><br>　　　　开机自检BIOS====》加载MBR中的GRUB引导====》加载内核====》init进程初始化<br>之后，ubuntu对内核的初始化进行了改进，启动过程如下：<br><br>　　　　开机自检BIOS====》加载MBR中的GRUB2引导====》加载内核====》Systemd进程初始化</p>
-<p>　　init进程与system进程的区别:</p>
-<table>
-<thead>
-<tr>
-<th align="left">init进程</th>
-<th align="left">systemd进程</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><br>　　　1. init进程的启动时间长，进程的启动是串行执行的<br>　　　2. 启动脚本复杂，init进程只是执行启动脚本，不管其他事情，脚本需要自己处理各种情况<br>　　　3. 位于/sbin/init</td>
-<td align="left"><br>　　　1. 按需启动服务，减少系统资源消耗<br>　　　2. 尽可能并行启动进程，减少系统启动等待时间<br>　　　3. 位于 /usr/lib/systemd/systemd</td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<h2 id="进程的创建"><a href="#进程的创建" class="headerlink" title="进程的创建"></a>进程的创建</h2><p>进程创建首先是在进程表中为进程建立一个进程控制块PCB。<br><br>PCB通常记载进程之相关信息，包括：</p>
-<ul>
-<li>进程状态：可以是new、ready、running、waiting或 blocked等。</li>
-<li>程序计数器：下一条要运行的指令地址。</li>
-<li>CPU寄存器：如累加器、变址寄存器、堆栈指针以及一般用途寄存器、状况代码等，</li>
-<li>CPU调度算法：优先级、调度队列等指针以及其他参数。</li>
-<li>存储器管理：如标签页表等。</li>
-<li>输入输出状态：配置进程使用I/O设备，如磁带机等</li>
-</ul>
-<p>在 Linux 内核中,供用户创建进程的API调用有fork()，vfork()，clone() ，这三个函数的对应的系统调用是：sys_fork()、sys_clone()、sys_vfork()。<br>fork、vfork以及 clone 的区别：</p>
-<table>
-<thead>
-<tr>
-<th align="left">参数名</th>
-<th align="left">语法格式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">fork</td>
-<td align="left">fork创造的子进程是父进程的完整副本，复制了父进程的资源: task_struct,打开文件表，信号，命名空间虚拟地址空间（包括堆栈等）等。（写时复制） <br>fork的实现：do_fork(CLONE_SIGCHLD,…)</td>
-</tr>
-<tr>
-<td align="left">vfork</td>
-<td align="left">vfork创建的子进程与父进程共享虚拟地址空间，所以子进程的改变会影响父进程中的数据。vfork创建子进程后，父进程会被阻塞直到子进程调用exec或exit。  <br>vfork的实现：do_fork(CLONE_VFORK</td>
-</tr>
-<tr>
-<td align="left">clone</td>
-<td align="left">系统调用fork()和vfork()是无参数的，而clone()则带有参数。fork()是全部复制，vfork()是共享内存，而clone()是则可以将父进程资源有选择地复制给子进程。<br>具体要复制哪些资源给子进程，由参数列表中的clone_flags决决定。<br>clone的实现：do_fork(CLONE_VM/CLONE_FS/CLONE_FILES/CLONE_SIGCHLD,…)</td>
-</tr>
-</tbody></table>
-<p>fork与vfork都是由clone实现，底层是调用了内核的_do_fork函数。</p>
-<h3 id="fork详解"><a href="#fork详解" class="headerlink" title="fork详解"></a>fork详解</h3><ol>
-<li><p>写时复制：在fork之后exec之前两个进程用的是相同的物理空间（内存区），子进程的代码段、数据段、堆栈都是指向父进程的物理空间，也就是说，两者的虚拟空间不同，但其对应的物理空间是同一个。<br>当父子进程中有更改相应段的行为发生时，再为子进程相应的段分配物理空间，如果不是因为exec，内核会给子进程的数据段、堆栈段分配相应的物理空间（至此两者有各自的进程空间，互不影响），而代码段继续共享父进程的物理空间（两者的代码完全相同）。而如果是因为exec，由于两者执行的代码不同，子进程的代码段也会分配单独的物理空间。</p>
-<br>
-因为当fork()后立即执行exec()，地址空间就无需被复制了。fork()的实际开销就是复制父进程的页表以及给子进程创建一个进程描述符。在一般情况下，进程创建后都为马上运行一个可执行的文件，这种优化，可以避免拷贝大量根本就不会被使用的数据(地址空间里常常包含数十兆的数据)。
-***<br>而vfork是连虚拟内存空间都不会创建，直接共享父进程的虚拟空间，即共享父进程的物理空间。***</li>
-<li><p>fork的另一个特性是所有由父进程打开的描述符都被复制到子进程中。父、子进程中相同编号的文件描述符在内核中指向同一个file结构体，也就是说，file结构体的引用计数要增加。</p>
-</li>
-<li><p>fork创建进程失败返回-1，如果是子进程返回值为0，如果是父进程则返回子进程的pid。一个进程要执行一个不同的程序。比如fork后，子进程调用exec函数</p>
-</li>
-</ol>
-<h2 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h2><p>当进程完成执行最后指令并且通过系统调用 exit() 向操作系统发出请求时，进程终止。这时，进程可以返回退出状态码（通常为整数）给父进程。所有进程资源，如物理和虚拟内存、打开文件和 I/O 缓冲区等，会由操作系统释放。</p>
-<p>父进程需要通过调用wait()或者waitpid函数来收集子进程的退出状态。如果父进程未调用该函数来阻塞获取子进程的退出状态，那么子进程就是僵尸进程，会对系统造成危害。<br><br>这是因为即使进程退出时，操作系统会释放其占用的资源，但是它位于进程表中的项还是存在的，需要由父进程进行处理。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;sys&#x2F;types.h&gt; </span><br><span class="line">#include &lt;sys&#x2F;wait.h&gt;</span><br><span class="line">pid_t waitpid(pid_t pid,int *status,int options);</span><br></pre></td></tr></table></figure>
-
-<p>其中：</p>
-<ol>
-<li>参数pid为欲等待的子进程识别码：</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th align="left">参数值</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">pid&lt;-1</td>
-<td align="left">等待进程组号为pid绝对值的任何子进程。</td>
-</tr>
-<tr>
-<td align="left">pid=-1</td>
-<td align="left">等待任何子进程，此时的waitpid()函数就退化成了普通的wait()函数。</td>
-</tr>
-<tr>
-<td align="left">pid=0</td>
-<td align="left">等待进程组号与目前进程相同的任何子进程，也就是说任何和调用waitpid()函数的进程在同一个进程组的进程。</td>
-</tr>
-<tr>
-<td align="left">pid&gt;0</td>
-<td align="left">等待进程号为pid的子进程。</td>
-</tr>
-</tbody></table>
-<p>pid为0与-1的区别在于：前者是收集所有子进程的退出状态码而后者是收集属于同一个进程组的子进程的退出状态码。父进程的子进程不一定与父进程或者其他兄弟进程同属于一个进程组。</p>
-<ol start="2">
-<li>而参数*status将保存子进程的状态信息，有了这个信息父进程就可以了解子进程是否正常退出。</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th align="left">宏</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">WIFEXITED(status)</td>
-<td align="left">如果子进程正常结束，它就返回真；否则返回假。</td>
-</tr>
-<tr>
-<td align="left">WEXITSTATUS(status)</td>
-<td align="left">如果WIFEXITED(status)为真，则可以用该宏取得子进程exit()返回的结束代码。</td>
-</tr>
-<tr>
-<td align="left">WIFSIGNALED(status)</td>
-<td align="left">如果子进程因为一个未捕获的信号而终止，它就返回真；否则返回假。</td>
-</tr>
-<tr>
-<td align="left">WTERMSIG(status)</td>
-<td align="left">如果WIFSIGNALED(status)为真，则可以用该宏获得导致子进程终止的信号代码。</td>
-</tr>
-<tr>
-<td align="left">WIFSTOPPED(status)</td>
-<td align="left">如果当前子进程被暂停了，则返回真；否则返回假。</td>
-</tr>
-<tr>
-<td align="left">WSTOPSIG(status)</td>
-<td align="left">如果WIFSTOPPED(status)为真，则可以使用该宏获得导致子进程暂停的信号代码。</td>
-</tr>
-</tbody></table>
-<ol start="3">
-<li>参数options提供了一些另外的选项来控制waitpid()函数的行为。如果不想使用这些选项，则可以把这个参数设为0</li>
-</ol>
-<p>如果在调用waitpid()函数时，当指定等待的子进程已经停止运行或结束了，则waitpid()会立即返回；但是如果子进程还没有停止运行或结束，则调用waitpid()函数的父进程则会被阻塞，暂停运行。如果waitpid()函数执行成功，则返回子进程的进程号；如果有错误发生，则返回-1，并且将失败的原因存放在errno变量中。</p>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>链表反转系列</title>
+      <link href="2019/04/05/%E9%93%BE%E8%A1%A8%E5%8F%8D%E8%BD%AC%E7%B3%BB%E5%88%97/"/>
+      <url>2019/04/05/%E9%93%BE%E8%A1%A8%E5%8F%8D%E8%BD%AC%E7%B3%BB%E5%88%97/</url>
+      
+        <content type="html"><![CDATA[<h1 id="剑指-Offer-24-反转链表"><a href="#剑指-Offer-24-反转链表" class="headerlink" title="剑指 Offer 24. 反转链表"></a>剑指 Offer 24. 反转链表</h1><p>定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。</p><p>示例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</span><br><span class="line">输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</span><br></pre></td></tr></table></figure><p>限制:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 &lt;&#x3D; 节点个数 &lt;&#x3D; 5000</span><br></pre></td></tr></table></figure><p>解法：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Definition for singly-linked list.</span><br><span class="line"> * public class ListNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     ListNode next;</span><br><span class="line"> *     ListNode(int x) &#123; val &#x3D; x; &#125;</span><br><span class="line"> * &#125;</span><br><span class="line"> *&#x2F;</span><br><span class="line">class Solution &#123;</span><br><span class="line">    public ListNode reverseList(ListNode head) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>OS</category>
+          
+          <category> 算法题 </category>
+          
       </categories>
-      <tags>
-        <tag>OS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>链表反转系列</title>
-    <url>/2019/04/05/%E9%93%BE%E8%A1%A8%E5%8F%8D%E8%BD%AC%E7%B3%BB%E5%88%97/</url>
-    <content><![CDATA[<h1 id="剑指-Offer-24-反转链表"><a href="#剑指-Offer-24-反转链表" class="headerlink" title="剑指 Offer 24. 反转链表"></a>剑指 Offer 24. 反转链表</h1><p>定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。</p>
-<p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</span><br><span class="line">输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</span><br></pre></td></tr></table></figure>
-<p>限制:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0 &lt;&#x3D; 节点个数 &lt;&#x3D; 5000</span><br></pre></td></tr></table></figure>
-
-<p>解法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Definition for singly-linked list.</span><br><span class="line"> * public class ListNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     ListNode next;</span><br><span class="line"> *     ListNode(int x) &#123; val &#x3D; x; &#125;</span><br><span class="line"> * &#125;</span><br><span class="line"> *&#x2F;</span><br><span class="line">class Solution &#123;</span><br><span class="line">    public ListNode reverseList(ListNode head) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++之extern</title>
+      <link href="2019/03/17/C-%E4%B9%8Bextern/"/>
+      <url>2019/03/17/C-%E4%B9%8Bextern/</url>
+      
+        <content type="html"><![CDATA[<p>extern可以置于变量或者函数前，以标示变量或者函数的定义在别的文件中，提示编译器遇到此变量和函数时在其他模块中寻找其定义。<br>此外extern也可用来进行链接指定。</p><h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><ol><li><p>与“C”连用进行链接指定</p><p>比如: </p><p><code>extern &quot;C&quot; void fun(int a, int b);</code></p><p> 则告诉编译器在编译fun这个函数名时按着C的规则去翻译相应的函数名</p></li><li><p>extern声明变量</p><p> 比如，头文件 testExample.h</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;声明</span><br><span class="line">extern int a;</span><br><span class="line">extern int b;</span><br></pre></td></tr></table></figure><p> 源程序 testExample.c</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;testExample.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;定义</span><br><span class="line">int a &#x3D; 1;</span><br><span class="line">int b &#x3D; 2;</span><br></pre></td></tr></table></figure><p>主函数 main.c</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;testExample.h&quot;</span><br><span class="line"></span><br><span class="line">int main(void) &#123;</span><br><span class="line">    printf(&quot;a &#x3D; %d , b &#x3D; %d\n&quot;, a, b);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>其中，a，b的声明也可放在main.c中。此时，就不需要包含 testExample.h这个头文件了。代码如下：</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">extern int a;</span><br><span class="line">extern int b;</span><br><span class="line"></span><br><span class="line">int main(void) &#123;</span><br><span class="line">    printf(&quot;a &#x3D; %d , b &#x3D; %d\n&quot;, a, b);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>extern声明函数</p><p>比如，头文件 testExample.h</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;声明</span><br><span class="line">extern int a;</span><br><span class="line">extern int b;</span><br><span class="line">&#x2F;&#x2F;函数声明</span><br><span class="line">extern int add(int a, int b);</span><br></pre></td></tr></table></figure><p>源程序 testExample.c</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;testExample.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;定义</span><br><span class="line">int a &#x3D; 1;</span><br><span class="line">int b &#x3D; 2;</span><br><span class="line">int add(int a, int b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>主函数 main.c</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;testExample.h&quot;</span><br><span class="line"></span><br><span class="line">int main(void) &#123;</span><br><span class="line">    printf(&quot;a &#x3D; %d , b &#x3D; %d\n&quot;, a, b);</span><br><span class="line">    printf(&quot;add(a, b) &#x3D; %d\n&quot;, add(a, b));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>其中，a，b的声明也可放在main.c中。此时，就不需要包含 testExample.h这个头文件了。代码如下：</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">extern int a;</span><br><span class="line">extern int b;</span><br><span class="line">   </span><br><span class="line">&#x2F;&#x2F;函数声明</span><br><span class="line">extern int add(int a, int b);</span><br><span class="line">int main(void) &#123;</span><br><span class="line">    printf(&quot;a &#x3D; %d , b &#x3D; %d\n&quot;, a, b);</span><br><span class="line">    printf(&quot;add(a, b) &#x3D; %d\n&quot;, add(a, b));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol><h1 id="extern-与-static"><a href="#extern-与-static" class="headerlink" title="extern 与 static"></a>extern 与 static</h1><p>(1) extern 表明引用外部其他模块/单元定义的变量或者函数。</p><p>(2) static 表示静态变量，分配内存的时候, 存储在静态区而不是栈上面。static修饰全局变量的作用域只能是本身的编译单元，所以一般定义static全局变量时，都把它放在原文件中而不是头文件。</p><p><em><strong>extern和static不能同时修饰一个变量</strong></em></p><h1 id="extern-与-const"><a href="#extern-与-const" class="headerlink" title="extern 与 const"></a>extern 与 const</h1><p>C++中const修饰的全局常量据有跟static相同的特性，即它们只能作用于本编译模块中。但是const可以与extern连用来声明该常量可以作用于其他编译模块中。当与extern一起合作的时候，它的特性就跟extern的一样，表示一个定义了的全局变量。</p>]]></content>
+      
+      
       <categories>
-        <category>算法题</category>
+          
+          <category> C++ </category>
+          
       </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Annotation(java注解)</title>
+      <link href="2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/"/>
+      <url>2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<p>注解提供一种为程序元素设置元数据的方法。元数据就是关于数据的数据，可以用来生成文档，进行代码分析或者使编译器对元数据进行编译检查。<br>可以使用注解解析工具或编译器对其进行解析，也可以指定注解在编译期或运行期有效。<br>　　　　　　　　　　　　　　　　　　　　　　<br>注解的基本原则是：无论增加或者删除一个注解都不能对代码造成干扰。</p><h2 id="系统注解"><a href="#系统注解" class="headerlink" title="系统注解"></a>系统注解</h2><p>　　1. Override：保证override函数的正确生明</p><p>　　2. Deprecated：对于过时不再使用的函数添加该注解，当该函数被调用时，编译时会提示。与javadoc的@deprecated类似，但前者不可以带参数</p><p>　　3. SupressWarnings： 配合参数表示关闭特定的警告信息。参数有：</p><p>　　　　　|参数名 | 语法格式 |<br>        | :— |  :—  |<br>     　　| deprecation | 使用了过时的类或者方法的警告  |<br>    　　 | unchecked |  执行了未检查的转换时警告  |<br>        | fallthrough |  switch语句某case下没有break语句直接通往下一个case的警告  |<br>    　　 | path |  在类路径或者源文件路径中存在不存在的路径的警告  |<br>        | finally |  finally语句不能正确执行的警告 |<br>        | all |  关闭所有警告信息  |</p><h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><pre><code>元注解的作用就是负责注解其他注解。Java5定义了4个标准的Meta Annotation类型，它们被用来提供对其它 Annotation类型作说明。</code></pre><p>　　　1. Target</p><p>　　　　　　作用：用于描述注解的使用范围，即被描述的注解可以用在什么地方</p><p>　　　　　　用法： @Target(ElementType.参数,…)</p><p>　　　　　　参数：</p><p>　　　　　　　　　CONSTRUCTOR：用于描述构造器</p><p>　　　　　　　　　FIELD：用于描述域</p><p>　　　　　　　　　LOCAL_VARIABLE：用于描述局部变量</p><p>　　　　　　　　　METHOD：用于描述方法</p><p>　　　　　　　　　PACKAGE：用于描述包</p><p>　　　　　　　　　PARAMETER：用于描述参数</p><p>　　　　　　　　　TYPE：用于描述类、接口(包括注解类型) 或enum声明</p><p>　　　2. Retention</p><p>　　　　　　作用： 标识该Annotation的生命周期</p><p>　　　　　　用法：　@Retention(RetentionPolicy.参数)</p><p>　　　　　　参数：</p><p>　　　　　　　　　SOURCE:在源文件中有效（即源文件保留），被编译器丢弃</p><p>　　　　　　　　　CLASS:在class文件中有效（即class保留），编译在class文件中的Annotation可能会被虚拟机忽略</p><p>　　　　　　　　　RUNTIME:在运行时有效（即运行时保留）</p><p>　　　3. Documented</p><p>　　　　　　<em><strong>@Documented是一个标记注解，没有成员</strong></em></p><p>　　　　　　作用：用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。</p><p>　　　4.　Inherited</p><p>　　　　　　<em><strong>@Inherited 是一个标记注解。</strong></em></p><p>　　　　　  　作用: 如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个Annotation将被用于该class的子类。</p><h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>　　　Annotation类型使用关键字@interface而非interface，注意开头的@符号。interface可以被实现或者继承，Annotation不可以。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
 </search>
