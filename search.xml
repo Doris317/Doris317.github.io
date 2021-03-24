@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Redis的主从复制</title>
+    <url>/2021/03/24/Redis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>内存溢出</title>
+    <url>/2021/03/24/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>断言Assert</title>
     <url>/2021/03/24/%E6%96%AD%E8%A8%80Assert/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在对公司某项目进行代码评审的过程中，发现了断言机制使用不正确的问题。所以来记个笔记以避免自已以及看见这篇文章的同学们踩坑。</p>
@@ -493,6 +503,38 @@ Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer
       <categories>
         <category>C++</category>
       </categories>
+  </entry>
+  <entry>
+    <title>JVM类加载机制</title>
+    <url>/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p>一个.java文件从编码完成到最终执行，一般主要包括两个过程：编译和运行，其中编译就是通过javac编译器将.java文件转换成编译成字节码.class文件；然后运行则是把.class文件交给JVM执行的过程。<br>一个Java类从字节代码到能够在JVM中被使用，需要经过加载、链接和初始化这三个步骤，我们称之为类加载。下面我们就开始详解这三个步骤。</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>把class字节码文件通过类加载器装载入内存中的阶段。在该阶段，JVM需要完成：</p>
+<ol>
+<li>通过一个类的全限定名来获取其定义的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在Java堆中生成一个代表这个类的java.lang.Class对象，作为对方法区中这些数据的访问入口。</li>
+</ol>
+<p>类加载器可以分为：</p>
+<ol>
+<li>引导类加载器：最顶层的类加载器，负责加载JAVA_HOME\lib目录中的，或通过-Xbootclasspath参数指定路径中的，且被JVM认可（按文件名识别，如rt.jar）的类。</li>
+<li>扩展类加载器：负责加载JAVA_HOME\lib\ext目录中的，或通过java.ext.dirs系统变量指定路径中的类库。</li>
+<li>应用类加载器：可以通过getSystemClassLoader()获取，负责加载用户路径（classpath）上的类库。如果没有自定义类加载器，该类加载器就是默认的类加载器。</li>
+<li>用户自定义的类加载器：继承自java.lang.ClassLoader类。</li>
+</ol>
+<p>类加载器的工作方式：</p>
+<ol>
+<li>双亲委派模型：加载过程中会先检查类是否被已加载，检查顺序是自底向上，从用户自定义类加载器到引导类加载器逐层检查，只要某个classloader已加载，就视为已加载此类，保证此类只会被所有ClassLoader加载一次。而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。</li>
+<li>代理模式：指的是一个类加载器既可以自己完成Java类的加载工作，也可以代理给其它的类加载器来完成。由于代理模式的存在，启动一个类的加载过程的类加载器和最终加载这个类的类加载器可能并不是一个。前者称为初始类加载器，而后者称为定义类加载器。一个Java类的定义类加载器是该类所导入的其它Java类的初始类加载器。</li>
+</ol>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>链接阶段又分为验证、准备和解析。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>主要是为了保证加载进来的字节流符合虚拟机规范，不会造成安全错误。如果验证过程出现错误的话，会抛出java.lang.VerifyError错误。</p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2>]]></content>
+      <categories>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
   </entry>
   <entry>
     <title>Annotation(java注解)</title>

@@ -23,30 +23,27 @@
   </script>
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="资源">
-<meta property="og:url" content="http://example.com/resources/index.html">
+<meta property="og:title" content="Doris的搬砖日记">
+<meta property="og:url" content="http://example.com/page/3/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-10T14:07:08.000Z">
-<meta property="article:modified_time" content="2021-03-17T11:52:54.856Z">
 <meta property="article:author" content="Doris">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/resources/">
+<link rel="canonical" href="http://example.com/page/3/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>资源 | Doris的搬砖日记
-</title>
+  <title>Doris的搬砖日记</title>
   
 
 
@@ -192,43 +189,271 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content index posts-expand">
             
-
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
-      <header class="post-header">
-
-<h1 class="post-title" itemprop="name headline">资源
-</h1>
-
-<div class="post-meta">
+      
   
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
 
-</div>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
 
-</header>
-
-      
-      
-      
-      <div class="post-body">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
-      </div>
+            <a href="/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">JVM类加载机制</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-24 21:47:18" itemprop="dateCreated datePublished" datetime="2018-03-24T21:47:18+08:00">2018-03-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="post-meta-item leancloud_visitors" data-flag-title="JVM类加载机制" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-      
+          <p>一个.java文件从编码完成到最终执行，一般主要包括两个过程：编译和运行，其中编译就是通过javac编译器将.java文件转换成编译成字节码.class文件；然后运行则是把.class文件交给JVM执行的过程。<br>一个Java类从字节代码到能够在JVM中被使用，需要经过加载、链接和初始化这三个步骤，我们称之为类加载。下面我们就开始详解这三个步骤。</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>把class字节码文件通过类加载器装载入内存中的阶段。在该阶段，JVM需要完成：</p>
+<ol>
+<li>通过一个类的全限定名来获取其定义的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在Java堆中生成一个代表这个类的java.lang.Class对象，作为对方法区中这些数据的访问入口。</li>
+</ol>
+<p>类加载器可以分为：</p>
+<ol>
+<li>引导类加载器：最顶层的类加载器，负责加载JAVA_HOME\lib目录中的，或通过-Xbootclasspath参数指定路径中的，且被JVM认可（按文件名识别，如rt.jar）的类。</li>
+<li>扩展类加载器：负责加载JAVA_HOME\lib\ext目录中的，或通过java.ext.dirs系统变量指定路径中的类库。</li>
+<li>应用类加载器：可以通过getSystemClassLoader()获取，负责加载用户路径（classpath）上的类库。如果没有自定义类加载器，该类加载器就是默认的类加载器。</li>
+<li>用户自定义的类加载器：继承自java.lang.ClassLoader类。</li>
+</ol>
+<p>类加载器的工作方式：</p>
+<ol>
+<li>双亲委派模型：加载过程中会先检查类是否被已加载，检查顺序是自底向上，从用户自定义类加载器到引导类加载器逐层检查，只要某个classloader已加载，就视为已加载此类，保证此类只会被所有ClassLoader加载一次。而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。</li>
+<li>代理模式：指的是一个类加载器既可以自己完成Java类的加载工作，也可以代理给其它的类加载器来完成。由于代理模式的存在，启动一个类的加载过程的类加载器和最终加载这个类的类加载器可能并不是一个。前者称为初始类加载器，而后者称为定义类加载器。一个Java类的定义类加载器是该类所导入的其它Java类的初始类加载器。</li>
+</ol>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>链接阶段又分为验证、准备和解析。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>主要是为了保证加载进来的字节流符合虚拟机规范，不会造成安全错误。如果验证过程出现错误的话，会抛出java.lang.VerifyError错误。</p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2>
       
     </div>
-    
 
     
     
     
+
+     
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">Annotation(java注解)</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-18 20:04:24" itemprop="dateCreated datePublished" datetime="2018-03-18T20:04:24+08:00">2018-03-18</time>
+            </span>
+
+          
+            <span id="/2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/" class="post-meta-item leancloud_visitors" data-flag-title="Annotation(java注解)" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>注解提供一种为程序元素设置元数据的方法。元数据就是关于数据的数据，可以用来生成文档，进行代码分析或者使编译器对元数据进行编译检查。<br>可以使用注解解析工具或编译器对其进行解析，也可以指定注解在编译期或运行期有效。<br>　　　　　　　　　　　　　　　　　　　　　　<br>注解的基本原则是：无论增加或者删除一个注解都不能对代码造成干扰。</p>
+<h2 id="系统注解"><a href="#系统注解" class="headerlink" title="系统注解"></a>系统注解</h2><p>　　1. Override：保证override函数的正确生明</p>
+<p>　　2. Deprecated：对于过时不再使用的函数添加该注解，当该函数被调用时，编译时会提示。与javadoc的@deprecated类似，但前者不可以带参数</p>
+<p>　　3. SupressWarnings： 配合参数表示关闭特定的警告信息。参数有：</p>
+<p>　　　　　|参数名 | 语法格式 |<br>        | :— |  :—  |<br>     　　| deprecation | 使用了过时的类或者方法的警告  |<br>    　　 | unchecked |  执行了未检查的转换时警告  |<br>        | fallthrough |  switch语句某case下没有break语句直接通往下一个case的警告  |<br>    　　 | path |  在类路径或者源文件路径中存在不存在的路径的警告  |<br>        | finally |  finally语句不能正确执行的警告 |<br>        | all |  关闭所有警告信息  |</p>
+<h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><pre><code>元注解的作用就是负责注解其他注解。Java5定义了4个标准的Meta Annotation类型，它们被用来提供对其它 Annotation类型作说明。
+</code></pre>
+<p>　　　1. Target</p>
+<p>　　　　　　作用：用于描述注解的使用范围，即被描述的注解可以用在什么地方</p>
+<p>　　　　　　用法： @Target(ElementType.参数,…)</p>
+<p>　　　　　　参数：</p>
+<p>　　　　　　　　　CONSTRUCTOR：用于描述构造器</p>
+<p>　　　　　　　　　FIELD：用于描述域</p>
+<p>　　　　　　　　　LOCAL_VARIABLE：用于描述局部变量</p>
+<p>　　　　　　　　　METHOD：用于描述方法</p>
+<p>　　　　　　　　　PACKAGE：用于描述包</p>
+<p>　　　　　　　　　PARAMETER：用于描述参数</p>
+<p>　　　　　　　　　TYPE：用于描述类、接口(包括注解类型) 或enum声明</p>
+<p>　　　2. Retention</p>
+<p>　　　　　　作用： 标识该Annotation的生命周期</p>
+<p>　　　　　　用法：　@Retention(RetentionPolicy.参数)</p>
+<p>　　　　　　参数：</p>
+<p>　　　　　　　　　SOURCE:在源文件中有效（即源文件保留），被编译器丢弃</p>
+<p>　　　　　　　　　CLASS:在class文件中有效（即class保留），编译在class文件中的Annotation可能会被虚拟机忽略</p>
+<p>　　　　　　　　　RUNTIME:在运行时有效（即运行时保留）</p>
+<p>　　　3. Documented</p>
+<p>　　　　　　<em><strong>@Documented是一个标记注解，没有成员</strong></em></p>
+<p>　　　　　　作用：用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。</p>
+<p>　　　4.　Inherited</p>
+<p>　　　　　　<em><strong>@Inherited 是一个标记注解。</strong></em></p>
+<p>　　　　　  　作用: 如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个Annotation将被用于该class的子类。</p>
+<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>　　　Annotation类型使用关键字@interface而非interface，注意开头的@符号。interface可以被实现或者继承，Annotation不可以。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+     
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
