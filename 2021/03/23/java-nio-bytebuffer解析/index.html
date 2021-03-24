@@ -79,7 +79,7 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/rss2.xml" title="Doris的搬砖日记" type="application/rss+xml">
+<link rel="alternate" href="/atom.xml" title="Doris的搬砖日记" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -129,17 +129,22 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -235,19 +240,41 @@
             </span>
 
           
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+            <span id="/2021/03/23/java-nio-bytebuffer%E8%A7%A3%E6%9E%90/" class="post-meta-item leancloud_visitors" data-flag-title="java.nio.bytebuffer解析" title="热度">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
               <span id="busuanzi_value_page_pv"></span>
-            </span><br>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/23/java-nio-bytebuffer%E8%A7%A3%E6%9E%90/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/23/java-nio-bytebuffer%E8%A7%A3%E6%9E%90/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.9k</span>
+              <span>4.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -267,21 +294,21 @@
 
       
         <p>ByteBuffer继承自抽象类Buffer，用于在堆内存中预留一部分空间对IO数据做临时存储，以提高读写效率。与CharBuffer、IntBuffer等Buffer的其他子类的<br>区别在于数据类型的不同，但是关于缓冲区读写区域的管理全部由父类Buffer负责。<br><br> ByteBuffer类的定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public abstract class ByteBuffer</span><br><span class="line">extends Buffer</span><br><span class="line">implements Comparable&lt;ByteBuffer&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="symbol">ByteBuffer</span></span><br><span class="line"><span class="symbol">extends</span> <span class="symbol">Buffer</span></span><br><span class="line"><span class="symbol">implements</span> <span class="symbol">Comparable</span>&lt;<span class="symbol">ByteBuffer</span>&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>ByteBuffer自定义的属性字段：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">** 不为空，仅用于JVM堆缓存区  *&#x2F;</span><br><span class="line">final byte[] hb;                  &#x2F;&#x2F; Non-null only for heap buffers</span><br><span class="line">&#x2F;** 数组的偏移量 *&#x2F;</span><br><span class="line">final int offset;</span><br><span class="line">&#x2F;** 是否只读 *&#x2F;</span><br><span class="line">boolean isReadOnly;   </span><br><span class="line">&#x2F;** 是否采用默认排序：默认为大端序，为false时是小端序*&#x2F;</span><br><span class="line">boolean bigEndian &#x3D; true;                                   &#x2F;&#x2F; package-private</span><br><span class="line">&#x2F;&#x2F; 本缓存的字节数据排列的顺序</span><br><span class="line">boolean nativeByteOrder &#x3D; (Bits.byteOrder() &#x3D;&#x3D; ByteOrder.BIG_ENDIAN);&#x2F;&#x2F; package-private</span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">** 不为空，仅用于JVM堆缓存区  */</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">byte</span>[] hb;                  <span class="comment">// Non-null only for heap buffers</span></span><br><span class="line"><span class="comment">/** 数组的偏移量 */</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> offset;</span><br><span class="line"><span class="comment">/** 是否只读 */</span></span><br><span class="line"><span class="keyword">boolean</span> isReadOnly;   </span><br><span class="line"><span class="comment">/** 是否采用默认排序：默认为大端序，为false时是小端序*/</span></span><br><span class="line"><span class="keyword">boolean</span> bigEndian = <span class="literal">true</span>;                                   <span class="comment">// package-private</span></span><br><span class="line"><span class="comment">// 本缓存的字节数据排列的顺序</span></span><br><span class="line"><span class="keyword">boolean</span> nativeByteOrder = (Bits.byteOrder() == ByteOrder.BIG_ENDIAN);<span class="comment">// package-private</span></span><br></pre></td></tr></table></figure>
 <p>继承自父类Buffer的属性字段：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Buffer本质上是一个数组，它是通过下面的属性来实现工作区域上数据的读写管理的。</span><br><span class="line">&#x2F;&#x2F; Invariants: mark &lt;&#x3D; position &lt;&#x3D; limit &lt;&#x3D; capacity</span><br><span class="line">&#x2F;&#x2F; 保存某个时刻的position指针的值，通过调用mark()实现可以与reset()函数搭配使用；当mark被置为负值时，表示废弃标记。</span><br><span class="line">private int mark &#x3D; -1;</span><br><span class="line">&#x2F;&#x2F; 缓冲区下一个可读&#x2F;可写的元素的位置</span><br><span class="line">private int position &#x3D; 0;</span><br><span class="line">&#x2F;&#x2F; 表示代操作数据的界限，limit-position&#x3D;remaining</span><br><span class="line">private int limit;</span><br><span class="line">&#x2F;&#x2F; 表示缓冲空间的总容量</span><br><span class="line">private int capacity;</span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Buffer本质上是一个数组，它是通过下面的属性来实现工作区域上数据的读写管理的。</span></span><br><span class="line"><span class="comment">// Invariants: mark &lt;= position &lt;= limit &lt;= capacity</span></span><br><span class="line"><span class="comment">// 保存某个时刻的position指针的值，通过调用mark()实现可以与reset()函数搭配使用；当mark被置为负值时，表示废弃标记。</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> mark = <span class="number">-1</span>;</span><br><span class="line"><span class="comment">// 缓冲区下一个可读/可写的元素的位置</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> <span class="built_in">position</span> = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 表示代操作数据的界限，limit-position=remaining</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> limit;</span><br><span class="line"><span class="comment">// 表示缓冲空间的总容量</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> capacity;</span><br></pre></td></tr></table></figure>
 <h2 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h2><ol>
 <li>因为Buffer的本质是一个数组，所以在使用Buffer之前需要为其分配内存空间。ByteBuffer的创建可以通过分配内存空间或者将现有的字节数组包装到缓冲区中：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;直接分配内存，与操作系统的耦合性更高，速度更快，但是分配的开销更大</span><br><span class="line">public static ByteBuffer allocateDirect(int capacity) &#123;</span><br><span class="line">    return new DirectByteBuffer(capacity);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 在java堆上分配内存</span><br><span class="line">public static ByteBuffer allocate(int capacity) &#123;</span><br><span class="line">    if (capacity &lt; 0)</span><br><span class="line">        throw new IllegalArgumentException();</span><br><span class="line">    return new HeapByteBuffer(capacity, capacity);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;将array从offset开始的length长的subArray包装到缓冲区buffer中，buffer的position等于offset，limit&#x3D;offset+length</span><br><span class="line">public static ByteBuffer wrap(byte[] array,</span><br><span class="line">                                int offset, int length)</span><br><span class="line">&#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        return new HeapByteBuffer(array, offset, length);</span><br><span class="line">    &#125; catch (IllegalArgumentException x) &#123;</span><br><span class="line">        throw new IndexOutOfBoundsException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 将array数组包装到缓冲区，数组和butebuffer的任意一方存在改动都会互相影响</span><br><span class="line">public static ByteBuffer wrap(byte[] array) &#123;</span><br><span class="line">    return wrap(array, 0, array.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接分配内存，与操作系统的耦合性更高，速度更快，但是分配的开销更大</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ByteBuffer <span class="title">allocateDirect</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DirectByteBuffer(capacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 在java堆上分配内存</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ByteBuffer <span class="title">allocate</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (capacity &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> HeapByteBuffer(capacity, capacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//将array从offset开始的length长的subArray包装到缓冲区buffer中，buffer的position等于offset，limit=offset+length</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ByteBuffer <span class="title">wrap</span><span class="params">(<span class="keyword">byte</span>[] <span class="built_in">array</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                                <span class="keyword">int</span> offset, <span class="keyword">int</span> length)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HeapByteBuffer(<span class="built_in">array</span>, offset, length);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IllegalArgumentException x) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 将array数组包装到缓冲区，数组和butebuffer的任意一方存在改动都会互相影响</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ByteBuffer <span class="title">wrap</span><span class="params">(<span class="keyword">byte</span>[] <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> wrap(<span class="built_in">array</span>, <span class="number">0</span>, <span class="built_in">array</span>.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><em><strong>ByteBuffer.warp(byte[])以一个数组创建buffer后，该buffer默认处于读模式，即position=0,limit=capacity。此时若使用put进行写入，将从0位置开始覆盖掉初始化数组的数据。因此，若初始化的数据是有用数据，在写入开始前应使用compact()压实后，从尾部开始写入。</strong></em></p>
 <ol start="2">
-<li>缓冲区数据的读写<br>Buffer的工作方式主要为向缓冲区写入数据或者从缓冲区读取数据。<br><br>Buffer的缓冲区长度capacity在初始化之后就是不可修改的，只能通过position与limit划分活动区域。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 获取活动区域的数据长度</span><br><span class="line">public final int remaining() &#123;</span><br><span class="line">    int rem &#x3D; limit - position;</span><br><span class="line">    return rem &gt; 0 ? rem : 0;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 判断该缓冲区是否还存在活动区域</span><br><span class="line">public final boolean hasRemaining() &#123;</span><br><span class="line">    return position &lt; limit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<br>缓冲区数据的读写方法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 相对位置读，读取的字节是该缓冲区的当前position，读完后，position+1</span><br><span class="line">public abstract byte get();</span><br><span class="line">&#x2F;&#x2F; 相对位置写，写入的字节是该缓冲区的当前position，写完后，position+1</span><br><span class="line">public abstract ByteBuffer put(byte b);</span><br><span class="line">&#x2F;&#x2F; 绝对位置读（绝对位置的读写是不会修改positon的值的）</span><br><span class="line">public abstract byte get(int index);</span><br><span class="line">&#x2F;&#x2F; 绝对位置写</span><br><span class="line"> public abstract ByteBuffer put(int index, byte b);</span><br><span class="line">&#x2F;&#x2F; 相对位置读取大块量数据到数组中</span><br><span class="line">public ByteBuffer get(byte[] dst, int offset, int length) &#123;</span><br><span class="line">    checkBounds(offset, length, dst.length);</span><br><span class="line">    if (length &gt; remaining())</span><br><span class="line">        throw new BufferUnderflowException();</span><br><span class="line">    int end &#x3D; offset + length;</span><br><span class="line">    for (int i &#x3D; offset; i &lt; end; i++)</span><br><span class="line">        dst[i] &#x3D; get();</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line"> public ByteBuffer get(byte[] dst) &#123;</span><br><span class="line">    return get(dst, 0, dst.length);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 相对位置写入大批量数据</span><br><span class="line">public ByteBuffer put(ByteBuffer src) &#123;</span><br><span class="line">    if (src &#x3D;&#x3D; this)</span><br><span class="line">        throw new IllegalArgumentException();</span><br><span class="line">    if (isReadOnly())</span><br><span class="line">        throw new ReadOnlyBufferException();</span><br><span class="line">    int n &#x3D; src.remaining();</span><br><span class="line">    if (n &gt; remaining())</span><br><span class="line">        throw new BufferOverflowException();</span><br><span class="line">    for (int i &#x3D; 0; i &lt; n; i++)</span><br><span class="line">        put(src.get());</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">public ByteBuffer put(byte[] src, int offset, int length) &#123;</span><br><span class="line">    checkBounds(offset, length, src.length);</span><br><span class="line">    if (length &gt; remaining())</span><br><span class="line">        throw new BufferOverflowException();</span><br><span class="line">    int end &#x3D; offset + length;</span><br><span class="line">    for (int i &#x3D; offset; i &lt; end; i++)</span><br><span class="line">        this.put(src[i]);</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">public final ByteBuffer put(byte[] src) &#123;</span><br><span class="line">    return put(src, 0, src.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer可以通过调用asXXXBuffer()转换成XXX类型的Buffer，例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 转换得到IntBuffer</span><br><span class="line">public abstract IntBuffer asIntBuffer();</span><br><span class="line">&#x2F;&#x2F; 对应的还有IntBuffer响应的读写方法</span><br><span class="line">public abstract int getInt();</span><br><span class="line">public abstract ByteBuffer putInt(int value);</span><br><span class="line">public abstract int getInt(int index);</span><br><span class="line">public abstract ByteBuffer putInt(int index, int value);</span><br></pre></td></tr></table></figure>
-其他方法，一般在读写模式切换前会调用clear()、flip()、compact()等方法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 清空缓冲区，该方法并不会真的清除缓冲区的数据</span><br><span class="line">public final Buffer clear() &#123;</span><br><span class="line">    position &#x3D; 0;</span><br><span class="line">    limit &#x3D; capacity;</span><br><span class="line">    mark &#x3D; -1;</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 翻转方法，向前反转活动区域，一般用于准备数据读取</span><br><span class="line">public final Buffer flip() &#123;</span><br><span class="line">    limit &#x3D; position;</span><br><span class="line">    position &#x3D; 0;</span><br><span class="line">    mark &#x3D; -1;</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;** The bytes between the buffer&#39;s current position and its limit, if any, are copied to the beginning of the buffer. </span><br><span class="line">* That is, the byte at index p &#x3D; position() is copied to index zero, </span><br><span class="line">*    the byte at index p + 1 is copied to index one, </span><br><span class="line">*    and so forth until the byte at index limit() - 1 is copied to index n &#x3D; limit() - 1 - p. </span><br><span class="line">* The buffer&#39;s position is then set to n+1 and its limit is set to its capacity. </span><br><span class="line">*&#x2F;</span><br><span class="line">&#x2F;&#x2F; 向前压实“活动区域”，准备开始写入。将Buffer中剩余的数据区域移动到头部，再将“活动区域”设置为除数据区域外的末尾部分。</span><br><span class="line">public abstract ByteBuffer compact();</span><br></pre></td></tr></table></figure></li>
+<li>缓冲区数据的读写<br>Buffer的工作方式主要为向缓冲区写入数据或者从缓冲区读取数据。<br><br>Buffer的缓冲区长度capacity在初始化之后就是不可修改的，只能通过position与limit划分活动区域。<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取活动区域的数据长度</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">remaining</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> rem = limit - <span class="built_in">position</span>;</span><br><span class="line">    <span class="keyword">return</span> rem &gt; <span class="number">0</span> ? rem : <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 判断该缓冲区是否还存在活动区域</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">hasRemaining</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">position</span> &lt; limit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<br>缓冲区数据的读写方法：<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 相对位置读，读取的字节是该缓冲区的当前position，读完后，position+1</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> abstract <span class="keyword">byte</span> <span class="title">get</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 相对位置写，写入的字节是该缓冲区的当前position，写完后，position+1</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> abstract ByteBuffer <span class="title">put</span><span class="params">(<span class="keyword">byte</span> b)</span></span>;</span><br><span class="line"><span class="comment">// 绝对位置读（绝对位置的读写是不会修改positon的值的）</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> abstract <span class="keyword">byte</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</span><br><span class="line"><span class="comment">// 绝对位置写</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> abstract ByteBuffer <span class="title">put</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">byte</span> b)</span></span>;</span><br><span class="line"><span class="comment">// 相对位置读取大块量数据到数组中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ByteBuffer <span class="title">get</span><span class="params">(<span class="keyword">byte</span>[] dst, <span class="keyword">int</span> offset, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">    checkBounds(offset, length, dst.length);</span><br><span class="line">    <span class="keyword">if</span> (length &gt; remaining())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> BufferUnderflowException();</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">end</span> = offset + length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = offset; i &lt; <span class="built_in">end</span>; i++)</span><br><span class="line">        dst[i] = <span class="built_in">get</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> ByteBuffer <span class="title">get</span><span class="params">(<span class="keyword">byte</span>[] dst)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">get</span>(dst, <span class="number">0</span>, dst.length);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 相对位置写入大批量数据</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ByteBuffer <span class="title">put</span><span class="params">(ByteBuffer src)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (src == <span class="keyword">this</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    <span class="keyword">if</span> (isReadOnly())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ReadOnlyBufferException();</span><br><span class="line">    <span class="keyword">int</span> n = src.remaining();</span><br><span class="line">    <span class="keyword">if</span> (n &gt; remaining())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> BufferOverflowException();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        <span class="built_in">put</span>(src.<span class="built_in">get</span>());</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> ByteBuffer <span class="title">put</span><span class="params">(<span class="keyword">byte</span>[] src, <span class="keyword">int</span> offset, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">    checkBounds(offset, length, src.length);</span><br><span class="line">    <span class="keyword">if</span> (length &gt; remaining())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> BufferOverflowException();</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">end</span> = offset + length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = offset; i &lt; <span class="built_in">end</span>; i++)</span><br><span class="line">        <span class="keyword">this</span>.<span class="built_in">put</span>(src[i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> ByteBuffer <span class="title">put</span><span class="params">(<span class="keyword">byte</span>[] src)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">put</span>(src, <span class="number">0</span>, src.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer可以通过调用asXXXBuffer()转换成XXX类型的Buffer，例如：<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 转换得到IntBuffer</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function">IntBuffer <span class="title">asIntBuffer</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 对应的还有IntBuffer响应的读写方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">int</span> <span class="title">getInt</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function">ByteBuffer <span class="title">putInt</span><span class="params">(<span class="keyword">int</span> value)</span></span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">int</span> <span class="title">getInt</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function">ByteBuffer <span class="title">putInt</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> value)</span></span>;</span><br></pre></td></tr></table></figure>
+其他方法，一般在读写模式切换前会调用clear()、flip()、compact()等方法：<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 清空缓冲区，该方法并不会真的清除缓冲区的数据</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">position</span> = <span class="number">0</span>;</span><br><span class="line">    limit = capacity;</span><br><span class="line">    mark = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 翻转方法，向前反转活动区域，一般用于准备数据读取</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">flip</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    limit = <span class="built_in">position</span>;</span><br><span class="line">    <span class="built_in">position</span> = <span class="number">0</span>;</span><br><span class="line">    mark = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/** The bytes between the buffer&#x27;s current position and its limit, if any, are copied to the beginning of the buffer. </span></span><br><span class="line"><span class="comment">* That is, the byte at index p = position() is copied to index zero, </span></span><br><span class="line"><span class="comment">*    the byte at index p + 1 is copied to index one, </span></span><br><span class="line"><span class="comment">*    and so forth until the byte at index limit() - 1 is copied to index n = limit() - 1 - p. </span></span><br><span class="line"><span class="comment">* The buffer&#x27;s position is then set to n+1 and its limit is set to its capacity. </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// 向前压实“活动区域”，准备开始写入。将Buffer中剩余的数据区域移动到头部，再将“活动区域”设置为除数据区域外的末尾部分。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> abstract ByteBuffer <span class="title">compact</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></li>
 </ol>
 
     </div>
@@ -381,7 +408,10 @@ Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer
     <a href="/2021/03/23/RocketMQ%E8%A7%A3%E6%9E%90%E4%BA%8C/" rel="prev" title="RocketMQ解析二">
       <i class="fa fa-chevron-left"></i> RocketMQ解析二
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/24/%E6%96%AD%E8%A8%80Assert/" rel="next" title="断言Assert">
+      断言Assert <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -394,6 +424,7 @@ Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -456,14 +487,14 @@ Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -513,18 +544,20 @@ Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">22k</span>
+    <span title="站点总字数">21k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">20 分钟</span>
+    <span title="站点阅读时长">19 分钟</span>
 </div>
+<!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
+-->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共9.1k字</span>
+  <span class="post-count">博客全站共8.9k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -584,6 +617,92 @@ $(document).ready(function() {
 
 
 
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"giRPg6HGm1jyv6lWITnwRaJG-gzGzoHsz","app_key":"pN0FF2MXA2F1MNracOTfJbW8","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
 
 
       </div>
@@ -636,6 +755,35 @@ $(document).ready(function() {
   
 
   
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'giRPg6HGm1jyv6lWITnwRaJG-gzGzoHsz',
+      appKey     : 'pN0FF2MXA2F1MNracOTfJbW8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
   <!-- 页面点击小红心 -->
   <script type="text/javascript" src="/js/src/click-love.js"></script>
