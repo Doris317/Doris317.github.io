@@ -22,17 +22,18 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。 什么是ZeroMQZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。Zero支持的通信模型有：发布订阅、请求响应、C&#x2F;S等。ZeroMQ支持多">
+  <meta name="description" content="前言最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。 什么是ZeroMQZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。Zero支持的通信模型有：发布订阅、请求响应、推拉模式以及Router&#x2F;D">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ZeroMQ解析一">
+<meta property="og:title" content="ZeroMQ概念入门">
 <meta property="og:url" content="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
-<meta property="og:description" content="前言最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。 什么是ZeroMQZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。Zero支持的通信模型有：发布订阅、请求响应、C&#x2F;S等。ZeroMQ支持多">
+<meta property="og:description" content="前言最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。 什么是ZeroMQZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。Zero支持的通信模型有：发布订阅、请求响应、推拉模式以及Router&#x2F;D">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/req-reply.png">
 <meta property="article:published_time" content="2021-03-26T03:11:00.000Z">
-<meta property="article:modified_time" content="2021-03-26T06:42:31.685Z">
+<meta property="article:modified_time" content="2021-03-26T10:17:19.175Z">
 <meta property="article:author" content="Doris">
+<meta property="article:tag" content="C++、 Java">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/req-reply.png">
 
@@ -49,7 +50,7 @@
   };
 </script>
 
-  <title>ZeroMQ解析一 | Doris的搬砖日记</title>
+  <title>ZeroMQ概念入门 | Doris的搬砖日记</title>
   
 
 
@@ -130,17 +131,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">4</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">18</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -216,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ZeroMQ解析一
+          ZeroMQ概念入门
         </h1>
 
         <div class="post-meta">
@@ -230,9 +231,18 @@
 
               <time title="创建时间：2021-03-26 11:11:00" itemprop="dateCreated datePublished" datetime="2021-03-26T11:11:00+08:00">2021-03-26</time>
             </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">网络通信、消息队列</span></a>
+                </span>
+            </span>
 
           
-            <span id="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/" class="post-meta-item leancloud_visitors" data-flag-title="ZeroMQ解析一" title="热度">
+            <span id="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/" class="post-meta-item leancloud_visitors" data-flag-title="ZeroMQ概念入门" title="热度">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -286,7 +296,7 @@
 
       
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。</p>
-<h3 id="什么是ZeroMQ"><a href="#什么是ZeroMQ" class="headerlink" title="什么是ZeroMQ"></a>什么是ZeroMQ</h3><p>ZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。<br><br>Zero支持的通信模型有：发布订阅、请求响应、C/S等。ZeroMQ支持多种语言，比如C、C++、Java、Python等。</p>
+<h3 id="什么是ZeroMQ"><a href="#什么是ZeroMQ" class="headerlink" title="什么是ZeroMQ"></a>什么是ZeroMQ</h3><p>ZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。<br><br>Zero支持的通信模型有：发布订阅、请求响应、推拉模式以及Router/Dealer模式等。ZeroMQ支持多种语言，比如C、C++、Java、Python等。</p>
 <span id="more"></span>
 
 <h3 id="请求响应模式"><a href="#请求响应模式" class="headerlink" title="请求响应模式"></a>请求响应模式</h3><p>程序员的入门方式一定是以“HelloWord”开始的，这里我们以ZeroMQ官方给出的例子来简单解释下其请求响应方式下的工作流程。<br><br>首先新建一个client和server，client向server发送“hello”请求，而server在接收到该请求的时候回复“world”。<br><br><div align="center"><img src="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/req-reply.png" alt="req-reply.png"></div><br>客户端代码(C++)：</p>
@@ -341,7 +351,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/" title="ZeroMQ解析一">http://example.com/2021/03/26/ZeroMQ解析一/</a>
+    <a href="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/" title="ZeroMQ概念入门">http://example.com/2021/03/26/ZeroMQ解析一/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -380,6 +390,9 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-%E3%80%81-Java/" rel="tag"># C++、 Java</a>
+          </div>
 
         
 
@@ -390,7 +403,10 @@
     <a href="/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/" rel="prev" title="Paxos">
       <i class="fa fa-chevron-left"></i> Paxos
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/26/pthread-key-create/" rel="next" title="pthread_key_create">
+      pthread_key_create <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -466,20 +482,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>ZeroMQ解析一</title>
+    <title>pthread_key_create</title>
+    <url>/2021/03/26/pthread-key-create/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>ZeroMQ概念入门</title>
     <url>/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。</p>
-<h3 id="什么是ZeroMQ"><a href="#什么是ZeroMQ" class="headerlink" title="什么是ZeroMQ"></a>什么是ZeroMQ</h3><p>ZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。<br><br>Zero支持的通信模型有：发布订阅、请求响应、C/S等。ZeroMQ支持多种语言，比如C、C++、Java、Python等。</p>
+<h3 id="什么是ZeroMQ"><a href="#什么是ZeroMQ" class="headerlink" title="什么是ZeroMQ"></a>什么是ZeroMQ</h3><p>ZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。<br><br>Zero支持的通信模型有：发布订阅、请求响应、推拉模式以及Router/Dealer模式等。ZeroMQ支持多种语言，比如C、C++、Java、Python等。</p>
 <span id="more"></span>
 
 <h3 id="请求响应模式"><a href="#请求响应模式" class="headerlink" title="请求响应模式"></a>请求响应模式</h3><p>程序员的入门方式一定是以“HelloWord”开始的，这里我们以ZeroMQ官方给出的例子来简单解释下其请求响应方式下的工作流程。<br><br>首先新建一个client和server，client向server发送“hello”请求，而server在接收到该请求的时候回复“world”。<br><br><div align="center"><img src="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/req-reply.png" alt="req-reply.png"></div><br>客户端代码(C++)：</p>
@@ -14,6 +19,12 @@
 <p>注意：ZeroMQ的请求应答模型的消息发送是有一定规则的，client需要以整体一次或者循环调用zmq_send()和zmq_recv()，如果连续发送两次zmq_send()将会报错返回-1；同样的在server端也是需要依次调用zmq_recv()和zmq_send()。</p>
 <h3 id="特殊的命名方式"><a href="#特殊的命名方式" class="headerlink" title="特殊的命名方式"></a>特殊的命名方式</h3><p>ZeroMQ源码中以s_开头的表示是静态方法或者静态变量</p>
 ]]></content>
+      <categories>
+        <category>网络通信、消息队列</category>
+      </categories>
+      <tags>
+        <tag>C++、 Java</tag>
+      </tags>
   </entry>
   <entry>
     <title>Paxos</title>
