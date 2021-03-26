@@ -22,19 +22,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="__attribute__是GNU C特色之一，可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute)等. 语法格式： __attribute __((abute-list)) 位置：声明结束符“；”的前面 在使用__attribute__参数时，你也可以在参数的前后都加上“__”（两个下划线），例如">
+  <meta name="description" content="前言最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。 什么是ZeroMQZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。Zero支持的通信模型有：发布订阅、请求响应、C&#x2F;S等。ZeroMQ支持多">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++学习之__attribute__机制">
-<meta property="og:url" content="http://example.com/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/index.html">
+<meta property="og:title" content="ZeroMQ解析一">
+<meta property="og:url" content="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
-<meta property="og:description" content="__attribute__是GNU C特色之一，可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute)等. 语法格式： __attribute __((abute-list)) 位置：声明结束符“；”的前面 在使用__attribute__参数时，你也可以在参数的前后都加上“__”（两个下划线），例如">
+<meta property="og:description" content="前言最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。 什么是ZeroMQZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。Zero支持的通信模型有：发布订阅、请求响应、C&#x2F;S等。ZeroMQ支持多">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-03-17T07:24:08.000Z">
-<meta property="article:modified_time" content="2021-03-17T13:48:39.885Z">
+<meta property="og:image" content="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/req-reply.png">
+<meta property="article:published_time" content="2021-03-26T03:11:00.000Z">
+<meta property="article:modified_time" content="2021-03-26T06:19:01.814Z">
 <meta property="article:author" content="Doris">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/req-reply.png">
 
-<link rel="canonical" href="http://example.com/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/">
+<link rel="canonical" href="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/">
 
 
 <script id="page-configurations">
@@ -47,7 +49,7 @@
   };
 </script>
 
-  <title>C++学习之__attribute__机制 | Doris的搬砖日记</title>
+  <title>ZeroMQ解析一 | Doris的搬砖日记</title>
   
 
 
@@ -201,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/WebImage.jpg">
@@ -214,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C++学习之__attribute__机制
+          ZeroMQ解析一
         </h1>
 
         <div class="post-meta">
@@ -226,20 +228,11 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-17 15:24:08" itemprop="dateCreated datePublished" datetime="2021-03-17T15:24:08+08:00">2021-03-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-                </span>
+              <time title="创建时间：2021-03-26 11:11:00" itemprop="dateCreated datePublished" datetime="2021-03-26T11:11:00+08:00">2021-03-26</time>
             </span>
 
           
-            <span id="/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/" class="post-meta-item leancloud_visitors" data-flag-title="C++学习之__attribute__机制" title="热度">
+            <span id="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/" class="post-meta-item leancloud_visitors" data-flag-title="ZeroMQ解析一" title="热度">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -262,8 +255,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -273,14 +266,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.9k</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -292,147 +285,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>__attribute__是GNU C特色之一，可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute)等.</p>
-<p>语法格式： __attribute __((abute-list))</p>
-<p>位置：声明结束符“；”的前面</p>
-<p><em>在使用__attribute__参数时，你也可以在参数的前后都加上“__”（两个下划线），例如，使用__aligned__而不是aligned，这样，你就可以在相应的头文件里使用它而不用关心头文件里是否有重名的宏定义。</em></p>
-<h1 id="函数属性"><a href="#函数属性" class="headerlink" title="函数属性"></a>函数属性</h1><p>函数属性可以帮助开发者把一些特性添加到函数声明中，从而可以使编译器在错误检查方面的功能更强大。</p>
-<p>GNU CC需要使用 –Wall，这是控制警告信息的一个很好的方式。</p>
-<p>下面是常见的属性参数：</p>
-<table>
-<thead>
-<tr>
-<th align="left">参数名</th>
-<th align="center">语法格式</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">noreturn</td>
-<td align="center">noreturn</td>
-<td align="left">该属性通知编译器函数从不返回值。<br>当遇到函数需要返回值却还没运行到返回值处就已退出来的情况，该属性可以避免出现错误信息。<br>C库函数中的abort（）和exit（）的声明格式就采用了这种格式：<br>   (1) extern void  exit(int)   <strong>attribute</strong>( ( noreturn ) );<br>   (2) extern void  abort(void)  <strong>attribute</strong>( ( noreturn ) );</td>
-</tr>
-<tr>
-<td align="left">noinline</td>
-<td align="center">noinline</td>
-<td align="left">用inline修饰的函数能否形成内联，需要看编译器对该函数定义的具体处理。该参数表示：不内联</td>
-</tr>
-<tr>
-<td align="left">always_inline</td>
-<td align="center">always_inline</td>
-<td align="left">总是内联</td>
-</tr>
-<tr>
-<td align="left">const</td>
-<td align="center">const</td>
-<td align="left">该属性只能用于带有数值类型参数的函数上，当重复调用带有数值参数的函数时，由于返回值是相同的。所以此时编译器可以进行优化处理，除第一次需要运算外， 其它只需要返回第一次的结果。<br> <em><strong>const参数不能用在带有指针类型参数的函数中，因为该属性不但影响函数的参数值，同样也影响到了参数指向的数据，它可能会对代码本身产生严重甚至是不可恢复的严重后果。</strong></em></td>
-</tr>
-<tr>
-<td align="left">format</td>
-<td align="center">format (archetype, string-index, first-to-check)</td>
-<td align="left">该属性可以给被声明的函数加上类似printf或者scanf的特征，它可以使编译器检查函数声明和函数实际调用参数之间的格式化字符串是否匹配。<br>format属性告诉编译器，按照 printf, scanf, strftime或strfmon的参数表格式规则对该函数的参数进行检查。<br>“archetype”指定是哪种风格；<br>“string-index”指定传入函数的第几个参数是格式化字符串；<br>“first-to-check”指定第一个可变参数所在的索引。</td>
-</tr>
-<tr>
-<td align="left">finstrument-functions</td>
-<td align="center">finstrument-functions</td>
-<td align="left">该参数可以使程序在编译时，在函数的入口和出口处生成instrumentation调用。增加的这两个函数分别为：<br> <code>void __cyg_profile_func_enter (void *this_fn, void *call_site);</code> <br> <code>void __cyg_profile_func_exit  (void *this_fn, void *call_site);</code><br>其中第一个参数为当前函数的起始地址，第二个参数为返回地址，即caller函数中的地址。</td>
-</tr>
-<tr>
-<td align="left">no_instrument_function</td>
-<td align="center">no_instrument_function</td>
-<td align="left">gcc加上“-finstrument-functions”选项用来跟踪函数的调用关系，在每个函数的入口和出口处会各增加一个额外的hook函数的调用。如果不想跟踪某个函数，可以给该函数指定“no_instrument_function”属性。</td>
-</tr>
-<tr>
-<td align="left">constructor</td>
-<td align="center">constructor/constructor(n)</td>
-<td align="left">若函数被设定为constructor属性，则该函数会在 main（）函数执行之前被自动的执行。<br>n表示当存在多个被修饰的函数时，执行的优先级顺序，如果没设置n，则执行顺序不确定，其中[0,100]是系统保留的,不可以调用。数值越小,越先调用。<br><em><strong>执行顺序为:load-&gt;constructor-&gt;main，因为：dyld（动态链接器，程序的最初起点）在加载 image（可以理解成 Mach-O 文件）时会先通知 objc runtime 去加载其中所有的类，每加载一个类时，它的 +load 随之调用，全部加载完成后，dyld 才会调用这个 image 中所有的 constructor 方法,然后才调用main函数.</strong></em></td>
-</tr>
-<tr>
-<td align="left">destructor</td>
-<td align="center">destructor/destructor(n)</td>
-<td align="left">与constructor相似，若函数被设定为destructor属性，则该函数会在main（）函数执行之后或者exit（）被调用后被自动的执行。<br>  拥有此类属性的函数经常隐式的用在程序的初始化数据方面。数值越大,越先调用</td>
-</tr>
-<tr>
-<td align="left">unavailable</td>
-<td align="center">unavailable(“错误信息”)</td>
-<td align="left">适用于方法、属性。告诉编译器不可用。如果使用了，就会编译失败，提示错误信息</td>
-</tr>
-<tr>
-<td align="left">deprecated</td>
-<td align="center">deprecated(“警告信息”)</td>
-<td align="left">适用于方法、属性。告诉编译器已经过时，如果使用了，会报过时警告</td>
-</tr>
-<tr>
-<td align="left">nonnull</td>
-<td align="center">nonnull(int,int,…)</td>
-<td align="left">编译器对函数参数进行NULL的检查,参数类型必须是指针类型(包括对象)</td>
-</tr>
-<tr>
-<td align="left">visibility</td>
-<td align="center">visibility(“visibilityType”)</td>
-<td align="left">该关键字与gcc编译参数-fvisibility=hidden配合使用。<br>visibility_type 是下列值之一：<br>  <strong>default</strong>:先使用-fvisibility=hidden将所有符号隐藏，然后在需要对外的符号前添加__attribute__((visibility(“default”)))属性来保证符号对外可见;<br>  <strong>hidden</strong>:该符号不存放在动态符号表中，因此，其他可执行文件或共享库都无法直接引用它。使用函数指针可进行间接引用。将-fvisibility设置为”default”或不设置这个属性，默认所有符号都对外可见，然后在不对外可见的函数或变量前添加__attribute__((visibility(“hidden”)))来隐藏该符号。<br>  <strong>internal</strong>:除非由特定于处理器的应用二进制接口 (psABI) 指定，否则，内部可见性意味着不允许从另一模块调用该函数;<br>  <strong>protected</strong>:该符号存放在动态符号表中，但定义模块内的引用将与局部符号绑定。也就是说，另一模块无法覆盖该符号。</td>
-</tr>
-</tbody></table>
-<h2 id="同时使用多个参数"><a href="#同时使用多个参数" class="headerlink" title="同时使用多个参数"></a>同时使用多个参数</h2><p>可以在同一个函数声明里使用多个__attribute__。使用方式上，你可以选择两个单独的__attribute__，或者把它们写在一起，比如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span>  <span class="title">die</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *format， ...)</span>   __<span class="title">attribute__</span><span class="params">( (noreturn))</span>   __<span class="title">attribute__</span><span class="params">((format(<span class="built_in">printf</span>, <span class="number">1</span>, <span class="number">2</span>)) )</span></span>;</span><br></pre></td></tr></table></figure>
-<p>或者:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span>  <span class="title">die</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *format，...)</span>    __attribute __<span class="params">( (noreturn,  format(<span class="built_in">printf</span>, <span class="number">1</span>, <span class="number">2</span>)) )</span></span>;</span><br></pre></td></tr></table></figure>
-<p>如果带有该属性的自定义函数被追加到库的头文件里，那么所以调用该函数的程序都要做相应的检查。</p>
-<p>需要说明的是，__attribute__适用于函数的声明而不是函数的定义。所以，当需要使用该属性的函数时，必须在同一个文件里进行声明，例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 函数声明 */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">die</span><span class="params">( <span class="keyword">const</span> <span class="keyword">char</span> *format， ... )</span> __attribute __<span class="params">( (noreturn) )</span> __attribute __<span class="params">( ( format(<span class="built_in">printf</span>，<span class="number">1</span>，<span class="number">2</span>) ) )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">die</span><span class="params">( <span class="keyword">const</span> <span class="keyword">char</span> *format，... )</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/* 函数定义 */</span>  </span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="变量属性"><a href="#变量属性" class="headerlink" title="变量属性"></a>变量属性</h1><p>关键字__attribute__也可以对变量（variable）或结构体成员（structure field）进行属性设置。</p>
-<p>下面是常见的属性参数：</p>
-<table>
-<thead>
-<tr>
-<th align="left">参数名</th>
-<th align="center">语法格式</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">aligned</td>
-<td align="center">aligned(n)</td>
-<td align="left">让所作用的结构成员对齐在n字节自然边界上。如果结构中有成员的长度大于n，则按照最大成员的长度来对齐。<br> <em><strong>aligned后面必须跟2的次幂，其他的编译器报错。当我们传入1和2的时候，编译器模式都是以4字节对齐的，且只有结构体上下两个字段是char类型的才会将其合并处理</strong></em></td>
-</tr>
-<tr>
-<td align="left">packed</td>
-<td align="center">packed</td>
-<td align="left">用packed修饰后,变为1字节对齐,这个常用于与协议有关的网络传输中.</td>
-</tr>
-<tr>
-<td align="left">cleanup</td>
-<td align="center">cleanup(func)</td>
-<td align="left">声明到一个变量上，当这个变量作用域结束时，调用指定的一个函数。<br>   指定的函数传递的参数是变量的地址;<br>   当作用域内有多个cleanup的变量时,遵守先入后出的栈式结构。<br><em><strong>cleanup的执行先于dealloc</strong></em></td>
-</tr>
-</tbody></table>
-<h1 id="类型属性"><a href="#类型属性" class="headerlink" title="类型属性"></a>类型属性</h1><p>关键字__attribute__也可以对结构体（struct）或共用体（union）进行属性设置。</p>
-<p>下面是常见的属性参数：</p>
-<table>
-<thead>
-<tr>
-<th align="left">参数名</th>
-<th align="center">语法格式</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">aligned</td>
-<td align="center">aligned(n)</td>
-<td align="left">让所作用的结构成员对齐在n字节自然边界上。如果结构中有成员的长度大于n，则按照最大成员的长度来对齐。<br> <em><strong>aligned后面必须跟2的次幂，其他的编译器报错。当我们传入1和2的时候，编译器模式都是以4字节对齐的，且只有结构体上下两个字段是char类型的才会将其合并处理</strong></em></td>
-</tr>
-<tr>
-<td align="left">packed</td>
-<td align="center">packed</td>
-<td align="left">用packed修饰后,变为1字节对齐,这个常用于与协议有关的网络传输中.</td>
-</tr>
-<tr>
-<td align="left">deprecated</td>
-<td align="center">deprecated(“警告信息”)</td>
-<td align="left">适用于方法、属性。告诉编译器已经过时，如果使用了，会报过时警告</td>
-</tr>
-</tbody></table>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。</p>
+<h3 id="什么是ZeroMQ"><a href="#什么是ZeroMQ" class="headerlink" title="什么是ZeroMQ"></a>什么是ZeroMQ</h3><p>ZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。<br><br>Zero支持的通信模型有：发布订阅、请求响应、C/S等。ZeroMQ支持多种语言，比如C、C++、Java、Python等。</p>
+<h3 id="请求响应模式"><a href="#请求响应模式" class="headerlink" title="请求响应模式"></a>请求响应模式</h3><p>程序员的入门方式一定是以“HelloWord”开始的，这里我们以ZeroMQ官方给出的例子来简单解释下其请求响应方式下的工作流程。<br><br>首先新建一个client和server，client向server发送“hello”请求，而server在接收到该请求的时候回复“world”。<br><br><div align="center"><img src="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/req-reply.png" alt="req-reply.png"></div><br>客户端代码(C++)：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;zmq.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// initialize the zmq context with a single IO thread</span></span><br><span class="line">    zmq::<span class="keyword">context_t</span> context&#123;<span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// construct a REQ (request) socket and connect to interface</span></span><br><span class="line">    zmq::<span class="keyword">socket_t</span> socket&#123;context, zmq::socket_type::req&#125;;</span><br><span class="line">    socket.<span class="built_in">connect</span>(<span class="string">&quot;tcp://localhost:5555&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// set up some static data to send</span></span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> data&#123;<span class="string">&quot;Hello&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> request_num = <span class="number">0</span>; request_num &lt; <span class="number">10</span>; ++request_num) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// send the request message</span></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Sending Hello &quot;</span> &lt;&lt; request_num &lt;&lt; <span class="string">&quot;...&quot;</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">        socket.send(zmq::<span class="built_in">buffer</span>(data), zmq::send_flags::none);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// wait for reply from server</span></span><br><span class="line">        zmq::<span class="keyword">message_t</span> reply&#123;&#125;;</span><br><span class="line">        socket.recv(reply, zmq::recv_flags::none);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Received &quot;</span> &lt;&lt; reply.to_string(); </span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot; (&quot;</span> &lt;&lt; request_num &lt;&lt; <span class="string">&quot;)&quot;</span>;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>server端代码(C++)：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">/</span><br><span class="line"><span class="comment">//  Hello World server in C++</span></span><br><span class="line"><span class="comment">//  Binds REP socket to tcp://*:5555</span></span><br><span class="line"><span class="comment">//  Expects &quot;Hello&quot; from client, replies with &quot;World&quot;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;zmq.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _WIN32</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> sleep(n)	Sleep(n)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//  Prepare our context and socket</span></span><br><span class="line">    <span class="function">zmq::<span class="keyword">context_t</span> <span class="title">context</span> <span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="function">zmq::<span class="keyword">socket_t</span> <span class="title">socket</span> <span class="params">(context, ZMQ_REP)</span></span>;</span><br><span class="line">    socket.bind (<span class="string">&quot;tcp://*:5555&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        zmq::<span class="keyword">message_t</span> request;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//  Wait for next request from client</span></span><br><span class="line">        socket.recv (&amp;request);</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Received Hello&quot;</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//  Do some &#x27;work&#x27;</span></span><br><span class="line">    	sleep(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//  Send reply back to client</span></span><br><span class="line">        <span class="function">zmq::<span class="keyword">message_t</span> <span class="title">reply</span> <span class="params">(<span class="number">5</span>)</span></span>;</span><br><span class="line">        <span class="built_in">memcpy</span> (reply.data (), <span class="string">&quot;World&quot;</span>, <span class="number">5</span>);</span><br><span class="line">        socket.send (reply);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：ZeroMQ的请求应答模型的消息发送是有一定规则的，client需要以整体一次或者循环调用zmq_send()和zmq_recv()，如果连续发送两次zmq_send()将会报错返回-1；同样的在server端也是需要依次调用zmq_recv()和zmq_send()。</p>
+<h3 id="特殊的命名方式"><a href="#特殊的命名方式" class="headerlink" title="特殊的命名方式"></a>特殊的命名方式</h3><p>ZeroMQ源码中以s_开头的表示是静态方法或者静态变量</p>
 
     </div>
 
@@ -479,7 +339,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/" title="C++学习之__attribute__机制">http://example.com/2021/03/17/C-学习之-attribute/</a>
+    <a href="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/" title="ZeroMQ解析一">http://example.com/2021/03/26/ZeroMQ解析一/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -525,13 +385,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/11/RocketMQ%E4%B9%8BRemotingCommand/" rel="prev" title="RocketMQ源码解析之RemotingCommand">
-      <i class="fa fa-chevron-left"></i> RocketMQ源码解析之RemotingCommand
+    <a href="/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/" rel="prev" title="Paxos">
+      <i class="fa fa-chevron-left"></i> Paxos
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/22/%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%80%80%E5%87%BA/" rel="next" title="进程创建与退出">
-      进程创建与退出 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -591,7 +448,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%B1%9E%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">函数属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">同时使用多个参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%B1%9E%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">变量属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%B1%9E%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">类型属性</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFZeroMQ"><span class="nav-number">2.</span> <span class="nav-text">什么是ZeroMQ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%93%8D%E5%BA%94%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">请求响应模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84%E5%91%BD%E5%90%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">特殊的命名方式</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
