@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-03-26T06:41:06.366Z</updated>
+  <updated>2021-03-26T06:42:31.685Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,16 +21,11 @@
     <link href="http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/"/>
     <id>http://example.com/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/</id>
     <published>2021-03-26T03:11:00.000Z</published>
-    <updated>2021-03-26T06:41:06.366Z</updated>
+    <updated>2021-03-26T06:42:31.685Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;最近在代码评审的过程中，接触到了一个新的之前没接触过的通信框架——ZeroMQ。所以打算借助代码评审的过程对该框架进行学习，并写些博客作为心得笔记。&lt;/p&gt;
+&lt;h3 id=&quot;什么是ZeroMQ&quot;&gt;&lt;a href=&quot;#什么是ZeroMQ&quot; class=&quot;headerlink&quot; title=&quot;什么是ZeroMQ&quot;&gt;&lt;/a&gt;什么是ZeroMQ&lt;/h3&gt;&lt;p&gt;ZeroMQ是一个用于分布式或者并发环境下的高性能的异步通信框架。它支持在多种协议上进行消息传递，比如TCP、进程内、进程间、组播以及socket通信等。&lt;br&gt;&lt;br&gt;Zero支持的通信模型有：发布订阅、请求响应、C/S等。ZeroMQ支持多种语言，比如C、C++、Java、Python等。&lt;/p&gt;</summary>
     
     
     
