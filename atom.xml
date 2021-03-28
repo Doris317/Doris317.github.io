@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-03-26T09:24:18.599Z</updated>
+  <updated>2021-03-28T23:01:32.709Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,11 +21,20 @@
     <link href="http://example.com/2021/03/26/pthread-key-create/"/>
     <id>http://example.com/2021/03/26/pthread-key-create/</id>
     <published>2021-03-26T09:24:18.000Z</published>
-    <updated>2021-03-26T09:24:18.599Z</updated>
+    <updated>2021-03-28T23:01:32.709Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;最近在工作中重新深入认识了一个函数pthread_key_create。深入挖掘该函数源码，才发现这就是java中的ThreadLocal。&lt;br&gt;&lt;br&gt;其实这就是线程本地变量的概念。因为在多线程的程序中，线程是共享程序中的全局变量的。而对于线程本地变量，每一个变量是拥有该全局变量的一个副本，各线程对该变量的修改是线程内可见，线程间不影响。&lt;/p&gt;
+&lt;h3 id=&quot;pthread-key-create&quot;&gt;&lt;a href=&quot;#pthread-key-create&quot; class=&quot;headerlink&quot; title=&quot;pthread_key_create&quot;&gt;&lt;/a&gt;pthread_key_create&lt;/h3&gt;&lt;p&gt;函数声明：&lt;/p&gt;
+&lt;figure class=&quot;highlight delphi&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;int pthread_key_create(pthread_key_t *key, void &lt;span class=&quot;comment&quot;&gt;(*destructor)(void*)&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;参数1：pthread_key_t *key，pthread_key_create函数从 TSD ((Thread-specific Data) 池中分配一项，将其地址值赋给 key 供以后访问使用。&lt;br&gt;&lt;br&gt;参数2：是一个清理函数，用来在线程退出(调用 pthread_exit() 函数)时将以 key 锁关联的数据作为参数调用它，以释放分配的缓冲区，或是关闭文件流等。该函数指针可以设成 NULL，这样系统将调用默认的清理函数。该函数成功返回0.其他任何返回值都表示出现了错误。&lt;/p&gt;</summary>
     
     
     
+    <category term="C++" scheme="http://example.com/categories/C/"/>
     
+    
+    <category term="linux、线程" scheme="http://example.com/tags/linux%E3%80%81%E7%BA%BF%E7%A8%8B/"/>
     
   </entry>
   
