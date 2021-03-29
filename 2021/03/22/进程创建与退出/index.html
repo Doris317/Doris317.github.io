@@ -30,7 +30,7 @@
 <meta property="og:description" content="前言最近在参与公司某项目平台组件代码评审的任务，刚好与操作系统的进程创建管理相关。于是，就想就着工作中发现的问题以及自己的一些总结来写点什么，既是复习又是学习。  进程与线程老生常谈，各博客平台写烂了的东西。  Linux系统特殊的进程　　在Linux系统中，除了系统启动之后的第一个进程由系统来创建，其余的进程都必须由某个父进程来创建。  0号进程：　　在系统启动及完成初始化之后，Linux自动创">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-22T08:49:20.000Z">
-<meta property="article:modified_time" content="2021-03-22T15:13:13.898Z">
+<meta property="article:modified_time" content="2021-03-29T13:27:14.482Z">
 <meta property="article:author" content="Doris">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
@@ -274,14 +274,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.7k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -352,14 +352,12 @@
 </tbody></table>
 <p>fork与vfork都是由clone实现，底层是调用了内核的_do_fork函数。</p>
 <h3 id="fork详解"><a href="#fork详解" class="headerlink" title="fork详解"></a>fork详解</h3><ol>
-<li><p>写时复制：在fork之后exec之前两个进程用的是相同的物理空间（内存区），子进程的代码段、数据段、堆栈都是指向父进程的物理空间，也就是说，两者的虚拟空间不同，但其对应的物理空间是同一个。<br>当父子进程中有更改相应段的行为发生时，再为子进程相应的段分配物理空间，如果不是因为exec，内核会给子进程的数据段、堆栈段分配相应的物理空间（至此两者有各自的进程空间，互不影响），而代码段继续共享父进程的物理空间（两者的代码完全相同）。而如果是因为exec，由于两者执行的代码不同，子进程的代码段也会分配单独的物理空间。</p>
-<br>
+<li>写时复制：在fork之后exec之前两个进程用的是相同的物理空间（内存区），子进程的代码段、数据段、堆栈都是指向父进程的物理空间，也就是说，两者的虚拟空间不同，但其对应的物理空间是同一个。<br>当父子进程中有更改相应段的行为发生时，再为子进程相应的段分配物理空间，如果不是因为exec，内核会给子进程的数据段、堆栈段分配相应的物理空间（至此两者有各自的进程空间，互不影响），而代码段继续共享父进程的物理空间（两者的代码完全相同）。而如果是因为exec，由于两者执行的代码不同，子进程的代码段也会分配单独的物理空间。<br>
 因为当fork()后立即执行exec()，地址空间就无需被复制了。fork()的实际开销就是复制父进程的页表以及给子进程创建一个进程描述符。在一般情况下，进程创建后都为马上运行一个可执行的文件，这种优化，可以避免拷贝大量根本就不会被使用的数据(地址空间里常常包含数十兆的数据)。
 ***<br>而vfork是连虚拟内存空间都不会创建，直接共享父进程的虚拟空间，即共享父进程的物理空间。***</li>
-<li><p>fork的另一个特性是所有由父进程打开的描述符都被复制到子进程中。父、子进程中相同编号的文件描述符在内核中指向同一个file结构体，也就是说，file结构体的引用计数要增加。</p>
-</li>
-<li><p>fork创建进程失败返回-1，如果是子进程返回值为0，如果是父进程则返回子进程的pid。一个进程要执行一个不同的程序。比如fork后，子进程调用exec函数</p>
-</li>
+<li>fork的另一个特性是所有由父进程打开的描述符都被复制到子进程中。父、子进程中相同编号的文件描述符在内核中指向同一个file结构体，也就是说，file结构体的引用计数要增加。</li>
+<li>fork创建进程失败返回-1，如果是子进程返回值为0，如果是父进程则返回子进程的pid。一个进程要执行一个不同的程序，比如fork后，子进程调用exec函数。</li>
+<li>fork 还有一个特点：子进程不是从 main 函数开始执行的，而是从 fork 返回的地方开始</li>
 </ol>
 <h2 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h2><p>当进程完成执行最后指令并且通过系统调用 exit() 向操作系统发出请求时，进程终止。这时，进程可以返回退出状态码（通常为整数）给父进程。所有进程资源，如物理和虚拟内存、打开文件和 I/O 缓冲区等，会由操作系统释放。</p>
 <p>父进程需要通过调用wait()或者waitpid函数来收集子进程的退出状态。如果父进程未调用该函数来阻塞获取子进程的退出状态，那么子进程就是僵尸进程，会对系统造成危害。<br><br>这是因为即使进程退出时，操作系统会释放其占用的资源，但是它位于进程表中的项还是存在的，需要由父进程进行处理。</p>
@@ -433,7 +431,8 @@
 <li>参数options提供了一些另外的选项来控制waitpid()函数的行为。如果不想使用这些选项，则可以把这个参数设为0</li>
 </ol>
 <p>如果在调用waitpid()函数时，当指定等待的子进程已经停止运行或结束了，则waitpid()会立即返回；但是如果子进程还没有停止运行或结束，则调用waitpid()函数的父进程则会被阻塞，暂停运行。如果waitpid()函数执行成功，则返回子进程的进程号；如果有错误发生，则返回-1，并且将失败的原因存放在errno变量中。</p>
-
+<h3 id="exec簇"><a href="#exec簇" class="headerlink" title="exec簇"></a>exec簇</h3><p>exec函数一共有六个，其中execve为内核级系统调用，其他都是调用execve的库函数。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execl</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path, <span class="keyword">const</span> <span class="keyword">char</span> *arg, ...)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execlp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *file, <span class="keyword">const</span> <span class="keyword">char</span> *arg, ...)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execle</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path, <span class="keyword">const</span> <span class="keyword">char</span> *arg,</span></span></span><br><span class="line"><span class="function"><span class="params">                  ..., <span class="keyword">char</span> * <span class="keyword">const</span> envp[])</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execv</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path, <span class="keyword">char</span> *<span class="keyword">const</span> argv[])</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execvp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *file, <span class="keyword">char</span> *<span class="keyword">const</span> argv[])</span></span>;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -594,7 +593,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="nav-number"></span> <span class="nav-text">进程与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E7%B3%BB%E7%BB%9F%E7%89%B9%E6%AE%8A%E7%9A%84%E8%BF%9B%E7%A8%8B"><span class="nav-number"></span> <span class="nav-text">Linux系统特殊的进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#init%E4%B8%8Esystemd"><span class="nav-number">1.</span> <span class="nav-text">init与systemd</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number"></span> <span class="nav-text">进程的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fork%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">fork详解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E6%AD%A2"><span class="nav-number"></span> <span class="nav-text">进程终止</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="nav-number"></span> <span class="nav-text">进程与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E7%B3%BB%E7%BB%9F%E7%89%B9%E6%AE%8A%E7%9A%84%E8%BF%9B%E7%A8%8B"><span class="nav-number"></span> <span class="nav-text">Linux系统特殊的进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#init%E4%B8%8Esystemd"><span class="nav-number">1.</span> <span class="nav-text">init与systemd</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number"></span> <span class="nav-text">进程的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fork%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">fork详解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%88%E6%AD%A2"><span class="nav-number"></span> <span class="nav-text">进程终止</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exec%E7%B0%87"><span class="nav-number">1.</span> <span class="nav-text">exec簇</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -680,7 +679,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共19.3k字</span>
+  <span class="post-count">博客全站共19.4k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
