@@ -149,6 +149,12 @@
     <title>Paxos</title>
     <url>/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>分布式协议</category>
+      </categories>
+      <tags>
+        <tag>大数据，分布式</tag>
+      </tags>
   </entry>
   <entry>
     <title>binlog与redolog</title>
