@@ -22,15 +22,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Doris的搬砖日记">
-<meta property="og:url" content="http://example.com/tags/linux%E3%80%81%E7%BA%BF%E7%A8%8B/index.html">
+  <meta name="description" content="前言今天在看项目代码的时候看到了unliekly和likely的使用，往上追溯代码的时候找到了如下的宏定义： 123#if defined __GNUC__#define likely(x) __builtin_expect((x), 1)    #define unlikely(x) __builtin_expect((x), 0) 对于__builtin_expect因为了解的不多，于是就打算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="_builtin_expect">
+<meta property="og:url" content="http://example.com/2021/03/29/builtin-expect/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
+<meta property="og:description" content="前言今天在看项目代码的时候看到了unliekly和likely的使用，往上追溯代码的时候找到了如下的宏定义： 123#if defined __GNUC__#define likely(x) __builtin_expect((x), 1)    #define unlikely(x) __builtin_expect((x), 0) 对于__builtin_expect因为了解的不多，于是就打算">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-29T05:46:43.000Z">
+<meta property="article:modified_time" content="2021-03-29T06:10:37.903Z">
 <meta property="article:author" content="Doris">
+<meta property="article:tag" content="编译优化，linux">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/tags/linux%E3%80%81%E7%BA%BF%E7%A8%8B/">
+<link rel="canonical" href="http://example.com/2021/03/29/builtin-expect/">
 
 
 <script id="page-configurations">
@@ -38,12 +43,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: linux、线程 | Doris的搬砖日记</title>
+  <title>_builtin_expect | Doris的搬砖日记</title>
   
 
 
@@ -190,57 +195,226 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/29/builtin-expect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          _builtin_expect
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-29 13:46:43" itemprop="dateCreated datePublished" datetime="2021-03-29T13:46:43+08:00">2021-03-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/03/29/builtin-expect/" class="post-meta-item leancloud_visitors" data-flag-title="_builtin_expect" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">linux、线程
-          <small>标签</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/29/builtin-expect/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/29/builtin-expect/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>596</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+        <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>今天在看项目代码的时候看到了unliekly和likely的使用，往上追溯代码的时候找到了如下的宏定义：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#if</span> <span class="selector-tag">defined</span> <span class="selector-tag">__GNUC__</span></span><br><span class="line"><span class="selector-id">#define</span> <span class="selector-tag">likely</span>(x) <span class="selector-tag">__builtin_expect</span>((x), <span class="number">1</span>)    </span><br><span class="line"><span class="selector-id">#define</span> <span class="selector-tag">unlikely</span>(x) <span class="selector-tag">__builtin_expect</span>((x), <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>对于__builtin_expect因为了解的不多，于是就打算整理下笔记，认真学习下这个宏定义。</p>
+<h5 id="builtin-expect作用"><a href="#builtin-expect作用" class="headerlink" title="__builtin_expect作用"></a>__builtin_expect作用</h5><p>该指令是由gcc引入的，其作用是允许程序员将”分支转移”的信息告诉编译器，以便编译器对代码进行优化，来减少指令跳转带来的性能下降问题。<br><br>原型为：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__builtin_expect(<span class="built_in">exp</span>, <span class="built_in">N</span>)</span><br></pre></td></tr></table></figure>
+<p>表示exp==N的概率很大。</p>
+<span id="more"></span>
+<p><br>这里，我给出一个测试用例来说明下该指令的作用：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">int</span> x, y;</span><br><span class="line"> <span class="attribute">if</span>(unlikely(x &gt; <span class="number">0</span>))</span><br><span class="line">    <span class="attribute">y</span> = <span class="number">1</span>; </span><br><span class="line"><span class="attribute">else</span> </span><br><span class="line">    <span class="attribute">y</span> = -<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>该用例表示x&gt;0为false的概率比较大，即走else分支的概率比较大，因此gcc编译的指令会预先读取 y = -1 这条指令。<br><br>说明：在日常的编码过程中，条件判断都是有偏向性的。比如：在使用if-else结构时，程序员经常通过else分支来补充一些意外性的情况。此时，该程序更多的是期待执行if分支的指令。因此，__builtin_expect指令可以利用该偏向特点提醒编译器在汇编曾进行指令优化。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-03-26T17:24:18+08:00"
-              content="2021-03-26">
-          03-26
-        </time>
+     
+       <div>
+         <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+       </div>
+     
+        <div class="reward-container">
+  <div>原创技术分享，您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Doris 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Doris 支付宝">
+        <p>支付宝</p>
       </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/03/26/pthread-key-create/" itemprop="url">
-            <span itemprop="name">pthread_key_create</span>
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Doris
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/03/29/builtin-expect/" title="_builtin_expect">http://example.com/2021/03/29/builtin-expect/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
           </a>
-      </div>
+        </div>
 
-    </header>
-  </article>
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
 
+            <span class="label">RSS</span>
+          </a>
+        </div>
     </div>
   </div>
-  
-  
-  
 
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%EF%BC%8Clinux/" rel="tag"># 编译优化，linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/29/ZeroMQ%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F/" rel="prev" title="ZeroMQ源码解析之消息存储方式">
+      <i class="fa fa-chevron-left"></i> ZeroMQ源码解析之消息存储方式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -287,6 +461,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#builtin-expect%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">__builtin_expect作用</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
