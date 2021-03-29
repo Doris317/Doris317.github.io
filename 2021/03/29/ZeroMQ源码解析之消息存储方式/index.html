@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ZeroMQ的消息队列主要由yqueue.hpp与ypipe.hpp两个类构成。在yqueue中有一个重要的结构体chunk_t，他是yqueue高效的关键因素。内存的申请和释放非常浪费效率，yqueue为了避免频繁的内存操作，每次不会申请一个元素大小的内存空间，而是申请一批，这一批元素就保存在chunk_t结构体中. 123456struct chunk_t&amp;#123;    T values[">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZeroMQ源码解析之消息存储方式">
+<meta property="og:url" content="http://example.com/2021/03/29/ZeroMQ%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Doris的搬砖日记">
+<meta property="og:description" content="ZeroMQ的消息队列主要由yqueue.hpp与ypipe.hpp两个类构成。在yqueue中有一个重要的结构体chunk_t，他是yqueue高效的关键因素。内存的申请和释放非常浪费效率，yqueue为了避免频繁的内存操作，每次不会申请一个元素大小的内存空间，而是申请一批，这一批元素就保存在chunk_t结构体中. 123456struct chunk_t&amp;#123;    T values[">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-29T04:49:26.000Z">
+<meta property="article:modified_time" content="2021-03-29T05:34:16.329Z">
+<meta property="article:author" content="Doris">
+<meta property="article:tag" content="消息队列">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/29/ZeroMQ%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ZeroMQ源码解析之消息存储方式 | Doris的搬砖日记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Doris的搬砖日记" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Doris的搬砖日记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">22</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/29/ZeroMQ%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ZeroMQ源码解析之消息存储方式
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-29 12:49:26" itemprop="dateCreated datePublished" datetime="2021-03-29T12:49:26+08:00">2021-03-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/03/29/ZeroMQ%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F/" class="post-meta-item leancloud_visitors" data-flag-title="ZeroMQ源码解析之消息存储方式" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/29/ZeroMQ%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/29/ZeroMQ%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>ZeroMQ的消息队列主要由yqueue.hpp与ypipe.hpp两个类构成。<br><br>在yqueue中有一个重要的结构体chunk_t，他是yqueue高效的关键因素。内存的申请和释放非常浪费效率，yqueue为了避免频繁的内存操作，每次不会申请一个元素大小的内存空间，而是申请一批，这一批元素就保存在chunk_t结构体中.</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct chunk_t</span><br><span class="line">&#123;</span><br><span class="line">    T values[N]<span class="comment">;</span></span><br><span class="line">    chunk_t *prev<span class="comment">;</span></span><br><span class="line">    chunk_t *next<span class="comment">;</span></span><br><span class="line">&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>yqueue分别用三个指针和三个游标来记录chunk以及在chunk内有效的数据的索引。</p>
+<span id="more"></span>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  当对列为空的时候，back poisiton指向一个无效的值，而begin或者end position永远是一个有效值。</span></span><br><span class="line"><span class="comment">//  begin是用来在读取数据的时候使用的；而end是在入队的时候使用的游标</span></span><br><span class="line"><span class="keyword">chunk_t</span> *_begin_chunk;</span><br><span class="line"><span class="keyword">int</span> _begin_pos;</span><br><span class="line"><span class="keyword">chunk_t</span> *_back_chunk;</span><br><span class="line"><span class="keyword">int</span> _back_pos; <span class="comment">// 当队列为空的时候该值</span></span><br><span class="line"><span class="keyword">chunk_t</span> *_end_chunk;</span><br><span class="line"><span class="keyword">int</span> _end_pos;</span><br></pre></td></tr></table></figure>
+<p>yqueue还有一个特殊的变量_spare_chunk,这是因为往往生产者和消费者的速率达成一致时，使用_spare_chunk保存刚刚释放的chunk，这样当需要申请新的chunk时就可以直接使用_spare_chunk所记录的chunk了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">atomic_ptr_t</span>&lt;<span class="keyword">chunk_t</span>&gt; _spare_chunk;</span><br></pre></td></tr></table></figure>
+<p>yqueue的主要操作有pop、puhs、unpush:</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  Adds an element to the back end of the queue.</span></span><br><span class="line">inline void push ()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">_back_chunk</span> = <span class="variable">_end_chunk</span>;</span><br><span class="line">    <span class="variable">_back_pos</span> = <span class="variable">_end_pos</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (++<span class="variable">_end_pos</span> != N)</span><br><span class="line">        return;</span><br><span class="line">    </span><br><span class="line">    chunk_t *sc = <span class="variable">_spare_chunk</span>.xchg (NULL);</span><br><span class="line">    <span class="keyword">if</span> (sc) &#123;</span><br><span class="line">        <span class="variable">_end_chunk</span>-&gt;next = sc;</span><br><span class="line">        sc-&gt;prev = <span class="variable">_end_chunk</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">_end_chunk</span>-&gt;next = allocate_chunk ();</span><br><span class="line">        alloc_assert (<span class="variable">_end_chunk</span>-&gt;next);</span><br><span class="line">        <span class="variable">_end_chunk</span>-&gt;next-&gt;prev = <span class="variable">_end_chunk</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">_end_chunk</span> = <span class="variable">_end_chunk</span>-&gt;next;</span><br><span class="line">    <span class="variable">_end_pos</span> = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  Removes element from the back end of the queue. In other words</span></span><br><span class="line"><span class="comment">//  it rollbacks last push to the queue. Take care: Caller is</span></span><br><span class="line"><span class="comment">//  responsible for destroying the object being unpushed.</span></span><br><span class="line"><span class="comment">//  The caller must also guarantee that the queue isn&#x27;t empty when</span></span><br><span class="line"><span class="comment">//  unpush is called. It cannot be done automatically as the read</span></span><br><span class="line"><span class="comment">//  side of the queue can be managed by different, completely</span></span><br><span class="line"><span class="comment">//  unsynchronised thread.</span></span><br><span class="line">inline void unpush ()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//  First, move &#x27;back&#x27; one position backwards.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">_back_pos</span>)</span><br><span class="line">        --<span class="variable">_back_pos</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">_back_pos</span> = N - <span class="number">1</span>;</span><br><span class="line">        <span class="variable">_back_chunk</span> = <span class="variable">_back_chunk</span>-&gt;prev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  Now, move &#x27;end&#x27; position backwards. Note that obsolete end chunk</span></span><br><span class="line">    <span class="comment">//  is not used as a spare chunk. The analysis shows that doing so</span></span><br><span class="line">    <span class="comment">//  would require free and atomic operation per chunk deallocated</span></span><br><span class="line">    <span class="comment">//  instead of a simple free.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">_end_pos</span>)</span><br><span class="line">        --<span class="variable">_end_pos</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable">_end_pos</span> = N - <span class="number">1</span>;</span><br><span class="line">        <span class="variable">_end_chunk</span> = <span class="variable">_end_chunk</span>-&gt;prev;</span><br><span class="line">        free (<span class="variable">_end_chunk</span>-&gt;next);</span><br><span class="line">        <span class="variable">_end_chunk</span>-&gt;next = NULL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  Removes an element from the front end of the queue.</span></span><br><span class="line">inline void pop ()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (++<span class="variable">_begin_pos</span> == N) &#123;</span><br><span class="line">        chunk_t *o = <span class="variable">_begin_chunk</span>;</span><br><span class="line">        <span class="variable">_begin_chunk</span> = <span class="variable">_begin_chunk</span>-&gt;next;</span><br><span class="line">        <span class="variable">_begin_chunk</span>-&gt;prev = NULL;</span><br><span class="line">        <span class="variable">_begin_pos</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//  &#x27;o&#x27; has been more recently used than _spare_chunk,</span></span><br><span class="line">        <span class="comment">//  so for cache reasons we&#x27;ll get rid of the spare and</span></span><br><span class="line">        <span class="comment">//  use &#x27;o&#x27; as the spare.</span></span><br><span class="line">        chunk_t *cs = <span class="variable">_spare_chunk</span>.xchg (o);</span><br><span class="line">        free (cs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面看下ypipe：ypipe继承自ypipe_base_t，ypipe_base_t抽象出了ypipe和ypipe_conflate（后面分析）的基本操作：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">ypipe_base_t</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="keyword">ypipe_base_t</span> () &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">write</span> <span class="params">(<span class="keyword">const</span> T &amp;value_, <span class="keyword">bool</span> incomplete_)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">unwrite</span> <span class="params">(T *value_)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">flush</span> <span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">check_read</span> <span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">read</span> <span class="params">(T *value_)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">probe</span> <span class="params">(<span class="keyword">bool</span> (*fn)(<span class="keyword">const</span> T &amp;))</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>ypipe包含了一个yqueue队列和四个非常重要的指针，下面是ypipe的成员变量定义：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">//</span>  Allocation-efficient queue to store pipe items.</span><br><span class="line"><span class="regexp">//</span>  Front of the queue points to the first prefetched item, back of</span><br><span class="line"><span class="regexp">//</span>  the pipe points to last un-flushed item. Front is used only by</span><br><span class="line"><span class="regexp">//</span>  reader thread, <span class="keyword">while</span> back is used only by writer thread.</span><br><span class="line">yqueue_t &lt;T, N&gt; queue;</span><br><span class="line"></span><br><span class="line">T *w;</span><br><span class="line">T *r;</span><br><span class="line">T *f; <span class="regexp">//</span>f指针指向了当前未做flush操作的第一个元素，如果是写入了一条完整消息，那f指向的就是结束符。</span><br><span class="line">atomic_ptr_t &lt;T&gt; c; <span class="regexp">//</span>c只能有两个值，要么等于w，要么为空，当c为空时说明之前的check_read操作没有读到元素，check_read返回false同时将c置为空。</span><br></pre></td></tr></table></figure>
+<p>ypipe管道的读写操作：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">void write (const T &amp;value_, <span class="built_in">bool</span> incomplete_)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//  Place the value to the queue, add new terminator element.</span></span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>back <span class="literal">()</span> = value_;</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>push <span class="literal">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  Move the &quot;flush up to here&quot; poiter.</span></span><br><span class="line">    <span class="keyword">if</span> (!incomplete_)</span><br><span class="line">        _f = &amp;<span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>back <span class="literal">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//  Pop an incomplete item from the pipe. Returns true if such</span></span><br><span class="line"><span class="comment">//  item exists, false otherwise.</span></span><br><span class="line"><span class="built_in">bool</span> unwrite (T *value_)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_f<span class="operator"> == </span>&amp;<span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>back <span class="literal">()</span>)</span><br><span class="line">        return <span class="literal">false</span>;</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>unpush <span class="literal">()</span>;</span><br><span class="line">    *value_ = <span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>back <span class="literal">()</span>;</span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  Flush all the completed items into the pipe. Returns false if</span></span><br><span class="line"><span class="comment">//  the reader thread is sleeping. In that case, caller is obliged to</span></span><br><span class="line"><span class="comment">//  wake the reader up before using the pipe again.</span></span><br><span class="line"><span class="built_in">bool</span> flush <span class="literal">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//  If there are no un-flushed items, do nothing.</span></span><br><span class="line">    <span class="keyword">if</span> (_w<span class="operator"> == </span>_f)</span><br><span class="line">        return <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  Try to set &#x27;c&#x27; to &#x27;f&#x27;.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="module-access"><span class="module"><span class="identifier">_c</span>.</span></span>cas (_w, _f) != _w) &#123;</span><br><span class="line">        <span class="comment">//  Compare-and-swap was unseccessful because &#x27;c&#x27; is NULL.</span></span><br><span class="line">        <span class="comment">//  This means that the reader is asleep. Therefore we don&#x27;t</span></span><br><span class="line">        <span class="comment">//  care about thread-safeness and update c in non-atomic</span></span><br><span class="line">        <span class="comment">//  manner. We&#x27;ll return false to let the caller know</span></span><br><span class="line">        <span class="comment">//  that reader is sleeping.</span></span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">_c</span>.</span></span>set (_f);</span><br><span class="line">        _w = _f;</span><br><span class="line">        return <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  Reader is alive. Nothing special to do now. Just move</span></span><br><span class="line">    <span class="comment">//  the &#x27;first un-flushed item&#x27; pointer to &#x27;f&#x27;.</span></span><br><span class="line">    _w = _f;</span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">*check_read操作，它的返回值标记了队列中是否有数据，他使用r指针来标记当前可以读到的位置：</span></span><br><span class="line"><span class="comment">*如果r指针不在front位置处，说明有元素可读。</span></span><br><span class="line"><span class="comment">*否则就用c和front对比来判断当前是否有元素，如果没有将c置为空，表明读操作处于睡眠状态。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">bool</span> check_read <span class="literal">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//  Was the value prefetched already? If so, return.</span></span><br><span class="line">    <span class="keyword">if</span> (&amp;<span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>front <span class="literal">()</span> != _r<span class="operator"> &amp;&amp; </span>_r)</span><br><span class="line">        return <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  There&#x27;s no prefetched value, so let us prefetch more values.</span></span><br><span class="line">    <span class="comment">//  Prefetching is to simply retrieve the</span></span><br><span class="line">    <span class="comment">//  pointer from c in atomic fashion. If there are no</span></span><br><span class="line">    <span class="comment">//  items to prefetch, set c to NULL (using compare-and-swap).</span></span><br><span class="line">    _r = <span class="module-access"><span class="module"><span class="identifier">_c</span>.</span></span>cas (&amp;<span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>front <span class="literal">()</span>, NULL);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  If there are no elements prefetched, exit.</span></span><br><span class="line">    <span class="comment">//  During pipe&#x27;s lifetime r should never be NULL, however,</span></span><br><span class="line">    <span class="comment">//  it can happen during pipe shutdown when items</span></span><br><span class="line">    <span class="comment">//  are being deallocated.</span></span><br><span class="line">    <span class="keyword">if</span> (&amp;<span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>front <span class="literal">()</span><span class="operator"> == </span>_r<span class="operator"> || </span>!_r)</span><br><span class="line">        return <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  There was at least one value prefetched.</span></span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  Reads an item from the pipe. Returns false if there is no value.</span></span><br><span class="line"><span class="comment">//  available.</span></span><br><span class="line"><span class="built_in">bool</span> read (T *value_)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//  Try to prefetch a value.</span></span><br><span class="line">    <span class="keyword">if</span> (!check_read <span class="literal">()</span>)</span><br><span class="line">        return <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  There was at least one value prefetched.</span></span><br><span class="line">    <span class="comment">//  Return it to the caller.</span></span><br><span class="line">    *value_ = <span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>front <span class="literal">()</span>;</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>pop <span class="literal">()</span>;</span><br><span class="line">    return <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  Applies the function fn to the first elemenent in the pipe</span></span><br><span class="line"><span class="comment">//  and returns the value returned by the fn.</span></span><br><span class="line"><span class="comment">//  The pipe mustn&#x27;t be empty or the function crashes.</span></span><br><span class="line"><span class="built_in">bool</span> probe (<span class="built_in">bool</span> (*fn_) (const T &amp;))</span><br><span class="line">&#123;</span><br><span class="line">    const <span class="built_in">bool</span> rc = check_read <span class="literal">()</span>;</span><br><span class="line">    zmq_assert (rc);</span><br><span class="line"></span><br><span class="line">    return (*fn_) (<span class="module-access"><span class="module"><span class="identifier">_queue</span>.</span></span>front <span class="literal">()</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+     
+       <div>
+         <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+       </div>
+     
+        <div class="reward-container">
+  <div>原创技术分享，您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Doris 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Doris 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Doris
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/03/29/ZeroMQ%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F/" title="ZeroMQ源码解析之消息存储方式">http://example.com/2021/03/29/ZeroMQ源码解析之消息存储方式/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag"># 消息队列</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/29/BIO%E4%B8%8ENIO%E5%92%8CAIO%E4%B8%89%E7%A7%8Dreactor%E6%A8%A1%E5%9E%8B/" rel="prev" title="BIO与NIO和AIO三种reactor模型">
+      <i class="fa fa-chevron-left"></i> BIO与NIO和AIO三种reactor模型
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Doris"
+      src="/images/WebImage.jpg">
+  <p class="site-author-name" itemprop="name">Doris</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Doris317" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Doris317" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:15950590856@163.com" title="E-Mail → mailto:15950590856@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-02 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Doris</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">39k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">35 分钟</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共17k字</span>
+</div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset);
+            clearInterval(int);
+        }
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据
+            clearInterval(int); // 停止检测
+        }
+    }
+
+});
+</script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"giRPg6HGm1jyv6lWITnwRaJG-gzGzoHsz","app_key":"pN0FF2MXA2F1MNracOTfJbW8","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'giRPg6HGm1jyv6lWITnwRaJG-gzGzoHsz',
+      appKey     : 'pN0FF2MXA2F1MNracOTfJbW8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/click-love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+
+
