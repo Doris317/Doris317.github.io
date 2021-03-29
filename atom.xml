@@ -168,7 +168,7 @@
     <link href="http://example.com/2021/03/26/binlog%E4%B8%8Eredolog/"/>
     <id>http://example.com/2021/03/26/binlog%E4%B8%8Eredolog/</id>
     <published>2021-03-26T01:31:52.000Z</published>
-    <updated>2021-03-29T00:04:06.505Z</updated>
+    <updated>2021-03-29T12:42:26.875Z</updated>
     
     
       
@@ -181,6 +181,10 @@
     
     
     
+    <category term="mysql" scheme="http://example.com/categories/mysql/"/>
+    
+    
+    <category term="数据库" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   

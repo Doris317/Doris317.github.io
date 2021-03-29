@@ -124,12 +124,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">9</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">9</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -553,6 +553,15 @@
 
               <time title="创建时间：2021-03-26 09:31:52" itemprop="dateCreated datePublished" datetime="2021-03-26T09:31:52+08:00">2021-03-26</time>
             </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
 
           
             <span id="/2021/03/26/binlog%E4%B8%8Eredolog/" class="post-meta-item leancloud_visitors" data-flag-title="binlog与redolog" title="热度">
@@ -582,7 +591,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -602,7 +611,7 @@
 
       
           <p>日志是Mysql数据库的重要组成部分，记录着数据库运行期间各种状态信息。Mysql的日志系统主要有错误日志、查询日志、慢查询日志、事务日志（redolog和undolog）、二进制日志（binlog）几大类。<br><br>其中：事务日志是InnoDB存储引擎层的日志，而二进制日志binlog是MysqlServer层记录的日志。</p>
-<h3 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h3><p>####什么是binlog？<br>binlog是属于数据库Server层面的逻辑日志，又称归档日志,使用任何存储引擎的Mysql数据库都会记录binlog日志。<br><br>binlog以二进制的形式记录数据库执行的写入性操作(不包括查询，即select与show等执行语句)信息<br><br>binlog是通过追加的方式进行写入的，可以通过max_binlog_size参数设置每个binlog文件的大小，当文件大小达到给定值之后，会生成新的文件来保存日志。</p>
+<h3 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h3><h4 id="什么是binlog？"><a href="#什么是binlog？" class="headerlink" title="什么是binlog？"></a>什么是binlog？</h4><p>binlog是属于数据库Server层面的逻辑日志，又称归档日志,使用任何存储引擎的Mysql数据库都会记录binlog日志。<br><br>binlog以二进制的形式记录数据库执行的写入性操作(不包括查询，即select与show等执行语句)信息<br><br>binlog是通过追加的方式进行写入的，可以通过max_binlog_size参数设置每个binlog文件的大小，当文件大小达到给定值之后，会生成新的文件来保存日志。</p>
 <h6 id="逻辑日志与物理日志"><a href="#逻辑日志与物理日志" class="headerlink" title="逻辑日志与物理日志"></a>逻辑日志与物理日志</h6><ol>
 <li>逻辑日志：可以简单理解为记录的就是sql语句。</li>
 <li>物理日志：因为Mysql数据最终是保存在数据页中的，物理日志记录的就是数据页变更。<h4 id="binlog的使用场景"><a href="#binlog的使用场景" class="headerlink" title="binlog的使用场景"></a>binlog的使用场景</h4>在实际应用中，binlog的主要使用场景有两个，分别是主从复制和数据恢复：</li>
@@ -926,13 +935,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
