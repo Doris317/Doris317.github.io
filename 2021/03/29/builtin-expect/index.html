@@ -30,9 +30,10 @@
 <meta property="og:description" content="前言今天在看项目代码的时候看到了unliekly和likely的使用，往上追溯代码的时候找到了如下的宏定义： 123#if defined __GNUC__#define likely(x) __builtin_expect((x), 1)    #define unlikely(x) __builtin_expect((x), 0) 对于__builtin_expect因为了解的不多，于是就打算">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-29T05:46:43.000Z">
-<meta property="article:modified_time" content="2021-03-29T06:10:37.903Z">
+<meta property="article:modified_time" content="2021-03-30T13:32:39.918Z">
 <meta property="article:author" content="Doris">
-<meta property="article:tag" content="编译优化，linux">
+<meta property="article:tag" content="编译优化">
+<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://example.com/2021/03/29/builtin-expect/">
@@ -129,7 +130,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">12</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -389,7 +390,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96%EF%BC%8Clinux/" rel="tag"># 编译优化，linux</a>
+              <a href="/tags/%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96/" rel="tag"># 编译优化</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
           </div>
 
         
@@ -493,7 +495,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
