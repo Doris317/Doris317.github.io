@@ -30,7 +30,7 @@
 <meta property="og:description" content="题目（LeetCode摘抄）：　　编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有如下特性：  每行中的整数从左到右按升序排列。 每行的第一个整数大于前一行的最后一个整数。  示例1： 12输入：matrix &#x3D; [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target &#x3D; 3输出：true 示例2： 12输入：matrix &#x3D; [">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-30T01:45:28.000Z">
-<meta property="article:modified_time" content="2021-03-30T01:57:47.204Z">
+<meta property="article:modified_time" content="2021-03-30T13:29:40.252Z">
 <meta property="article:author" content="Doris">
 <meta property="article:tag" content="数据结构，java">
 <meta name="twitter:card" content="summary">
@@ -274,7 +274,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>330</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -305,6 +305,10 @@
 <p>提示：</p>
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">m == <span class="built_in">matrix</span>.<span class="built_in">length</span></span><br><span class="line">n == <span class="built_in">matrix</span>[i].<span class="built_in">length</span></span><br><span class="line"><span class="number">1</span> &lt;= m, n &lt;= <span class="number">100</span></span><br><span class="line">-<span class="number">104</span> &lt;= <span class="built_in">matrix</span>[i][j], target &lt;= <span class="number">104</span></span><br></pre></td></tr></table></figure>
 <span id="more"></span>
+<p>解题思路：因为条件设置行是升序的且每一行的开头元素大于上一行结尾元素，所以果断二分查找。</p>
+<figure class="highlight stan"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class search2Marchix &#123;</span><br><span class="line">    public static boolean searchMatrix(<span class="keyword">int</span>[][] <span class="keyword">matrix</span>, <span class="keyword">int</span> <span class="built_in">target</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> locationLine = binarySearchRow(<span class="keyword">matrix</span>, <span class="built_in">target</span>);</span><br><span class="line">        <span class="keyword">return</span> locationLine &lt; <span class="number">0</span> ? false : binarySearchCol(<span class="keyword">matrix</span>, <span class="built_in">target</span>, locationLine);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static boolean binarySearchCol(<span class="keyword">int</span>[][] <span class="keyword">matrix</span>, <span class="keyword">int</span> <span class="built_in">target</span>, <span class="keyword">int</span> locationLine) &#123;</span><br><span class="line">        <span class="keyword">int</span> low = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> middle = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">col</span> = <span class="keyword">matrix</span>[locationLine].length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (low &lt;= <span class="built_in">col</span>) &#123;</span><br><span class="line">            middle = (<span class="built_in">col</span>-low)/<span class="number">2</span>+low;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">matrix</span>[locationLine][middle] == <span class="built_in">target</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> true;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">matrix</span>[locationLine][middle] &lt; <span class="built_in">target</span>) &#123;</span><br><span class="line">                low = middle+<span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">col</span> = middle-<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static <span class="keyword">int</span> binarySearchRow(<span class="keyword">int</span>[][] <span class="keyword">matrix</span>, <span class="keyword">int</span> <span class="built_in">target</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (null == <span class="keyword">matrix</span> || <span class="number">0</span> == <span class="keyword">matrix</span>.length) &#123;</span><br><span class="line">            <span class="keyword">return</span>  -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">row</span> = <span class="keyword">matrix</span>.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> low = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> middle = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (low &lt; <span class="built_in">row</span>) &#123;</span><br><span class="line">            middle = (<span class="built_in">row</span>-low+<span class="number">1</span>)/<span class="number">2</span>+low;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">matrix</span>[middle][<span class="number">0</span>] == <span class="built_in">target</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> middle;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">matrix</span>[middle][<span class="number">0</span>] &lt; <span class="built_in">target</span>) &#123;</span><br><span class="line">                low = middle;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">row</span> = middle-<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> low;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：binarySearchRow函数中隐藏了一个小心机，就是在使用二分判断的时候使用每行的第一列元素。这样该函数也使用于每行长度不相同的矩阵，可扩展性比使用结尾元素更高，因为后者你需要获取每一行的长度。</p>
+
     </div>
 
     
@@ -537,12 +541,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">44k</span>
+    <span title="站点总字数">45k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">40 分钟</span>
+    <span title="站点阅读时长">41 分钟</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -550,7 +554,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共20.7k字</span>
+  <span class="post-count">博客全站共21k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
