@@ -184,7 +184,9 @@
       
         <tags>
             
-            <tag> linux、线程 </tag>
+            <tag> linux </tag>
+            
+            <tag> 线程 </tag>
             
         </tags>
       
@@ -202,14 +204,22 @@
       
       <categories>
           
-          <category> 网络通信、消息队列 </category>
+          <category> 网络通信 </category>
+          
+          <category> 消息队列 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> C++、 Java </tag>
+            <tag> 网络通信 </tag>
+            
+            <tag> 消息队列 </tag>
+            
+            <tag> C++ </tag>
+            
+            <tag> Java </tag>
             
         </tags>
       

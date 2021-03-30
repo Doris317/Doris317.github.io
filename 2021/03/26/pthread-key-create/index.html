@@ -30,9 +30,10 @@
 <meta property="og:description" content="前言最近在工作中重新深入认识了一个函数pthread_key_create。深入挖掘该函数源码，才发现这就是java中的ThreadLocal。其实这就是线程本地变量的概念。因为在多线程的程序中，线程是共享程序中的全局变量的。而对于线程本地变量，每一个变量是拥有该全局变量的一个副本，各线程对该变量的修改是线程内可见，线程间不影响。 pthread_key_create函数声明： 1int pthr">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-26T09:24:18.000Z">
-<meta property="article:modified_time" content="2021-03-28T23:01:32.709Z">
+<meta property="article:modified_time" content="2021-03-30T13:39:09.238Z">
 <meta property="article:author" content="Doris">
-<meta property="article:tag" content="linux、线程">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="线程">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://example.com/2021/03/26/pthread-key-create/">
@@ -129,12 +130,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">12</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">13</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -395,7 +396,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/linux%E3%80%81%E7%BA%BF%E7%A8%8B/" rel="tag"># linux、线程</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag"># 线程</a>
           </div>
 
         
@@ -493,13 +495,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
