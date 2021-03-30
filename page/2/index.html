@@ -608,7 +608,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -627,7 +627,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Basic Paxos算法：描述多节点如何就某个提案Value达成共识<br>Multi-Paxos算法：描述执行多个Basic Paxos的实例如何就一系列值达成共识。<br>变种有：Fast Paxos、Cheap Paxos、Raft算法等。</p>
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Paxos is a consensus algorithm executed by a set of processes, termed replicas, to agree on a single value in the presence of failures.<br><br>Lamport提出的Paxos算法用于解决分布式系统中一致性问题：将所有节点都写入同一个值，且被写入后不再更改。Paxos算法又分为两种：</p>
+<ol>
+<li>Basic Paxos算法：描述多节点如何就某个提案Value达成共识</li>
+<li>Multi-Paxos算法：描述执行多个Basic Paxos的实例如何就一系列值达成共识。<br><br>Paxos算法的变种有：Fast Paxos、Cheap Paxos、Raft算法等。</li>
+</ol>
 <h3 id="Basic-Paxos"><a href="#Basic-Paxos" class="headerlink" title="Basic Paxos"></a>Basic Paxos</h3><ol>
 <li><p>角色是Basic Paxos算法中最核心的三个功能的抽象：</p>
 <table>
@@ -655,28 +659,15 @@
 </tr>
 </tbody></table>
 </li>
-<li><p>如何达成共识？<br><br>Basic Paxos算法采用带有编号和提议值的提案代表一个提议，编号是用来区分不同的提议者。整个共识协商的过程共分为两个阶段：</p>
-<ol>
-<li>准备阶段<ol>
-<li>提议者分别向所有接受者发送包含提案编号的准备请求（该阶段的请求中不携带具体的提议值）</li>
-<li>接收节点接收到准备请求的处理也分为两种case：<ol>
-<li>如果接收节点之前没有通过任何提案，则返回一个“尚无提案”的响应，并承诺不再响应提案编号小于等于当前提案编号的请求，不会通过编号小于当前编号的提案</li>
-<li>如果接收到小于之前响应的准备请求的提案编号的提案，则丢弃该准备请求，不响应</li>
-<li>如果接受者之前已经有通过提案，接受者会在准备请求的响应中包含已经通过的最大编号的提案。</li>
 </ol>
-</li>
-</ol>
-</li>
-<li>接受阶段<ol>
-<li>提议者在接收到大多数节点的准备响应之后，<em><strong>会根据响应中提案编号最大的提案的值，设置接受请求中的值</strong></em>并发送接受请求</li>
-<li>接受者收到接受请求值根据自己承诺过的提案值来选择接受或者拒绝，并将接受结果通知给所有学习者</li>
-<li>学习者发现大多数的接受者都通过某个提案，它也通过该提案并接受该提议值<br><br>从上面的分析中可以看出：Basic Paxos是利用二阶段提交的方式来达成共识的，且由于“大多数”的概念的存在，意味着Basic Paxos算法还实现了容错，即在少于一般的节点出现故障时，集群依旧可以工作。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="Multi-Paxos"><a href="#Multi-Paxos" class="headerlink" title="Multi-Paxos"></a>Multi-Paxos</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

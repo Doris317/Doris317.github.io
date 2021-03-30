@@ -188,17 +188,42 @@
     <link href="http://example.com/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/"/>
     <id>http://example.com/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/</id>
     <published>2021-03-26T03:01:49.000Z</published>
-    <updated>2021-03-30T05:41:41.928Z</updated>
+    <updated>2021-03-30T05:55:10.911Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;Basic Paxos算法：描述多节点如何就某个提案Value达成共识&lt;br&gt;Multi-Paxos算法：描述执行多个Basic Paxos的实例如何就一系列值达成共识。&lt;br&gt;变种有：Fast Paxos、Cheap Paxos、Raft算法等。&lt;/p&gt;
-&lt;h3</summary>
-        
-      
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;Paxos is a consensus algorithm executed by a set of processes, termed replicas, to agree on a single value in the presence of failures.&lt;br&gt;&lt;br&gt;Lamport提出的Paxos算法用于解决分布式系统中一致性问题：将所有节点都写入同一个值，且被写入后不再更改。Paxos算法又分为两种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Basic Paxos算法：描述多节点如何就某个提案Value达成共识&lt;/li&gt;
+&lt;li&gt;Multi-Paxos算法：描述执行多个Basic Paxos的实例如何就一系列值达成共识。&lt;br&gt;&lt;br&gt;Paxos算法的变种有：Fast Paxos、Cheap Paxos、Raft算法等。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;Basic-Paxos&quot;&gt;&lt;a href=&quot;#Basic-Paxos&quot; class=&quot;headerlink&quot; title=&quot;Basic Paxos&quot;&gt;&lt;/a&gt;Basic Paxos&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;角色是Basic Paxos算法中最核心的三个功能的抽象：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;角色&lt;/th&gt;
+&lt;th&gt;作用&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;提议者Proposer&lt;/td&gt;
+&lt;td&gt;提议一个用于投票表决的值，即提案Value。在大多数的分布式场景下，集群中收到客户端请求的节点会是一个Proposer。&lt;/td&gt;
+&lt;td&gt;接入和协调功能：在收到客户端请求后，发起二阶段提交，进行共识协商&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;接受者Acceptor&lt;/td&gt;
+&lt;td&gt;负责对每个提议的值进行投票，并存储接受的值。一般来说，集群中的所有节点都在扮演Acceptor的角色，参与共识协商并接受和存储数据。&lt;/td&gt;
+&lt;td&gt;投票协商与数据存储功能：对提案Value进行投票，并接受达成共识的值，存储保存&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;学习者Learner&lt;/td&gt;
+&lt;td&gt;被通知投票的结果，接受并存储达成共识的值，不参与投票过程。一般来说，集群中的数据备份节点，比如主从结构宏的从节点是Learner，被动接受并保存数据，进行容灾备份。&lt;/td&gt;
+&lt;td&gt;数据存储功能：不参与共识协商，只进行达成共识的值接受与存储&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
