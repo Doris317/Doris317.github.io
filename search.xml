@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C++之sizeof</title>
+    <url>/2021/03/31/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在看Redis6.0的源码，发现一个出现频率还不低的C库函数，再加上自己之前的了解不够全面，于是就在复习与学习中不断总结与收获啦。<br><br>题外话：Redis是一个存储在内存上的缓存数据库，所以会对内存的使用是抠之又抠。</p>
+<h3 id="什么是sizeof"><a href="#什么是sizeof" class="headerlink" title="什么是sizeof"></a>什么是sizeof</h3><p>sizeof是C语言中保留的关键字，也可以认为是一种单目运算符，其作用是返回一个对象或者类型所占的内存字节数。<br><br>MSDN上的解释为：<br><br>　　The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type (including aggregate types).<br>This keyword returns a value of type size_t.<br><br>　　sizeof关键字给出了变量或者类型（包含聚合类型）存储时的字节数，其返回值类型为size_t。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>sizeof有三种语法形式，如下：</p>
+<ol>
+<li>sizeof( object ); // sizeof( 对象 )，对象可以是各种类型的变量，以及表达式。</li>
+<li>sizeof( type_name ); // sizeof( 类型 );</li>
+<li>sizeof object; // sizeof 对象；等价于1<br><br>sizeof对对象求内存大小，最终都是转换为对对象的数据类型进行求值；用于表达式时，值为表达式的最终结果的数据类型的大小<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h4>　　基本数据类型是指short、int、long、float、double等简单内置数据类型。由于它们的内存大小是和系统相关的，所以在不同的系统下取值可能不同。<h4 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h4>　　结构体成员按照定义时的顺序依次存储在连续的内存空间，但是结构体的大小并不是简单的把所有成员大小相加，而是需要考虑到系统的字节对齐问题。<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">    字节对齐: 计算机存储系统中以<span class="keyword">Byte</span>为单位存储数据，不同数据类型所占的空间不同。计算机为了快速的读写数据，默认情况下将数据存放在某个地址的起始位置，如：<span class="keyword">int</span>默认存储在地址能被</span><br><span class="line"><span class="number">4</span>整除的起始位置，<span class="keyword">char</span>可以存放在任何地址位置（被<span class="number">1</span>整除）等。这样字节对齐有助于加快 计算机的取数速度，否则就得多花指令周期了。</span><br></pre></td></tr></table></figure>
+结构体的字节对齐一般满足三个准则：</li>
+<li>结构体变量的首地址能够被其最宽基本类型成员的大小所整除；</li>
+<li>结构体每个成员相对于结构体首地址的偏移量（offset）都是成员大小的整数倍，如有需要编译器会在成员之间加上填充字节；</li>
+<li>结构体的总大小为结构体最宽基本类型成员大小的整数倍，如有需要编译器会在最末一个成员之后加上填充字节<br><br><em><strong>即结构体大小结果要为成员中最大字节的整数倍。</strong></em><br><br> 示例1如下，sizeof（stu1）的结果是12。<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">stu1</span>  </span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line">     <span class="keyword">int</span> i;  </span><br><span class="line">     <span class="keyword">char</span> c;  </span><br><span class="line">     <span class="keyword">int</span> j;  </span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
+示例2如下，sizeof（stu3）的结果是12而sizeof（stu4）的结果是8。<br><br><strong>考虑到字节对齐，因此结构体成员的顺序会影响结构体存储在内存中的大小。</strong><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">stu3</span>  </span></span><br><span class="line"><span class="class">&#123;</span>   </span><br><span class="line">       <span class="keyword">char</span> c1;   </span><br><span class="line">       <span class="keyword">int</span> i;  </span><br><span class="line">       <span class="keyword">char</span> c2;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">stu4</span>  </span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line">       <span class="keyword">char</span> c1;  </span><br><span class="line">       <span class="keyword">char</span> c2;  </span><br><span class="line">       <span class="keyword">int</span> i;  </span><br><span class="line"> &#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Redis数据结构之SDS</title>
     <url>/2021/03/30/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BSDS/</url>
     <content><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>Redis的底层包含9种基本数据结构：</p>
