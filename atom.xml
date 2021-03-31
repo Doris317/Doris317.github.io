@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-03-30T14:21:54.294Z</updated>
+  <updated>2021-03-31T13:22:51.483Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,16 +21,24 @@
     <link href="http://example.com/2021/03/30/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BSDS/"/>
     <id>http://example.com/2021/03/30/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BSDS/</id>
     <published>2021-03-30T13:42:11.000Z</published>
-    <updated>2021-03-30T14:21:54.294Z</updated>
+    <updated>2021-03-31T13:22:51.483Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;Redis的底层包含9种基本数据结构：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;String：使用一种叫简单动态字符串（SDS）的数据类型来实现。&lt;/li&gt;
+&lt;li&gt;List&lt;/li&gt;
+&lt;li&gt;Hash&lt;/li&gt;
+&lt;li&gt;Set&lt;/li&gt;
+&lt;li&gt;Sorted Set&lt;/li&gt;
+&lt;li&gt;bitmap&lt;/li&gt;
+&lt;li&gt;GeoHash&lt;/li&gt;
+&lt;li&gt;HyperLogLog&lt;/li&gt;
+&lt;li&gt;Streams&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;本文侧重从源码的角度分析下String的底层数据结构——sds.c。&lt;/p&gt;
+&lt;h3 id=&quot;什么是sds&quot;&gt;&lt;a href=&quot;#什么是sds&quot; class=&quot;headerlink&quot; title=&quot;什么是sds&quot;&gt;&lt;/a&gt;什么是sds&lt;/h3&gt;&lt;p&gt;字符串是Redis中最为常见的数据存储类型，其底层实现是简单动态字符串sds(simple dynamic string)，是可以修改的字符串。它类似于Java中的ArrayList，它采用预分配冗余空间的方式来减少内存的频繁分配。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/03/30/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BSDS/SDS%E7%BB%93%E6%9E%84.png&quot; alt=&quot;SDS结构.png&quot;&gt;&lt;/p&gt;</summary>
     
     
     
@@ -39,11 +47,11 @@
     
     <category term="数据结构" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
-    <category term="数据库" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
     <category term="c" scheme="http://example.com/tags/c/"/>
     
     <category term="缓存" scheme="http://example.com/tags/%E7%BC%93%E5%AD%98/"/>
+    
+    <category term="数据库" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   
