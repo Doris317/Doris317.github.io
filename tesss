@@ -22,14 +22,17 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="1111">
+<meta property="og:type" content="article">
 <meta property="og:title" content="tesss">
 <meta property="og:url" content="http://example.com/tesss">
 <meta property="og:site_name" content="Doris的搬砖日记">
+<meta property="og:description" content="1111">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-01T02:32:12.000Z">
-<meta property="article:modified_time" content="2021-04-01T02:32:12.746Z">
+<meta property="article:modified_time" content="2021-04-01T02:36:32.205Z">
 <meta property="article:author" content="Doris">
+<meta property="article:tag" content="test">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://example.com/tesss">
@@ -126,7 +129,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">18</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">19</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -136,7 +139,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">32</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">31</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -262,7 +265,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>4</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -281,7 +284,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>1111</p>
+
     </div>
 
     
@@ -366,6 +370,9 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/test/" rel="tag"># test</a>
+          </div>
 
         
 
@@ -373,8 +380,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/04/01/%E5%90%8E%E7%AB%AF-test/" rel="prev" title="post">
-      <i class="fa fa-chevron-left"></i> post
+    <a href="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" rel="prev" title="Java内存结构与Java对象的内存布局">
+      <i class="fa fa-chevron-left"></i> Java内存结构与Java对象的内存布局
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -451,7 +458,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -464,7 +471,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

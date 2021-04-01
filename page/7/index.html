@@ -124,7 +124,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">18</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">19</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">32</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">31</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -192,168 +192,6 @@
 
           <div class="content index posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/WebImage.jpg">
-      <meta itemprop="name" content="Doris">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Doris的搬砖日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">JVM类加载机制</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-03-24 21:47:18" itemprop="dateCreated datePublished" datetime="2018-03-24T21:47:18+08:00">2018-03-24</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="post-meta-item leancloud_visitors" data-flag-title="JVM类加载机制" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span>℃</span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/24/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一个.java文件从编码完成到最终执行，一般主要包括两个过程：编译和运行，其中编译就是通过javac编译器将.java文件转换成编译成字节码.class文件；然后运行则是把.class文件交给JVM执行的过程。<br>一个Java类从字节代码到能够在JVM中被使用，需要经过加载、链接和初始化这三个步骤，我们称之为类加载。下面我们就开始详解这三个步骤。</p>
-<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>把class字节码文件通过类加载器装载入内存中的阶段。在该阶段，JVM需要完成：</p>
-<ol>
-<li>通过一个类的全限定名来获取其定义的二进制字节流。</li>
-<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
-<li>在Java堆中生成一个代表这个类的java.lang.Class对象，作为对方法区中这些数据的访问入口。</li>
-</ol>
-<p>类加载器可以分为：</p>
-<ol>
-<li>引导类加载器：最顶层的类加载器，负责加载JAVA_HOME\lib目录中的，或通过-Xbootclasspath参数指定路径中的，且被JVM认可（按文件名识别，如rt.jar）的类。</li>
-<li>扩展类加载器：负责加载JAVA_HOME\lib\ext目录中的，或通过java.ext.dirs系统变量指定路径中的类库。</li>
-<li>应用类加载器：可以通过getSystemClassLoader()获取，负责加载用户路径（classpath）上的类库。如果没有自定义类加载器，该类加载器就是默认的类加载器。</li>
-<li>用户自定义的类加载器：继承自java.lang.ClassLoader类。</li>
-</ol>
-<p>类加载器的工作方式：</p>
-<ol>
-<li>双亲委派模型：加载过程中会先检查类是否被已加载，检查顺序是自底向上，从用户自定义类加载器到引导类加载器逐层检查，只要某个classloader已加载，就视为已加载此类，保证此类只会被所有ClassLoader加载一次。而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。</li>
-<li>代理模式：指的是一个类加载器既可以自己完成Java类的加载工作，也可以代理给其它的类加载器来完成。由于代理模式的存在，启动一个类的加载过程的类加载器和最终加载这个类的类加载器可能并不是一个。前者称为初始类加载器，而后者称为定义类加载器。一个Java类的定义类加载器是该类所导入的其它Java类的初始类加载器。</li>
-</ol>
-<p>使用双亲委派模型的意义：</p>
-<ol>
-<li>系统类防止内存中出现多份同样的字节码</li>
-<li>保证Java程序安全稳定运行<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2>链接阶段又分为验证、准备和解析。<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3>主要是为了保证加载进来的字节流符合虚拟机规范，不会造成安全错误。如果验证过程出现错误的话，会抛出java.lang.VerifyError错误。主要验证以下几个内容：</li>
-<li>文件格式验证：验证字节流是否符合Class文件格式的规范，比如开头是否是以0xCAFEBABE开头，版本号是否是JVM支持处理的，以及常量表中是否存在不被支持的数据类型等</li>
-<li>元数据验证：我理解就是语义分析，看是否存在比如继承了final修饰的类的这些不符合java语言规范要求的问题</li>
-<li>字节码验证：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。</li>
-<li>符号引用验证：确保解析动作能正确执行，比如校验符号引用中通过全限定名是否能够找到对应的类，校验符号引用中的访问权限是否可被当前类访问等？</li>
-</ol>
-<p>验证阶段很重要，但是对于程序的运行期没有影响，所以并非必要的。可以通过-Xverifynone参数来关闭大部分的java类的验证行为，以缩短虚拟机类加载的时间。</p>
-<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>该阶段的目的是：为类的静态变量分配内存，并将其初始化为默认值。注意，这里的默认值不是我们在程序中设置的值，而是Java的初始值。JVM对于各数据类型指定的默认值如下：</p>
-<ol>
-<li>8大基本类型的默认值为0</li>
-<li>引用类型的默认值为null</li>
-<li><em><strong>被final和static共同修饰的变量（静态常量）的默认值为我们程序中设定的值，</strong></em> 例如：final static int a = 100，则准备阶段中a的初值就是100。<br>对于同时被static和final修饰的常量，必须在声明的时候就为其显式地赋值，否则编译时不通过；而只被final修饰的常量则既可以在声明时显式地为其赋值，也可以在类初始化时显式地为其赋值，总之，在使用前必须为其显式地赋值，系统不会为其赋予默认零值。</li>
-</ol>
-<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>该阶段的目的是把常量池中的符号引用转换为直接引用。<br><br>符号引用是一个给出了一些能够唯一性识别一个方法，一个变量，一个类的相关信息的字面量。<br><br>直接引用可以理解为一个内存地址，或者一个偏移量或一个间接定位到目标的句柄。比如类方法，类变量的直接引用是指向方法区的指针；<br><br>在解析阶段，虚拟机会把所有的类名，方法名，字段名这些符号引用替换为具体的内存地址或偏移量，也就是直接引用。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>该阶段主要为类的静态变量赋予正确的初始值，JVM主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
-<ol>
-<li>声明类变量是指定初始值</li>
-<li>使用静态代码块为类变量指定初始值</li>
-</ol>
-<p>JVM类初始化步骤</p>
-<ol>
-<li>假如这个类还没有被加载和连接，则程序先加载并连接该类</li>
-<li>假如该类的直接父类还没有被初始化，则先初始化其直接父类</li>
-<li>假如类中有初始化语句，则系统依次执行这些初始化语句</li>
-</ol>
-<p>JVM类初始化时机：只有当对类的主动使用的时候才会导致类的初始化，类的主动使用包括以下六种：</p>
-<ol>
-<li>创建类的实例，也就是new的方式</li>
-<li>访问某个类或接口的静态变量，或者对该静态变量赋值</li>
-<li>调用类的静态方法</li>
-<li>反射（如Class.forName(“com.shengsiyuan.Test”)）</li>
-<li>初始化某个类的子类，则其父类也会被初始化</li>
-<li>Java虚拟机启动时被标明为启动类的类（Java Test），直接使用java.exe命令来运行某个主类</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
       
   
   
@@ -563,7 +401,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -576,7 +414,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
