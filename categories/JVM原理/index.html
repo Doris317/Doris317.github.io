@@ -22,21 +22,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言Paxos is a consensus algorithm executed by a set of processes, termed replicas, to agree on a single value in the presence of failures.Lamport提出的Paxos算法用于解决分布式系统中一致性问题：将所有节点都写入同一个值，且被写入后不再更改。Paxos算法">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Paxos">
-<meta property="og:url" content="http://example.com/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Doris的搬砖日记">
+<meta property="og:url" content="http://example.com/categories/JVM%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
-<meta property="og:description" content="前言Paxos is a consensus algorithm executed by a set of processes, termed replicas, to agree on a single value in the presence of failures.Lamport提出的Paxos算法用于解决分布式系统中一致性问题：将所有节点都写入同一个值，且被写入后不再更改。Paxos算法">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-03-26T03:01:49.000Z">
-<meta property="article:modified_time" content="2021-03-31T01:36:56.863Z">
 <meta property="article:author" content="Doris">
-<meta property="article:tag" content="大数据">
-<meta property="article:tag" content="分布式">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/">
+<link rel="canonical" href="http://example.com/categories/JVM%E5%8E%9F%E7%90%86/">
 
 
 <script id="page-configurations">
@@ -44,12 +38,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Paxos | Doris的搬砖日记</title>
+  <title>分类: JVM原理 | Doris的搬砖日记</title>
   
 
 
@@ -196,283 +190,57 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content category">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/WebImage.jpg">
-      <meta itemprop="name" content="Doris">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Doris的搬砖日记">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Paxos
-        </h1>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-26 11:01:49" itemprop="dateCreated datePublished" datetime="2021-03-26T11:01:49+08:00">2021-03-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index"><span itemprop="name">分布式协议</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/" class="post-meta-item leancloud_visitors" data-flag-title="Paxos" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span>℃</span>
-            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
   
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Paxos is a consensus algorithm executed by a set of processes, termed replicas, to agree on a single value in the presence of failures.<br><br>Lamport提出的Paxos算法用于解决分布式系统中一致性问题：将所有节点都写入同一个值，且被写入后不再更改。Paxos算法又分为两种：</p>
-<ol>
-<li>Basic Paxos算法：描述多节点如何就某个提案Value达成共识</li>
-<li>Multi-Paxos算法：描述执行多个Basic Paxos的实例如何就一系列值达成共识。<br><br>Paxos算法的变种有：Fast Paxos、Cheap Paxos、Raft算法等。</li>
-</ol>
-<h3 id="Basic-Paxos"><a href="#Basic-Paxos" class="headerlink" title="Basic Paxos"></a>Basic Paxos</h3><ol>
-<li><p>角色是Basic Paxos算法中最核心的三个功能的抽象：</p>
-<table>
-<thead>
-<tr>
-<th>角色</th>
-<th>作用</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>提议者Proposer</td>
-<td>提议一个用于投票表决的值，即提案Value。在大多数的分布式场景下，集群中收到客户端请求的节点会是一个Proposer。</td>
-<td>接入和协调功能：在收到客户端请求后，发起二阶段提交，进行共识协商</td>
-</tr>
-<tr>
-<td>接受者Acceptor</td>
-<td>负责对每个提议的值进行投票，并存储接受的值。一般来说，集群中的所有节点都在扮演Acceptor的角色，参与共识协商并接受和存储数据。</td>
-<td>投票协商与数据存储功能：对提案Value进行投票，并接受达成共识的值，存储保存</td>
-</tr>
-<tr>
-<td>学习者Learner</td>
-<td>被通知投票的结果，接受并存储达成共识的值，不参与投票过程。一般来说，集群中的数据备份节点，比如主从结构宏的从节点是Learner，被动接受并保存数据，进行容灾备份。</td>
-<td>数据存储功能：不参与共识协商，只进行达成共识的值接受与存储</td>
-</tr>
-</tbody></table>
-</li>
-</ol>
-<p>在一致性协议框架中，集群中的节点可以同时承担以上多种角色。</p>
-<span id="more"></span>
-<ol start="2">
-<li>如何达成共识？<br><br>Basic Paxos算法采用带有编号和提议值的提案代表一个提议，编号是用来区分不同的提议者。整个共识协商的过程共分为两个阶段：<ol>
-<li>准备阶段<ol>
-<li>提议者分别向所有接受者发送包含提案编号的准备请求（该阶段的请求中不携带具体的提议值）</li>
-<li>接收节点接收到准备请求的处理也分为两种case：<ol>
-<li>如果接收节点之前没有通过任何提案，则返回一个“尚无提案”的响应，并承诺不再响应提案编号小于等于当前提案编号的请求，不会通过编号小于当前编号的提案</li>
-<li>如果接收到小于之前响应的准备请求的提案编号的提案，则丢弃该准备请求，不响应</li>
-<li>如果接受者之前已经有通过提案，接受者会在准备请求的响应中包含已经通过的最大编号的提案。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>接受阶段<ol>
-<li>提议者在接收到大多数节点的准备响应之后，<em><strong>会根据响应中提案编号最大的提案的值，设置接受请求中的值（如果之前已经有达成共识的提议值，则不会修改该值）</strong></em>并发送接受请求</li>
-<li>接受者收到接受请求值根据自己承诺过的提案值来选择接受或者拒绝，并将接受结果通知给所有学习者</li>
-<li>学习者发现大多数的接受者都通过某个提案，它也通过该提案并接受该提议值<br><br>从上面的分析中可以看出：Basic Paxos是利用二阶段提交的方式来达成共识的，且由于“大多数”的概念的存在，意味着Basic Paxos算法还实现了容错，即在少于一半的节点出现故障时，集群依旧可以工作。<br><br>paxos将提议与leader进行分离，第一阶段选举leader而第二阶段选举最终提议。保证了当最初的共识方案提议者出故障的情况下，该提议也会被接受者发给后续提议者去继承。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>basic Paxos的局限性：<ol>
-<li>活锁问题：<br><br>　　Paxos理论上存在一个不能终结协议的活锁竞争问题。比如：当一个proposer提交的提议因为编号过低被拒绝时, 该proposer可能会提高编号重新提交。 如果同时有两个proposer都发现自己的方案编号过低, 从而轮流提出更高编号的proposal而导致对方被拒, 就可能会导致死循环(或活锁)。</li>
-<li>恶意节点：<br><br>　　Paxos是假设所有节点都遵守协议的规定，不存在恶意节点的。</li>
-<li>提案冲突:<br><br>  Basic Paxos实际上是一个无主（leader）的算法，可以有多个提议者，如果同一时刻多个提议者同时发起准备请求，提案编号相同的提案可能会存在平分票数的问题。</li>
-</ol>
-</li>
-</ol>
-<h3 id="Multi-Paxos"><a href="#Multi-Paxos" class="headerlink" title="Multi-Paxos"></a>Multi-Paxos</h3><p>Lamport的Multi-Paxos算法只是一个思想，没有提供具体的实现细节或者编程细节。不同的实现者实现出来的Multi-Paxos的实现细节是不同的。 Multi-Paxos的设计动机是解决Basic Paxos只能就单一提案Value达成共识的局限性，来实现一系列提案Value的共识。</p>
-
-    </div>
-
-    
-    
-    
-
-     
-       <div>
-         <div>
-    
-        <div style="text-align:center;color: #ccc;font-size:24px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
-    
-</div>
-
-       </div>
-     
-        <div class="reward-container">
-  <div>原创技术分享，您的支持将鼓励我继续创作</div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
-    打赏
-  </button>
-  <div id="qr" style="display: none;">
-      
-      <div style="display: inline-block;">
-        <img src="/images/wechatpay.jpg" alt="Doris 微信支付">
-        <p>微信支付</p>
-      </div>
-      
-      <div style="display: inline-block;">
-        <img src="/images/alipay.jpg" alt="Doris 支付宝">
-        <p>支付宝</p>
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">JVM原理
+          <small>分类</small>
+        </h2>
       </div>
 
-  </div>
-</div>
-
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>Doris
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="http://example.com/2021/03/26/Paxos%E5%8D%8F%E8%AE%AE/" title="Paxos">http://example.com/2021/03/26/Paxos协议/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
-        
-
-  <div class="followme">
-    <p>欢迎关注我的其它发布渠道</p>
-
-    <div class="social-list">
-
-        <div class="social-item">
-          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
-            <span class="icon">
-              <i class="fab fa-weixin"></i>
-            </span>
-
-            <span class="label">WeChat</span>
-          </a>
-        </div>
-
-        <div class="social-item">
-          <a target="_blank" class="social-link" href="/atom.xml">
-            <span class="icon">
-              <i class="fa fa-rss"></i>
-            </span>
-
-            <span class="label">RSS</span>
-          </a>
-        </div>
+      
+    <div class="collection-year">
+      <span class="collection-header">2021</span>
     </div>
-  </div>
 
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"># 大数据</a>
-              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
-          </div>
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-04-01T10:22:38+08:00"
+              content="2021-04-01">
+          04-01
+        </time>
+      </div>
 
-        
+      <div class="post-title">
+          <a class="post-title-link" href="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" itemprop="url">
+            <span itemprop="name">Java内存结构与Java对象的内存布局</span>
+          </a>
+      </div>
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2021/03/26/binlog%E4%B8%8Eredolog/" rel="prev" title="binlog与redolog">
-      <i class="fa fa-chevron-left"></i> binlog与redolog
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/26/ZeroMQ%E8%A7%A3%E6%9E%90%E4%B8%80/" rel="next" title="ZeroMQ概念入门">
-      ZeroMQ概念入门 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+    </header>
   </article>
+
+    </div>
+  </div>
   
   
+  
+
   
 
 
 
           </div>
           
-    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -519,7 +287,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Basic-Paxos"><span class="nav-number">2.</span> <span class="nav-text">Basic Paxos</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-Paxos"><span class="nav-number">3.</span> <span class="nav-text">Multi-Paxos</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

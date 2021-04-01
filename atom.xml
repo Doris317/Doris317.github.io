@@ -91,11 +91,20 @@
     <link href="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/"/>
     <id>http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</id>
     <published>2021-04-01T02:22:38.000Z</published>
-    <updated>2021-04-01T02:22:38.991Z</updated>
+    <updated>2021-04-01T10:07:48.253Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;今天跟老大讨论C++的char*与char[]的内存大小的计算方式，引申出指针和对象的问题，也就顺便扯到了java没有指针只有对象的特性。&lt;br&gt;既然扯到了java的对象，那么我就来扯一扯java的内存结构以及java对象在内存中的布局。&lt;/p&gt;
+&lt;h3 id=&quot;java的内存结构&quot;&gt;&lt;a href=&quot;#java的内存结构&quot; class=&quot;headerlink&quot; title=&quot;java的内存结构&quot;&gt;&lt;/a&gt;java的内存结构&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png&quot; alt=&quot;JVM内存结构.png&quot;&gt;&lt;br&gt;JVM的运行时数据区主要分为：程序计数器、虚拟机栈、本地方法栈、堆、方法区。其中程序计数器，虚拟机栈，本地方法栈是线程私有的；而堆和方法区属于线程共享区域。&lt;/p&gt;</summary>
     
     
     
+    <category term="JVM原理" scheme="http://example.com/categories/JVM%E5%8E%9F%E7%90%86/"/>
     
+    
+    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    
+    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
     
   </entry>
   

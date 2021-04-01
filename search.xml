@@ -59,7 +59,23 @@ realloc(void* ptr, unsigned newsize)：给一个已经分配了地址的指针�
   <entry>
     <title>Java内存结构与Java对象的内存布局</title>
     <url>/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>今天跟老大讨论C++的char*与char[]的内存大小的计算方式，引申出指针和对象的问题，也就顺便扯到了java没有指针只有对象的特性。<br>既然扯到了java的对象，那么我就来扯一扯java的内存结构以及java对象在内存中的布局。</p>
+<h3 id="java的内存结构"><a href="#java的内存结构" class="headerlink" title="java的内存结构"></a>java的内存结构</h3><p><img src="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png" alt="JVM内存结构.png"><br>JVM的运行时数据区主要分为：程序计数器、虚拟机栈、本地方法栈、堆、方法区。其中程序计数器，虚拟机栈，本地方法栈是线程私有的；而堆和方法区属于线程共享区域。</p>
+<span id="more"></span>
+<h4 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h4><p>也就是我们常说的PC寄存器。<br>每个线程刚创建时，会创建一个程序计数器，它的生命周期跟线程的生命周期一致，属于线程私有的。<br><strong>主要作用：</strong>保存着当前线程执行的虚拟机字节码指令的内存地址，是当前线程所执行程序的字节码的行号指示器，通过它可以获取下一条需要执行的字节码指令。<br>程序计数器是唯一一个在Java规范中没有规定任何OutOfMemory场景的区域。</p>
+<h4 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h4><p>线程私有的，与线程生命周期相同，用于存储局部变量表，操作栈，方法返回值。局部变量表放着基本数据类型，还有对象的引用。</p>
+<h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>跟虚拟机栈很像，不过它是为虚拟机使用到的Native方法服务。</p>
+<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>所有线程共享的一块内存区域，对象实例几乎都在这分配内存。</p>
+<h4 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h4><p>各个线程共享的区域，储存虚拟机加载的类信息，常量，静态变量，编译后的代码。</p>
+<h5 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h5><p>代表运行时每个class文件中的常量表。包括几种常量：编译时的数字常量、方法或者域的引用。</p>
+]]></content>
+      <categories>
+        <category>JVM原理</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>JVM</tag>
+      </tags>
   </entry>
   <entry>
     <title>序列化与反序列化</title>
