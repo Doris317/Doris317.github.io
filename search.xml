@@ -145,9 +145,9 @@ redis的zmalloc是对malloc进行了封装，该模块会在后面的文章中�
       </categories>
       <tags>
         <tag>数据结构</tag>
+        <tag>数据库</tag>
         <tag>c</tag>
         <tag>缓存</tag>
-        <tag>数据库</tag>
       </tags>
   </entry>
   <entry>
