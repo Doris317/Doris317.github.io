@@ -7,7 +7,7 @@
   </entry>
   <entry>
     <title>tesss</title>
-    <url>//tesss</url>
+    <url>/2021/04/01/tesss/</url>
     <content><![CDATA[<h3 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h3><p>网络传输的数据必须是二进制数据，但调用方请求的出入参数都是对象。对象是不能直接在网络中传输的，所以我们需要提前把它转成可传输的二进制，并且要求转换算法是可逆的，这个过程我们一般叫做“序列化”。</p>
 ]]></content>
       <tags>
@@ -205,8 +205,8 @@ redis的zmalloc是对malloc进行了封装，该模块会在后面的文章中�
         <category>C++</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>编译优化</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
