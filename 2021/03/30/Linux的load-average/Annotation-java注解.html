@@ -1,0 +1,35 @@
+<hr>
+<p>title: Annotation(java注解)<br>date: 2018-03-18 20:04:24<br>categories: java<br>tags:</p>
+<hr>
+<p>注解提供一种为程序元素设置元数据的方法。元数据就是关于数据的数据，可以用来生成文档，进行代码分析或者使编译器对元数据进行编译检查。<br>可以使用注解解析工具或编译器对其进行解析，也可以指定注解在编译期或运行期有效。<br>　　　　　　　　　　　　　　　　　　　　　　<br>注解的基本原则是：无论增加或者删除一个注解都不能对代码造成干扰。</p>
+<h2 id="系统注解"><a href="#系统注解" class="headerlink" title="系统注解"></a>系统注解</h2><p>　　1. Override：保证override函数的正确生明</p>
+<p>　　2. Deprecated：对于过时不再使用的函数添加该注解，当该函数被调用时，编译时会提示。与javadoc的@deprecated类似，但前者不可以带参数</p>
+<p>　　3. SupressWarnings： 配合参数表示关闭特定的警告信息。参数有：</p>
+<p>　　　　　|参数名 | 语法格式 |<br>        | :— |  :—  |<br>     　　| deprecation | 使用了过时的类或者方法的警告  |<br>    　　 | unchecked |  执行了未检查的转换时警告  |<br>        | fallthrough |  switch语句某case下没有break语句直接通往下一个case的警告  |<br>    　　 | path |  在类路径或者源文件路径中存在不存在的路径的警告  |<br>        | finally |  finally语句不能正确执行的警告 |<br>        | all |  关闭所有警告信息  |</p>
+<h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><pre><code>元注解的作用就是负责注解其他注解。Java5定义了4个标准的Meta Annotation类型，它们被用来提供对其它 Annotation类型作说明。
+</code></pre>
+<p>　　　1. Target</p>
+<p>　　　　　　作用：用于描述注解的使用范围，即被描述的注解可以用在什么地方</p>
+<p>　　　　　　用法： @Target(ElementType.参数,…)</p>
+<p>　　　　　　参数：</p>
+<p>　　　　　　　　　CONSTRUCTOR：用于描述构造器</p>
+<p>　　　　　　　　　FIELD：用于描述域</p>
+<p>　　　　　　　　　LOCAL_VARIABLE：用于描述局部变量</p>
+<p>　　　　　　　　　METHOD：用于描述方法</p>
+<p>　　　　　　　　　PACKAGE：用于描述包</p>
+<p>　　　　　　　　　PARAMETER：用于描述参数</p>
+<p>　　　　　　　　　TYPE：用于描述类、接口(包括注解类型) 或enum声明</p>
+<p>　　　2. Retention</p>
+<p>　　　　　　作用： 标识该Annotation的生命周期</p>
+<p>　　　　　　用法：　@Retention(RetentionPolicy.参数)</p>
+<p>　　　　　　参数：</p>
+<p>　　　　　　　　　SOURCE:在源文件中有效（即源文件保留），被编译器丢弃</p>
+<p>　　　　　　　　　CLASS:在class文件中有效（即class保留），编译在class文件中的Annotation可能会被虚拟机忽略</p>
+<p>　　　　　　　　　RUNTIME:在运行时有效（即运行时保留）</p>
+<p>　　　3. Documented</p>
+<p>　　　　　　<em><strong>@Documented是一个标记注解，没有成员</strong></em></p>
+<p>　　　　　　作用：用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。</p>
+<p>　　　4.　Inherited</p>
+<p>　　　　　　<em><strong>@Inherited 是一个标记注解。</strong></em></p>
+<p>　　　　　  　作用: 如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个Annotation将被用于该class的子类。</p>
+<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>　　　Annotation类型使用关键字@interface而非interface，注意开头的@符号。interface可以被实现或者继承，Annotation不可以。</p>

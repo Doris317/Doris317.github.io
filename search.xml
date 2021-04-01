@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>gggg</title>
-    <url>//gggg</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>tesss</title>
     <url>/2021/04/01/tesss/</url>
     <content><![CDATA[<h3 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h3><p>网络传输的数据必须是二进制数据，但调用方请求的出入参数都是对象。对象是不能直接在网络中传输的，所以我们需要提前把它转成可传输的二进制，并且要求转换算法是可逆的，这个过程我们一般叫做“序列化”。</p>
@@ -65,7 +60,7 @@
   </entry>
   <entry>
     <title>C++之sizeof</title>
-    <url>/2021/03/31/C-%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/</url>
+    <url>/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在看Redis6.0的源码，发现一个出现频率还不低的C库函数，再加上自己之前的了解不够全面，于是就在复习与学习中不断总结与收获啦。<br><br>题外话：Redis是一个存储在内存上的缓存数据库，所以会对内存的使用是抠之又抠。</p>
 <h3 id="什么是sizeof"><a href="#什么是sizeof" class="headerlink" title="什么是sizeof"></a>什么是sizeof</h3><p>sizeof是C语言中保留的关键字，也可以认为是一种单目运算符，其作用是返回一个对象或者类型所占的内存字节数。<br><br>MSDN上的解释为：<br><br>　　The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type (including aggregate types).<br>This keyword returns a value of type size_t.<br><br>　　sizeof关键字给出了变量或者类型（包含聚合类型）存储时的字节数，其返回值类型为size_t。</p>
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>sizeof有三种语法形式，如下：</p>
@@ -145,9 +140,9 @@ redis的zmalloc是对malloc进行了封装，该模块会在后面的文章中�
       </categories>
       <tags>
         <tag>数据结构</tag>
-        <tag>数据库</tag>
         <tag>c</tag>
         <tag>缓存</tag>
+        <tag>数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -799,7 +794,7 @@ Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer
   </entry>
   <entry>
     <title>C++学习之__attribute__机制</title>
-    <url>/2021/03/17/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/</url>
+    <url>/2021/03/17/Linux%E7%9A%84load-average/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/</url>
     <content><![CDATA[<p>__attribute__是GNU C特色之一，可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute)等.</p>
 <p>语法格式： __attribute __((abute-list))</p>
 <p>位置：声明结束符“；”的前面</p>
@@ -1043,7 +1038,7 @@ Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer
   </entry>
   <entry>
     <title>C++之extern</title>
-    <url>/2019/03/17/C-%E4%B9%8Bextern/</url>
+    <url>/2019/03/17/Linux%E7%9A%84load-average/C-%E4%B9%8Bextern/</url>
     <content><![CDATA[<p>extern可以置于变量或者函数前，以标示变量或者函数的定义在别的文件中，提示编译器遇到此变量和函数时在其他模块中寻找其定义。<br>此外extern也可用来进行链接指定。</p>
 <h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><ol>
 <li><p>与“C”连用进行链接指定</p>
@@ -1148,7 +1143,7 @@ Buffer的类型包括了所有的除boolean外的基本数据类型。ByteBuffer
   </entry>
   <entry>
     <title>Annotation(java注解)</title>
-    <url>/2018/03/18/Annotation-java%E6%B3%A8%E8%A7%A3/</url>
+    <url>/2018/03/18/Linux%E7%9A%84load-average/Annotation-java%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[<p>注解提供一种为程序元素设置元数据的方法。元数据就是关于数据的数据，可以用来生成文档，进行代码分析或者使编译器对元数据进行编译检查。<br>可以使用注解解析工具或编译器对其进行解析，也可以指定注解在编译期或运行期有效。<br>　　　　　　　　　　　　　　　　　　　　　　<br>注解的基本原则是：无论增加或者删除一个注解都不能对代码造成干扰。</p>
 <h2 id="系统注解"><a href="#系统注解" class="headerlink" title="系统注解"></a>系统注解</h2><p>　　1. Override：保证override函数的正确生明</p>
 <p>　　2. Deprecated：对于过时不再使用的函数添加该注解，当该函数被调用时，编译时会提示。与javadoc的@deprecated类似，但前者不可以带参数</p>
