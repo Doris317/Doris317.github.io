@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>序列化与反序列化</title>
+    <url>/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>昨儿评审公司项目的某通信模块的设计，本次评审的着重点在于序列化的设计，因此结束后趁热打铁的总结下序列化与反序列化。</p>
+<h3 id="什么是序列化以及为什么要学序列化"><a href="#什么是序列化以及为什么要学序列化" class="headerlink" title="什么是序列化以及为什么要学序列化"></a>什么是序列化以及为什么要学序列化</h3><p><strong>序列化：</strong> 将对象转换成二进制数据的过程<br><br><strong>反序列化：</strong> 把字节序列还原为对象的过程</p>
+<p>序列化最终的目的是为了对象可以跨平台存储，和进行网络传输，即IO。而支持的数据格式是字节数组，因此对象是不能直接在网络中传输的，所以我们需要提前把它转成可传输的二进制，并且要求转换算法是可逆的，即序列化与反序列化。</p>
+<h3 id="常见的序列化框架"><a href="#常见的序列化框架" class="headerlink" title="常见的序列化框架"></a>常见的序列化框架</h3><p>序列化框架的核心就是设计可以将对象的类型、属性类型、属性值一一按照固定的格式写到二进制字节流中来完成序列化，再按照固定的格式一一读出对象的类型、属性类型、属性值，通过这些信息重新创建出一个新的对象，来完成反序列化的协议。</p>
+<span id="more"></span>
+<h4 id="1-Json"><a href="#1-Json" class="headerlink" title="1. Json"></a>1. Json</h4><p>JSON 是典型的 Key-Value 方式，没有数据类型，是一种文本型序列化框架。<br><br><strong>优点：</strong>　简单、可读性高<br><br><strong>缺点：</strong>　</p>
+<ol>
+<li>空间开销大,意味着需要巨大的内存和磁盘开销；</li>
+<li>JSON 没有类型，对Java这种强类型语言不太友好，因为后者需要通过反射统一解决，所以性能不会太好。</li>
+</ol>
+<h4 id="2-Hessian"><a href="#2-Hessian" class="headerlink" title="2. Hessian"></a>2. Hessian</h4><p>Hessian是动态类型、二进制、紧凑的，并且可跨语言移植的一种序列化框架。<br><br><strong>优点：</strong> 空间开销小，兼容性和稳定性比较高<br><br><strong>缺点：</strong> 缺少对Java部分数据类型的支持，比如：</p>
+<ol>
+<li>Linked 系列，LinkedHashMap、LinkedHashSet 等，但是可以通过扩展 CollectionDeserializer 类修复；</li>
+<li>Locale 类，可以通过扩展 ContextSerializerFactory 类修复；</li>
+<li>Byte/Short 反序列化的时候变成 Integer。</li>
+</ol>
+<h4 id="3-Protobuf"><a href="#3-Protobuf" class="headerlink" title="3. Protobuf"></a>3. Protobuf</h4><p>Protobuf是Google提出的一种轻便、高效的结构化数据存储格式，可以用于结构化数据序列化，支持 Java、Python、C++、Go 等语言。<br><br>Protobuf定义了一种文件类型.proto，定义了文件格式；然后使用不同语言的 IDL 编译器将上面的文件生成序列化工具类<br><br><strong>优点：</strong></p>
+<ol>
+<li>序列化后体积相比 JSON、Hessian 小很多；</li>
+<li>IDL 能清晰地描述语义，所以足以帮助并保证应用程序之间的类型不会丢失，无需类似 XML 解析器；</li>
+<li>序列化反序列化速度很快，不需要通过反射获取类型；</li>
+<li>消息格式升级和兼容性不错，可以做到向后兼容。</li>
+</ol>
+<h3 id="如何选择序列化？"><a href="#如何选择序列化？" class="headerlink" title="如何选择序列化？"></a>如何选择序列化？</h3><p>从以下几个点考虑来选择序列化框架：</p>
+<ol>
+<li>性能和效率：因为序列化与反序列化过程是网络通信数据传输中一个必不可少的环节。</li>
+<li>空间开销：因为序列化生成的文件大小对网络传输的性能有影响，序列化的文件过大还会导致网络传输延迟。</li>
+<li>通用性和兼容性：因为序列化协议的通用性和兼容性直接关系到服务调用的稳定性和可用率的，因此对于服务的性能来说，服务的可靠性显然更加重要。</li>
+<li>安全性：存在漏洞的序列化协议会带来服务入侵的风险。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>编码</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>Java</tag>
+        <tag>RPC</tag>
+        <tag>编码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C++之sizeof</title>
     <url>/2021/03/31/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在看Redis6.0的源码，发现一个出现频率还不低的C库函数，再加上自己之前的了解不够全面，于是就在复习与学习中不断总结与收获啦。<br><br>题外话：Redis是一个存储在内存上的缓存数据库，所以会对内存的使用是抠之又抠。</p>
