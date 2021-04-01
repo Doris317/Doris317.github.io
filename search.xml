@@ -205,8 +205,8 @@ redis的zmalloc是对malloc进行了封装，该模块会在后面的文章中�
         <category>C++</category>
       </categories>
       <tags>
-        <tag>编译优化</tag>
         <tag>linux</tag>
+        <tag>编译优化</tag>
       </tags>
   </entry>
   <entry>
