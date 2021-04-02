@@ -22,16 +22,17 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="什么是递归？首先，我弟弟最爱挂在嘴边哄孩子的一个故事是：从前有座山，山里有座庙，庙里有个老和尚，老和尚给小和尚讲故事：从前有座山，山里有座庙…这个故事哈哈哈没有结尾，只有不停地循环，与递归不同的就是没有终止条件。 递归的模板函数123456789 domethod（level, para1, para2...） &amp;#123;    &#x2F;&#x2F; 判断终止条件    if (level 达到终止条件) &amp;#">
+  <meta name="description" content="什么是递归？用我弟弟最爱挂在嘴边哄孩子的一个故事来阐述下什么是递归吧：从前有座山，山里有座庙，庙里有个老和尚，老和尚给小和尚讲故事：从前有座山，山里有座庙…(其实我每次听我弟讲这个故事的时候，我就想拿小锤锤揍他…）。这个故事阐述了一种递归的特性，就是不停的自我调用。与递归算法唯一的不同点就是该故事是没有结尾的，是一个死循环。 所以我们总结以下什么是递归算法： 递归算法就是将原问题不断分解为规模缩小">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法之递归">
 <meta property="og:url" content="http://example.com/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
-<meta property="og:description" content="什么是递归？首先，我弟弟最爱挂在嘴边哄孩子的一个故事是：从前有座山，山里有座庙，庙里有个老和尚，老和尚给小和尚讲故事：从前有座山，山里有座庙…这个故事哈哈哈没有结尾，只有不停地循环，与递归不同的就是没有终止条件。 递归的模板函数123456789 domethod（level, para1, para2...） &amp;#123;    &#x2F;&#x2F; 判断终止条件    if (level 达到终止条件) &amp;#">
+<meta property="og:description" content="什么是递归？用我弟弟最爱挂在嘴边哄孩子的一个故事来阐述下什么是递归吧：从前有座山，山里有座庙，庙里有个老和尚，老和尚给小和尚讲故事：从前有座山，山里有座庙…(其实我每次听我弟讲这个故事的时候，我就想拿小锤锤揍他…）。这个故事阐述了一种递归的特性，就是不停的自我调用。与递归算法唯一的不同点就是该故事是没有结尾的，是一个死循环。 所以我们总结以下什么是递归算法： 递归算法就是将原问题不断分解为规模缩小">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-02T01:12:39.000Z">
-<meta property="article:modified_time" content="2021-04-02T01:14:27.541Z">
+<meta property="article:modified_time" content="2021-04-02T02:20:03.460Z">
 <meta property="article:author" content="Doris">
+<meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://example.com/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/">
@@ -128,7 +129,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">19</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">20</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -228,6 +229,15 @@
 
               <time title="创建时间：2021-04-02 09:12:39" itemprop="dateCreated datePublished" datetime="2021-04-02T09:12:39+08:00">2021-04-02</time>
             </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
 
           
             <span id="/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/" class="post-meta-item leancloud_visitors" data-flag-title="算法之递归" title="热度">
@@ -264,7 +274,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>404</span>
+              <span>605</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -283,8 +293,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="什么是递归？"><a href="#什么是递归？" class="headerlink" title="什么是递归？"></a>什么是递归？</h4><p>首先，我弟弟最爱挂在嘴边哄孩子的一个故事是：<br><br>从前有座山，<br><br>山里有座庙，<br><br>庙里有个老和尚，<br><br>老和尚给小和尚讲故事：<br><br>从前有座山，<br><br>山里有座庙<br><br>…<br><br>这个故事哈哈哈没有结尾，只有不停地循环，与递归不同的就是没有终止条件。</p>
-<h4 id="递归的模板函数"><a href="#递归的模板函数" class="headerlink" title="递归的模板函数"></a>递归的模板函数</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> domethod（level, para1, para2...） &#123;</span><br><span class="line">    <span class="regexp">//</span> 判断终止条件</span><br><span class="line">    <span class="keyword">if</span> (level 达到终止条件) &#123;</span><br><span class="line">        <span class="regexp">//</span> doSomthing</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    processData(para1, para2, ...); <span class="regexp">//</span> 真正的功能</span><br><span class="line">    domethod（level+<span class="number">1</span>， v1，v2，...） <span class="regexp">//</span> 往下递归</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h4 id="什么是递归？"><a href="#什么是递归？" class="headerlink" title="什么是递归？"></a>什么是递归？</h4><p>用我弟弟最爱挂在嘴边哄孩子的一个故事来阐述下什么是递归吧：<br>从前有座山，<br>山里有座庙，<br>庙里有个老和尚，<br>老和尚给小和尚讲故事：<br>从前有座山，<br>山里有座庙<br>…<br><br>(其实我每次听我弟讲这个故事的时候，我就想拿小锤锤揍他…）。<br><br>这个故事阐述了一种递归的特性，就是<code>不停的自我调用</code>。与递归算法唯一的不同点就是该故事是没有结尾的，是一个死循环。 所以我们总结以下什么是递归算法：</p>
+<p><code>递归算法就是将原问题不断分解为规模缩小的子问题，然后递归调用方法来表示问题的解</code></p>
+<h4 id="递归算法的设计要素"><a href="#递归算法的设计要素" class="headerlink" title="递归算法的设计要素"></a>递归算法的设计要素</h4><ol>
+<li>明确递归终止条件（不然就像上面的故事一样，死循环）</li>
+<li>给出递归终止时的处理办法；</li>
+<li>提取重复的逻辑，缩小问题规模。<h4 id="递归的模板函数"><a href="#递归的模板函数" class="headerlink" title="递归的模板函数"></a>递归的模板函数</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> domethod（level, para1, para2...） &#123;</span><br><span class="line">    <span class="regexp">//</span> 判断终止条件</span><br><span class="line">    <span class="keyword">if</span> (level 达到终止条件) &#123;</span><br><span class="line">        <span class="regexp">//</span> doSomthing</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    processData(para1, para2, ...); <span class="regexp">//</span> 真正的功能</span><br><span class="line">    domethod（level+<span class="number">1</span>， v1，v2，...） <span class="regexp">//</span> 往下递归</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<code>processData</code>与<code>domethod</code>的顺序按照具体业务逻辑的设计是可以调换的。</li>
+</ol>
 <h4 id="递归需要注意的问题："><a href="#递归需要注意的问题：" class="headerlink" title="递归需要注意的问题："></a>递归需要注意的问题：</h4><ol>
 <li>可能会出现重复的子问题，需要记忆操作，否则会造成大量重复计算</li>
 <li>递归的深度过深的时候，会造成StackOverFlow问题。</li>
@@ -292,7 +308,6 @@
 <h4 id="递归的经典算法题"><a href="#递归的经典算法题" class="headerlink" title="递归的经典算法题"></a>递归的经典算法题</h4><ol>
 <li>斐波拉契函数</li>
 <li>LeetCode50 计算x的n次方问题</li>
-<li>LeetCOde169 求众数</li>
 </ol>
 
     </div>
@@ -379,6 +394,9 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
+          </div>
 
         
 
@@ -449,7 +467,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%80%92%E5%BD%92%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是递归？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E7%9A%84%E6%A8%A1%E6%9D%BF%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">递归的模板函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">递归需要注意的问题：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E7%9A%84%E7%BB%8F%E5%85%B8%E7%AE%97%E6%B3%95%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">递归的经典算法题</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%80%92%E5%BD%92%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是递归？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A6%81%E7%B4%A0"><span class="nav-number">2.</span> <span class="nav-text">递归算法的设计要素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E7%9A%84%E6%A8%A1%E6%9D%BF%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">递归的模板函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">递归需要注意的问题：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E7%9A%84%E7%BB%8F%E5%85%B8%E7%AE%97%E6%B3%95%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">递归的经典算法题</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -478,7 +496,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -535,7 +553,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共28.5k字</span>
+  <span class="post-count">博客全站共28.7k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
