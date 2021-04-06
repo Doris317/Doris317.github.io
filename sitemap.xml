@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/</loc>
+    
+    <lastmod>2021-04-06</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</loc>
     
     <lastmod>2021-04-06</lastmod>
@@ -423,6 +430,13 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>http://example.com/tags/Road-vehicles-%E2%80%94-Functional-safety/</loc>
+    <lastmod>2021-04-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
@@ -539,6 +553,13 @@
   
   <url>
     <loc>http://example.com/categories/c/</loc>
+    <lastmod>2021-04-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8/</loc>
     <lastmod>2021-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

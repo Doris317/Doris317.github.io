@@ -22,17 +22,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="sysconf操作">
-<meta property="og:url" content="http://example.com/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/index.html">
+  <meta name="description" content="Part 4: Product development at the system level本文件由技术委员会ISO&#x2F;TC22、道路车辆小组委员会、SC32、电气和电子元件以及一般系统方面编写。 引言ISO26262系列标准改编IEC61508系列标准，以满足道路车辆内电气和&#x2F;或电子（E&#x2F;E）系统的行业特定需求。此改编功能适用于由电气、电子和软件组件组成的安全相关系统的安全生命周期内的所有活动。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="功能安全ISO26262-4">
+<meta property="og:url" content="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
+<meta property="og:description" content="Part 4: Product development at the system level本文件由技术委员会ISO&#x2F;TC22、道路车辆小组委员会、SC32、电气和电子元件以及一般系统方面编写。 引言ISO26262系列标准改编IEC61508系列标准，以满足道路车辆内电气和&#x2F;或电子（E&#x2F;E）系统的行业特定需求。此改编功能适用于由电气、电子和软件组件组成的安全相关系统的安全生命周期内的所有活动。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-04-01T06:48:27.000Z">
-<meta property="article:modified_time" content="2021-04-01T06:48:27.291Z">
+<meta property="og:image" content="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/Figure1.png">
+<meta property="article:published_time" content="2021-04-06T07:26:34.000Z">
+<meta property="article:modified_time" content="2021-04-06T09:24:10.304Z">
 <meta property="article:author" content="Doris">
+<meta property="article:tag" content="Road vehicles — Functional safety">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/Figure1.png">
 
-<link rel="canonical" href="http://example.com/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/">
+<link rel="canonical" href="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/">
 
 
 <script id="page-configurations">
@@ -45,7 +50,7 @@
   };
 </script>
 
-  <title>sysconf操作 | Doris的搬砖日记</title>
+  <title>功能安全ISO26262-4 | Doris的搬砖日记</title>
   
 
 
@@ -199,7 +204,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/WebImage.jpg">
@@ -212,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          sysconf操作
+          功能安全ISO26262-4
         </h1>
 
         <div class="post-meta">
@@ -224,11 +229,20 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-01 14:48:27" itemprop="dateCreated datePublished" datetime="2021-04-01T14:48:27+08:00">2021-04-01</time>
+              <time title="创建时间：2021-04-06 15:26:34" itemprop="dateCreated datePublished" datetime="2021-04-06T15:26:34+08:00">2021-04-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">功能安全</span></a>
+                </span>
             </span>
 
           
-            <span id="/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/" class="post-meta-item leancloud_visitors" data-flag-title="sysconf操作" title="热度">
+            <span id="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/" class="post-meta-item leancloud_visitors" data-flag-title="功能安全ISO26262-4" title="热度">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -251,8 +265,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -262,14 +276,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>3.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -281,7 +295,74 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>Part 4: Product development at the system level<br>本文件由技术委员会ISO/TC22、道路车辆小组委员会、SC32、电气和电子元件以及一般系统方面编写。</p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>ISO26262系列标准改编IEC61508系列标准，以满足道路车辆内电气和/或电子（E/E）系统的行业特定需求。<br>此改编功能适用于由电气、电子和软件组件组成的安全相关系统的安全生命周期内的所有活动。<br>安全是道路车辆发展中的关键问题之一。汽车功能的开发和集成加强了对功能安全的需求和提供满足功能安全目标的证据的需求。<br><br>随着技术复杂性、软件内容和机电实现的增长趋势，系统故障和随机硬件故障的风险不断增加，这些风险被考虑在功能安全范围内。ISO26262系列标准包括:通过提供适当的要求和流程来降低这些风险的指导。<br><br>为了达到功能安全的目的，ISO26262系列标准：</p>
+<ol>
+<li>为汽车安全生命周期提供参考，并支持在生命周期阶段要开展的活动的定制化，即开发、生产、运营、服务和退役；</li>
+<li>提供基于汽车特定风险来确定完整性等级的方法（ASILS）；</li>
+<li>使用ASILS指定使用ISO26262哪些要求适用于避免不合理的剩余风险；</li>
+<li>为功能安全管理、设计、实现、检验、验证和确认措施提供要求；</li>
+<li>为客户和供应商间的关系提供要求。</li>
+</ol>
+<p>ISO26262系列标准关注通过包括安全机制在内的安全措施达到的E/E系统的功能安全。它还提供了一个框架，其他技术（比如机械、液压和启动设备等）的安全相关的系统可以在该框架上考虑。<br><br>功能安全的实现受开发过程（包括需求规范、设计、实施、集成、验证、验证和配置等活动）、生产服务过程和管理过程的影响。<br><br>安全与共同的功能导向和质量导向的活动和工作产品交织在一起。ISO26262系列标准解决了这些活动和工作产品的安全相关方面。<br><br>图1显示了ISO26262系列标准的总体结构。ISO26262系列标准是基于v型模型，作为产品开发不同阶段的参考过程模型。在下图中：</p>
+<ul>
+<li>阴影“V”表示ISO26262-3、ISO26262-4、ISO26262-5、ISO26262-6和ISO26262-7之间的互连；</li>
+<li>对于摩托车：<ul>
+<li>ISO26262-12：2018，第8条支持ISO26262-3；</li>
+<li>ISO26262-12：2018，第9条和第10条支持ISO26262-4；</li>
+</ul>
+</li>
+<li>具体条款以如下方式表示：m-n，其中m表示特定部分的数量，n表示该部分内的条款数量。</li>
+</ul>
+<p><img src="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/Figure1.png" alt="Figure 1 — Overview of the ISO 26262 series of standards.png"></p>
+<h3 id="1-Scope"><a href="#1-Scope" class="headerlink" title="1 Scope"></a>1 Scope</h3><p>本文件旨在适用于安全相关系统，包括一个或多个电气和/或电子（E/E）系统，并以及那些安装在系列生产道路车辆上（不包括轻便摩托车）的系统。本文件不涉及特殊车辆上的独特机电系统，如为残疾司机设计的机电系统。</p>
+<p><strong>注意：</strong> 存在其他专用应用专用安全标准，可补充ISO26262系列标准，反之亦然。</p>
+<p>在本文件发布日期前发布的系统及其组件，或在本文件发布日期之前已经在开发的系统及其组件，不受本版本的范围的限制。本文档基于更改通过定制安全生命周期，解决了在本文档发布前发布的现有系统及其组件的更改，并解决了未根据本文档开发的现有系统和根据本文档开发的系统的集成问题。</p>
+<p>本文件阐述了由安全相关的E/E系统的故障行为所造成的可能危险，包括系统间交互。它不处理与触电、火灾、烟雾、热、辐射、毒性、易燃性、反应性、腐蚀、能量释放和类似危险相关的危险，除非这些危险是由安全相关的E/E系统的故障行为直接引起。</p>
+<p>本文件描述了一个功能安全的框架，以帮助开发与安全相关的机电系统。该框架旨在将功能安全活动集成到公司特定的开发框架中。有些要求对实现产品的功能安全具有明确的技术关注；其他要求则涉及开发过程，因此可被视为证明组织在功能安全方面的能力的过程要求。</p>
+<p>本文件未处理E/E系统的名义上的性能。</p>
+<p>本文件规定了汽车应用在系统级别上的产品开发需求，包括：</p>
+<ul>
+<li>系统级别产品开发启动的一般主题</li>
+<li>技术安全需求的规范</li>
+<li>技术安全的概念</li>
+<li>系统架构设计</li>
+<li>项目集成和测试</li>
+<li>安全验证</li>
+</ul>
+<h3 id="2-Normative-reference"><a href="#2-Normative-reference" class="headerlink" title="2 Normative reference"></a>2 Normative reference</h3><p>文本中提到下列文件，其部分或全部内容构成本文件的要求。对于有日期的参考文献，仅对所引用的版本适用。对于未注明日期的参考文件，适用参考文件的最新版本（包括任何修订版）。</p>
+<p>ISO 26262-1:2018, Road vehicles — Functional safety — Part 1: Vocabulary</p>
+<p>ISO 26262-2:2018, Road vehicles — Functional safety — Part 2: Management of functional safety</p>
+<p>ISO 26262-3:2018, Road vehicles — Functional safety — Part 3: Concept phase</p>
+<p>ISO 26262-5:2018, Road vehicles — Functional safety — Part 5: Product development at the hardware level</p>
+<p>ISO 26262-6:2018, Road vehicles — Functional safety — Part 6: Product development at the software level</p>
+<p>ISO 26262-7:2018, Road vehicles — Functional safety — Part 7: Production, operation, service and decommissioning</p>
+<p>ISO 26262-8:2018, Road vehicles — Functional safety — Part 8: Supporting processes</p>
+<p>ISO 26262-9:2018, Road vehicles — Functional safety — Part 9: Automotive Safety Integrity Level (ASIL)-oriented and safety-oriented analyses</p>
+<h3 id="3-Terms-and-definitions"><a href="#3-Terms-and-definitions" class="headerlink" title="3 Terms and definitions"></a>3 Terms and definitions</h3><p>在本文件中，在ISO26262-1：2018中给出的术语、定义和缩写术语均适用。</p>
+<p>ISO和IEC维护术语数据库进行标准化：</p>
+<ul>
+<li>IEC电子百科：在<a target="_blank" rel="noopener" href="http://www.electropedia.org/">http://www.electropedia.org/</a></li>
+<li>ISO在线浏览平台：在<a target="_blank" rel="noopener" href="https://www.iso.org/obp">https://www.iso.org/obp</a></li>
+</ul>
+<h3 id="4-Requirements-for-compliance"><a href="#4-Requirements-for-compliance" class="headerlink" title="4 Requirements for compliance"></a>4 Requirements for compliance</h3><h4 id="4-1-purpose"><a href="#4-1-purpose" class="headerlink" title="4.1 purpose"></a>4.1 purpose</h4><p>本条款描述了如何：</p>
+<ol>
+<li>实现符合ISO26262系列标准；</li>
+<li>解释ISO26262系列标准中使用的表；以及</li>
+<li>解释每个条款的适用性，具体取决于相关的ASIL。<h4 id="4-2-General-requirements"><a href="#4-2-General-requirements" class="headerlink" title="4.2 General requirements"></a>4.2 General requirements</h4>当要求符合ISO26262系列标准时，应满足每项要求，除非应用了以下其中一条：</li>
+<li>根据ISO26262-2定制安全活动，表明该要求不适用；</li>
+<li>不符合的理由可接受，并根据ISO26262-2进行评估。</li>
+</ol>
+<p>信息性内容，包括说明和示例，仅用于理解或澄清相关要求的指导，不得解释为要求本身或完整或详尽。</p>
+<p>安全活动的结果将作为工作产品提供。“先决条件”是作为上阶段工作产品提供的信息。鉴于一个条款的某些要求是依赖于ASIL的，或者可能是定制的，对应的工作产品可能不需要作为先决条件。</p>
+<p>“进一步支持信息”是可以考虑的信息，但在某些情况下，ISO26262系列标准不要求这些信息作为先前阶段的工作产品，并可由不同的负责职能安全活动的人员或组织的外部来源提供。</p>
+<h3 id="4-3-Interpretations-of-tables"><a href="#4-3-Interpretations-of-tables" class="headerlink" title="4.3 Interpretations of tables"></a>4.3 Interpretations of tables</h3><p>表是规范性的或信息丰富的。表中列出的不同方法有助于对实现符合相应要求的信心水平。表中的每个方法都是：</p>
+<ol>
+<li>一个连续的条目（由最左列中的序列号标记，例如。1,2、3)或</li>
+<li>一个替代条目(在最左的列中标记有一个数字，后面跟着一个字母，例如。2a，2b，2c)。</li>
+</ol>
+<p>对于连续的条目，所有列出的根据ASIL应用高度推荐和推荐的方法。允许替代表中未列出的其他人高度推荐或推荐的方法，在这种情况下，应说明这些方法符合相应要求的原因。如果可以在不选择所有条目的情况下，给出符合相应要求的理由，则不需要对省略的方法提供进一步的理由。</p>
+
     </div>
 
     
@@ -327,7 +408,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/" title="sysconf操作">http://example.com/2021/04/01/sysconf操作/</a>
+    <a href="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/" title="功能安全ISO26262-4">http://example.com/2021/04/06/功能安全ISO26262-4/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -366,6 +447,9 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Road-vehicles-%E2%80%94-Functional-safety/" rel="tag"># Road vehicles — Functional safety</a>
+          </div>
 
         
 
@@ -373,13 +457,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/04/01/%E4%BD%8D%E6%93%8D%E4%BD%9C/" rel="prev" title="位操作">
-      <i class="fa fa-chevron-left"></i> 位操作
+    <a href="/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/" rel="prev" title="算法之递归">
+      <i class="fa fa-chevron-left"></i> 算法之递归
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/04/01/snprintf%E4%B8%8Esprintf/" rel="next" title="snprintf与sprintf">
-      snprintf与sprintf <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -439,6 +520,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Scope"><span class="nav-number">2.</span> <span class="nav-text">1 Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Normative-reference"><span class="nav-number">3.</span> <span class="nav-text">2 Normative reference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Terms-and-definitions"><span class="nav-number">4.</span> <span class="nav-text">3 Terms and definitions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Requirements-for-compliance"><span class="nav-number">5.</span> <span class="nav-text">4 Requirements for compliance</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-purpose"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 purpose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-General-requirements"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 General requirements</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Interpretations-of-tables"><span class="nav-number">6.</span> <span class="nav-text">4.3 Interpretations of tables</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
