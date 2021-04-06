@@ -30,8 +30,10 @@
 <meta property="og:description" content="前言今天跟老大讨论C++的char*与char[]的内存大小的计算方式，引申出指针和对象的问题，也就顺便扯到了java没有指针只有对象的特性。既然扯到了java的对象，那么我就来扯一扯java的内存结构以及java对象在内存中的布局。 java的内存结构JVM的运行时数据区主要分为：程序计数器、虚拟机栈、本地方法栈、堆、方法区。其中程序计数器，虚拟机栈，本地方法栈是线程私有的；而堆和方法区属于线程">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/img.png">
 <meta property="article:published_time" content="2021-04-01T02:22:38.000Z">
-<meta property="article:modified_time" content="2021-04-06T05:47:12.860Z">
+<meta property="article:modified_time" content="2021-04-06T07:21:08.272Z">
 <meta property="article:author" content="Doris">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JVM">
@@ -277,7 +279,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>611</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -305,7 +307,24 @@
 <h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>所有线程共享的一块内存区域，对象实例几乎都在这分配内存。</p>
 <h4 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h4><p>各个线程共享的区域，储存虚拟机加载的类信息，常量，静态变量，编译后的代码。</p>
 <h5 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h5><p>代表运行时每个class文件中的常量表。包括几种常量：编译时的数字常量、方法或者域的引用。</p>
-<h3 id="java对象在内存中的布局"><a href="#java对象在内存中的布局" class="headerlink" title="java对象在内存中的布局"></a>java对象在内存中的布局</h3>
+<h3 id="java对象在内存中的布局"><a href="#java对象在内存中的布局" class="headerlink" title="java对象在内存中的布局"></a>java对象在内存中的布局</h3><p><img src="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png" alt="对象实例内存结构.png"></p>
+<p>如上图所示，共分为三个部分：对象头、实例数据以及对齐填充(非必须项)。</p>
+<h4 id="对象头"><a href="#对象头" class="headerlink" title="对象头"></a>对象头</h4><p>对象头包括了关于堆对象的布局、类型、GC状态、同步状态和标识哈希码的基本信息。元素的对象头共分为两个部分：markword与类型指针，但是数组元素还存在第三个部分——数组长度。</p>
+<ol>
+<li>MarkWord：用于存储对象自身的运行时数据，如HashCode、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时间戳等等。<br><img src="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/img.png" alt="img.png"><ul>
+<li>锁标志位：用于区分锁状态或者GC，只有为11时表示对象等待GC回收，其余都是锁状态</li>
+<li>是否偏向锁：由于无锁和偏向锁的锁标识都是 01，所以引入一位的偏向锁标识位用来区分。</li>
+<li>分代年龄：表示对象被GC的次数，当该次数到达阈值的时候，对象就会转移到老年代。</li>
+<li>对象的hashcode：运行期间调用System.identityHashCode()来计算，延迟计算，并把结果赋值到这里。</li>
+<li>偏向锁的线程ID（JavaThread）：偏向锁模式的时候，当某个线程持有对象的时候，对象这里就会被置为该线程的ID。 在后面的操作中，就无需再进行尝试获取锁的动作。</li>
+<li>epoch：偏向锁在CAS锁操作过程中，偏向性标识，表示对象更偏向哪个锁。</li>
+<li>指向栈中锁记录的指针：轻量级锁状态下，指向栈中锁记录的指针。当锁获取是无竞争的时，JVM使用原子操作而不是OS互斥。这种技术称为轻量级锁定。在轻量级锁定的情况下，JVM通过CAS操作在对象的标题字中设置指向锁记录的指针。</li>
+<li>指向互斥锁的指针：重量级锁状态下，指向对象监视器Monitor的指针。如果两个不同的线程同时在同一个对象上竞争，则必须将轻量级锁定升级到Monitor以管理等待的线程。在重量级锁定的情况下，JVM在对象的ptr_to_heavyweight_monitor设置指向Monitor的指针。</li>
+</ul>
+</li>
+<li>类型指针：对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例。<h4 id="实例数据"><a href="#实例数据" class="headerlink" title="实例数据"></a>实例数据</h4>主要是存放类的数据信息，父类的信息，对象字段属性信息。<h4 id="对齐填充"><a href="#对齐填充" class="headerlink" title="对齐填充"></a>对齐填充</h4>为了字节对齐，填充的数据，不是必须的。<br>默认情况下，Java虚拟机堆中对象的起始地址需要对齐至8的倍数。如果一个对象用不到8N个字节则需要对其填充，以此来补齐对象头和实例数据占用内存之后剩余的空间大小。如果对象头和实例数据已经占满了JVM所分配的内存空间，那么就不用再进行对齐填充了。</li>
+</ol>
+
     </div>
 
     
@@ -467,7 +486,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">java的内存结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="nav-number">2.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">2.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86"><span class="nav-number">2.4.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-number">2.5.</span> <span class="nav-text">方法区</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="nav-number">2.5.1.</span> <span class="nav-text">运行时常量池</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E5%AF%B9%E8%B1%A1%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80"><span class="nav-number">3.</span> <span class="nav-text">java对象在内存中的布局</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">java的内存结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="nav-number">2.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">2.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86"><span class="nav-number">2.4.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-number">2.5.</span> <span class="nav-text">方法区</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="nav-number">2.5.1.</span> <span class="nav-text">运行时常量池</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E5%AF%B9%E8%B1%A1%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80"><span class="nav-number">3.</span> <span class="nav-text">java对象在内存中的布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%A4%B4"><span class="nav-number">3.1.</span> <span class="nav-text">对象头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E6%95%B0%E6%8D%AE"><span class="nav-number">3.2.</span> <span class="nav-text">实例数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E9%BD%90%E5%A1%AB%E5%85%85"><span class="nav-number">3.3.</span> <span class="nav-text">对齐填充</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -540,12 +559,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">67k</span>
+    <span title="站点总字数">68k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:01</span>
+    <span title="站点阅读时长">1:02</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -553,7 +572,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共28.9k字</span>
+  <span class="post-count">博客全站共29.6k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>

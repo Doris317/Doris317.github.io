@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-06T06:18:51.292Z</updated>
+  <updated>2021-04-06T06:26:26.419Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,16 +21,15 @@
     <link href="http://example.com/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/"/>
     <id>http://example.com/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/</id>
     <published>2021-04-02T01:12:39.000Z</published>
-    <updated>2021-04-06T06:18:51.292Z</updated>
+    <updated>2021-04-06T06:26:26.419Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;什么是递归？&quot;&gt;&lt;a href=&quot;#什么是递归？&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h4 id=&quot;什么是递归？&quot;&gt;&lt;a href=&quot;#什么是递归？&quot; class=&quot;headerlink&quot; title=&quot;什么是递归？&quot;&gt;&lt;/a&gt;什么是递归？&lt;/h4&gt;&lt;p&gt;用我弟弟最爱挂在嘴边哄孩子的一个故事来阐述下什么是递归吧：&lt;br&gt;从前有座山，&lt;br&gt;山里有座庙，&lt;br&gt;庙里有个老和尚，&lt;br&gt;老和尚给小和尚讲故事：&lt;br&gt;从前有座山，&lt;br&gt;山里有座庙&lt;br&gt;…&lt;br&gt;(其实我每次听我弟讲这个故事的时候，我就想拿小锤锤揍他…）。&lt;br&gt;这个故事阐述了一种递归的特性，就是&lt;code&gt;不停的自我调用&lt;/code&gt;。与递归算法唯一的不同点就是该故事是没有结尾的，是一个死循环。 所以我们总结以下什么是递归算法：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;递归算法就是将原问题不断分解为规模缩小的子问题，然后递归调用方法来表示问题的解&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&quot;递归算法的设计要素&quot;&gt;&lt;a href=&quot;#递归算法的设计要素&quot; class=&quot;headerlink&quot; title=&quot;递归算法的设计要素&quot;&gt;&lt;/a&gt;递归算法的设计要素&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;明确递归终止条件（不然就像上面的故事一样，死循环）&lt;/li&gt;
+&lt;li&gt;给出递归终止时的处理办法；&lt;/li&gt;
+&lt;li&gt;提取重复的逻辑，缩小问题规模。&lt;/li&gt;&lt;/ol&gt;</summary>
     
     
     
@@ -116,7 +115,7 @@
     <link href="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/"/>
     <id>http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</id>
     <published>2021-04-01T02:22:38.000Z</published>
-    <updated>2021-04-06T05:47:12.860Z</updated>
+    <updated>2021-04-06T07:21:08.272Z</updated>
     
     
     <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;今天跟老大讨论C++的char*与char[]的内存大小的计算方式，引申出指针和对象的问题，也就顺便扯到了java没有指针只有对象的特性。&lt;br&gt;既然扯到了java的对象，那么我就来扯一扯java的内存结构以及java对象在内存中的布局。&lt;/p&gt;
