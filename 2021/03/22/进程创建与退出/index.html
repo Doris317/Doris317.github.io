@@ -30,7 +30,7 @@
 <meta property="og:description" content="前言最近在参与公司某项目平台组件代码评审的任务，刚好与操作系统的进程创建管理相关。于是，就想就着工作中发现的问题以及自己的一些总结来写点什么，既是复习又是学习。  进程与线程老生常谈，各博客平台写烂了的东西。  Linux系统特殊的进程　　在Linux系统中，除了系统启动之后的第一个进程由系统来创建，其余的进程都必须由某个父进程来创建。  0号进程：　　在系统启动及完成初始化之后，Linux自动创">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-22T08:49:20.000Z">
-<meta property="article:modified_time" content="2021-03-29T13:27:14.482Z">
+<meta property="article:modified_time" content="2021-04-06T12:35:00.715Z">
 <meta property="article:author" content="Doris">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
@@ -274,7 +274,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4k</span>
+              <span>4.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -299,12 +299,13 @@
 </code></pre>
 <h2 id="Linux系统特殊的进程"><a href="#Linux系统特殊的进程" class="headerlink" title="Linux系统特殊的进程"></a>Linux系统特殊的进程</h2><p>　　在Linux系统中，除了系统启动之后的第一个进程由系统来创建，其余的进程都必须由某个父进程来创建。</p>
 <ul>
-<li><p>0号进程：<br><br>　　在系统启动及完成初始化之后，Linux自动创建的进程叫做根进程。根进程是Linux中所有进程的祖宗，pid为0的Idle进程。这也是唯一一个不是由fork也不是由kernel_thread创建的进程。</p>
+<li><p>0号进程：<br><br>　　在系统启动及完成初始化之后，Linux自动创建的进程叫做根进程。根进程是Linux中所有进程的祖宗，pid为0的Idle进程。这也是唯一一个不是由fork也不是由kernel_thread创建的进程。<br>&lt;!-more&gt;</p>
 </li>
-<li><p>1号进程init：<br><br>　　由Idle进程调用Kernel_thread创建一个内核线程去执行init函数，该内核线程即init进程，pid为1。init函数继续初始化，此时依旧共享父进程即0号进程的资源属性，直至init函数的最后调用系统的execve，以装入用户空间的可执行文件/sbin/init，此时进程pid1拥有自己的属性资源，且内核的初始化和启动过程结束。<br><br>　　<code>kernel_thread(kernel_init, NULL, CLONE_FS);</code><br><br>　　init进程是所有用户进程的祖先。</p>
+<li><p>1号进程init：<br>　　由Idle进程调用Kernel_thread创建一个内核线程去执行init函数，该内核线程即init进程，pid为1。init函数继续初始化，此时依旧共享父进程即0号进程的资源属性，直至init函数的最后调用系统的execve，以装入用户空间的可执行文件/sbin/init，此时进程pid1拥有自己的属性资源，且内核的初始化和启动过程结束。<br>　　<code>kernel_thread(kernel_init, NULL, CLONE_FS);</code><br>　　init进程是所有用户进程的祖先。</p>
 </li>
-<li><p>2号进程kthreadd：<br><br>　　由Idle进程调用Kernel_thread创建，运行在内核空间，负责所有内核进程的调度和管理，pid为2。<br><br>　　<code>pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);</code><br><br>　　会循环执行kthread函数，该函数的作用就是运行kthread_create_list全局链表中维护的kthread, 当我们调用kernel_thread创建的内核线程会被加入到此链表中。<br><br>　　该进程是所有内核进程的祖先。</p>
-<h3 id="init与systemd"><a href="#init与systemd" class="headerlink" title="init与systemd"></a>init与systemd</h3><p>ubuntu9.10-14.10，系统的启动过程是：<br><br>　　　　开机自检BIOS====》加载MBR中的GRUB引导====》加载内核====》init进程初始化<br>之后，ubuntu对内核的初始化进行了改进，启动过程如下：<br><br>　　　　开机自检BIOS====》加载MBR中的GRUB2引导====》加载内核====》Systemd进程初始化</p>
+<li><p>2号进程kthreadd：<br>　　由Idle进程调用Kernel_thread创建，运行在内核空间，负责所有内核进程的调度和管理，pid为2。<br>　　<code>pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);</code><br>　　会循环执行kthread函数，该函数的作用就是运行kthread_create_list全局链表中维护的kthread, 当我们调用kernel_thread创建的内核线程会被加入到此链表中。<br>　　该进程是所有内核进程的祖先。</p>
+<h3 id="init与systemd"><a href="#init与systemd" class="headerlink" title="init与systemd"></a>init与systemd</h3><p>ubuntu9.10-14.10，系统的启动过程是：<br>　　　　开机自检BIOS====》加载MBR中的GRUB引导====》加载内核====》init进程初始化</p>
+<p>之后，ubuntu对内核的初始化进行了改进，启动过程如下：<br>　　　　开机自检BIOS====》加载MBR中的GRUB2引导====》加载内核====》Systemd进程初始化</p>
 <p>　　init进程与system进程的区别:</p>
 <table>
 <thead>
