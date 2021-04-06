@@ -191,11 +191,11 @@
     <link href="http://example.com/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/"/>
     <id>http://example.com/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/</id>
     <published>2021-03-31T13:26:07.000Z</published>
-    <updated>2021-04-06T11:27:52.434Z</updated>
+    <updated>2021-04-06T11:29:52.923Z</updated>
     
     
     <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;最近在看Redis6.0的源码，发现一个出现频率还不低的C库函数，再加上自己之前的了解不够全面，于是就在复习与学习中不断总结与收获啦。&lt;br&gt;&lt;br&gt;题外话：Redis是一个存储在内存上的缓存数据库，所以会对内存的使用是抠之又抠。&lt;/p&gt;
-&lt;h3 id=&quot;什么是sizeof&quot;&gt;&lt;a href=&quot;#什么是sizeof&quot; class=&quot;headerlink&quot; title=&quot;什么是sizeof&quot;&gt;&lt;/a&gt;什么是sizeof&lt;/h3&gt;&lt;p&gt;sizeof是C语言中保留的关键字，也可以认为是一种单目运算符，其作用是返回一个对象或者类型所占的内存字节数。&lt;br&gt;&lt;br&gt;MSDN上的解释为：&lt;br&gt;&lt;br&gt;　　The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type (including aggregate types).&lt;br&gt;This keyword returns a value of type size_t.&lt;br&gt;&lt;br&gt;　　sizeof关键字给出了变量或者类型（包含聚合类型）存储时的字节数，其返回值类型为size_t。&lt;/p&gt;</summary>
+&lt;h3 id=&quot;什么是sizeof&quot;&gt;&lt;a href=&quot;#什么是sizeof&quot; class=&quot;headerlink&quot; title=&quot;什么是sizeof&quot;&gt;&lt;/a&gt;什么是sizeof&lt;/h3&gt;&lt;p&gt;sizeof是C语言中保留的关键字，也可以认为是一种单目运算符，其作用是返回一个对象或者类型所占的内存字节数。&lt;br&gt;&lt;br&gt;MSDN上的解释为：&lt;br&gt;　　The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type (including aggregate types).&lt;br&gt;This keyword returns a value of type size_t.&lt;br&gt;　　sizeof关键字给出了变量或者类型（包含聚合类型）存储时的字节数，其返回值类型为size_t。&lt;/p&gt;</summary>
     
     
     
