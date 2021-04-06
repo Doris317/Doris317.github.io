@@ -71,11 +71,27 @@
     <link href="http://example.com/2021/04/01/snprintf%E4%B8%8Esprintf/"/>
     <id>http://example.com/2021/04/01/snprintf%E4%B8%8Esprintf/</id>
     <published>2021-04-01T07:18:22.000Z</published>
-    <updated>2021-04-01T07:18:22.644Z</updated>
+    <updated>2021-04-06T12:59:49.540Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;snprintf&quot;&gt;&lt;a href=&quot;#snprintf&quot; class=&quot;headerlink&quot; title=&quot;snprintf&quot;&gt;&lt;/a&gt;snprintf&lt;/h3&gt;&lt;p&gt;原型： &lt;code&gt; int snprintf(char *str, int n, char * format [, argument, ...]);&lt;/code&gt;&lt;br&gt;参数：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;str – 目标字符串。&lt;/li&gt;
+&lt;li&gt;n – 拷贝字节数(Bytes)。&lt;/li&gt;
+&lt;li&gt;format – 格式化成字符串。&lt;/li&gt;
+&lt;li&gt;… – 可变参数。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;函数功能：将可变参数(…)按照 format 格式化成字符串，并将字符串复制到 str 中，n 为要写入的字符的最大数目，超过 size 会被截断：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果格式化后的字符串长度小于等于 n，则会把字符串全部复制到 str 中，并给其后添加一个字符串结束符 \0；&lt;/li&gt;
+&lt;li&gt;如果格式化后的字符串长度大于 n，超过 n 的部分会被截断，只将其中的 (n-1) 个字符复制到 str 中，并给其后添加一个字符串结束符 \0，返回值为欲写入的字符串长度。&lt;/li&gt;&lt;/ol&gt;</summary>
     
     
     
+    <category term="C++" scheme="http://example.com/categories/C/"/>
     
+    
+    <category term="C" scheme="http://example.com/tags/C/"/>
     
   </entry>
   
@@ -84,11 +100,24 @@
     <link href="http://example.com/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/"/>
     <id>http://example.com/2021/04/01/sysconf%E6%93%8D%E4%BD%9C/</id>
     <published>2021-04-01T06:48:27.000Z</published>
-    <updated>2021-04-01T06:48:27.291Z</updated>
+    <updated>2021-04-06T13:19:27.350Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在学习redis的源码过程中认识了一个系统函数sysconf()，因为对其知之甚少，所以抽点时间来了解下该函数的原理以及作用。&lt;/p&gt;
+&lt;h3 id=&quot;什么是sysconf函数&quot;&gt;&lt;a href=&quot;#什么是sysconf函数&quot; class=&quot;headerlink&quot;</summary>
+        
+      
     
     
     
+    <category term="C++" scheme="http://example.com/categories/C/"/>
     
+    
+    <category term="C" scheme="http://example.com/tags/C/"/>
     
   </entry>
   
