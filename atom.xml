@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-06T09:28:07.859Z</updated>
+  <updated>2021-04-06T10:15:42.907Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/"/>
     <id>http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/</id>
     <published>2021-04-06T07:26:34.000Z</published>
-    <updated>2021-04-06T09:28:07.859Z</updated>
+    <updated>2021-04-06T10:15:42.907Z</updated>
     
     
       
@@ -253,11 +253,26 @@
     <link href="http://example.com/2021/03/30/Linux%E7%9A%84load-average/"/>
     <id>http://example.com/2021/03/30/Linux%E7%9A%84load-average/</id>
     <published>2021-03-30T13:03:59.000Z</published>
-    <updated>2021-03-30T13:04:00.019Z</updated>
+    <updated>2021-04-06T09:53:42.216Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;前段时间公司项目需求要写一个负载均衡的demo。在研究负载均衡的计算条件时，不可避免地考虑到了一些linux平台的性能指标，其中就有常被用来和负载均衡load-balance混淆的平均负载load-avearge。&lt;/p&gt;
+&lt;h3</summary>
+        
+      
     
     
     
+    <category term="linux" scheme="http://example.com/categories/linux/"/>
     
+    
+    <category term="linux" scheme="http://example.com/tags/linux/"/>
+    
+    <category term="性能优化" scheme="http://example.com/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   

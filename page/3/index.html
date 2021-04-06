@@ -124,12 +124,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">21</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">18</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -224,6 +224,15 @@
 
               <time title="创建时间：2021-03-30 21:03:59" itemprop="dateCreated datePublished" datetime="2021-03-30T21:03:59+08:00">2021-03-30</time>
             </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
 
           
             <span id="/2021/03/30/Linux%E7%9A%84load-average/" class="post-meta-item leancloud_visitors" data-flag-title="Linux的load_average" title="热度">
@@ -253,7 +262,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>428</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -272,7 +281,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <p>前段时间公司项目需求要写一个负载均衡的demo。在研究负载均衡的计算条件时，不可避免地考虑到了一些linux平台的性能指标，其中就有常被用来和负载均衡load-balance混淆的平均负载load-avearge。</p>
+<h3 id="怎样查看linux系统当前的平均负载"><a href="#怎样查看linux系统当前的平均负载" class="headerlink" title="怎样查看linux系统当前的平均负载"></a>怎样查看linux系统当前的平均负载</h3><ol>
+<li>top命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">VirtualBox:~$ top</span><br><span class="line"></span><br><span class="line">top - 17:52:47 up 1 min,  1 user,  load average: 1.83, 0.63, 0.22</span><br><span class="line">Tasks: 191 total,   2 running, 189 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s): 17.2 us,  1.4 sy,  0.0 ni, 80.7 id,  0.3 wa,  0.0 hi,  0.3 si,  0.0 st</span><br><span class="line">MiB Mem :   3936.0 total,   2012.7 free,    678.1 used,   1245.2 buff&#x2F;cache</span><br><span class="line">MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   3011.9 avail Mem </span><br></pre></td></tr></table></figure></li>
+</ol>
+
       
     </div>
 
@@ -823,13 +836,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -878,7 +891,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:05</span>
+    <span title="站点阅读时长">1:06</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -886,7 +899,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共31.7k字</span>
+  <span class="post-count">博客全站共32k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
