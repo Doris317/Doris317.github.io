@@ -3,6 +3,7 @@
 <hr>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在看Redis6.0的源码，发现一个出现频率还不低的C库函数，再加上自己之前的了解不够全面，于是就在复习与学习中不断总结与收获啦。<br><br>题外话：Redis是一个存储在内存上的缓存数据库，所以会对内存的使用是抠之又抠。</p>
 <h3 id="什么是sizeof"><a href="#什么是sizeof" class="headerlink" title="什么是sizeof"></a>什么是sizeof</h3><p>sizeof是C语言中保留的关键字，也可以认为是一种单目运算符，其作用是返回一个对象或者类型所占的内存字节数。<br><br>MSDN上的解释为：<br><br>　　The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type (including aggregate types).<br>This keyword returns a value of type size_t.<br><br>　　sizeof关键字给出了变量或者类型（包含聚合类型）存储时的字节数，其返回值类型为size_t。</p>
+<!--more-->
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>sizeof有三种语法形式，如下：</p>
 <ol>
 <li>sizeof( object ); // sizeof( 对象 )，对象可以是各种类型的变量，以及表达式。</li>
