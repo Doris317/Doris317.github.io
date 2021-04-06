@@ -22,15 +22,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前段时间公司项目需求要写一个负载均衡的demo。在研究负载均衡的计算条件时，不可避免地考虑到了一些linux平台的性能指标，其中就有常被用来和负载均衡load-balance混淆的平均负载load-avearge。 怎样查看linux系统当前的平均负载 top命令：1234567VirtualBox:~$ toptop - 17:52:47 up 1 min,  1 user,  load ave">
+  <meta name="description" content="前段时间公司项目需求要写一个负载均衡的demo。在研究负载均衡的计算条件时，不可避免地考虑到了一些linux平台的性能指标，其中就有常被用来和负载均衡load-balance混淆的平均负载load-avearge。 什么是load average？平均负载是指cpu在一段时间内正在处理以及等待CPU处理的进程数之和的统计信息，也就是CPU使用队列的长度的统计信息。也可以说是一段时间内活跃进程的统计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux的load_average">
 <meta property="og:url" content="http://example.com/2021/03/30/Linux%E7%9A%84load-average/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
-<meta property="og:description" content="前段时间公司项目需求要写一个负载均衡的demo。在研究负载均衡的计算条件时，不可避免地考虑到了一些linux平台的性能指标，其中就有常被用来和负载均衡load-balance混淆的平均负载load-avearge。 怎样查看linux系统当前的平均负载 top命令：1234567VirtualBox:~$ toptop - 17:52:47 up 1 min,  1 user,  load ave">
+<meta property="og:description" content="前段时间公司项目需求要写一个负载均衡的demo。在研究负载均衡的计算条件时，不可避免地考虑到了一些linux平台的性能指标，其中就有常被用来和负载均衡load-balance混淆的平均负载load-avearge。 什么是load average？平均负载是指cpu在一段时间内正在处理以及等待CPU处理的进程数之和的统计信息，也就是CPU使用队列的长度的统计信息。也可以说是一段时间内活跃进程的统计">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-30T13:03:59.000Z">
-<meta property="article:modified_time" content="2021-04-06T09:53:42.216Z">
+<meta property="article:modified_time" content="2021-04-06T12:26:16.185Z">
 <meta property="article:author" content="Doris">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="性能优化">
@@ -275,14 +275,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>428</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -295,8 +295,39 @@
 
       
         <p>前段时间公司项目需求要写一个负载均衡的demo。在研究负载均衡的计算条件时，不可避免地考虑到了一些linux平台的性能指标，其中就有常被用来和负载均衡load-balance混淆的平均负载load-avearge。</p>
-<h3 id="怎样查看linux系统当前的平均负载"><a href="#怎样查看linux系统当前的平均负载" class="headerlink" title="怎样查看linux系统当前的平均负载"></a>怎样查看linux系统当前的平均负载</h3><ol>
-<li>top命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">VirtualBox:~$ top</span><br><span class="line"></span><br><span class="line">top - 17:52:47 up 1 min,  1 user,  load average: 1.83, 0.63, 0.22</span><br><span class="line">Tasks: 191 total,   2 running, 189 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s): 17.2 us,  1.4 sy,  0.0 ni, 80.7 id,  0.3 wa,  0.0 hi,  0.3 si,  0.0 st</span><br><span class="line">MiB Mem :   3936.0 total,   2012.7 free,    678.1 used,   1245.2 buff&#x2F;cache</span><br><span class="line">MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   3011.9 avail Mem </span><br></pre></td></tr></table></figure></li>
+<h3 id="什么是load-average？"><a href="#什么是load-average？" class="headerlink" title="什么是load average？"></a>什么是load average？</h3><p>平均负载是指cpu在一段时间内正在处理以及等待CPU处理的进程数之和的统计信息，也就是CPU使用队列的长度的统计信息。也可以说是一段时间内活跃进程的统计信息。</p>
+<h3 id="怎样查看linux系统当前的平均负载"><a href="#怎样查看linux系统当前的平均负载" class="headerlink" title="怎样查看linux系统当前的平均负载"></a>怎样查看linux系统当前的平均负载</h3><p>load average参数后的数值就代表系统当前的平均负载。具体的查看命令有：</p>
+<ol>
+<li>top命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">VirtualBox:~$ top：最常见的命令了。</span><br><span class="line"></span><br><span class="line">top - 17:52:47 up 1 min,  1 user,  load average: 1.83, 0.63, 0.22</span><br><span class="line">Tasks: 191 total,   2 running, 189 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s): 17.2 us,  1.4 sy,  0.0 ni, 80.7 id,  0.3 wa,  0.0 hi,  0.3 si,  0.0 st</span><br><span class="line">MiB Mem :   3936.0 total,   2012.7 free,    678.1 used,   1245.2 buff&#x2F;cache</span><br><span class="line">MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   3011.9 avail Mem </span><br></pre></td></tr></table></figure>
+<span id="more"></span></li>
+<li>W命令：用于查看当前平均负载以及当前有哪些用户，分别占用了哪些终端<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">VirtualBox:~$ w</span><br><span class="line"> 19:38:53 up 1 min,  1 user,  load average: 0.78, 0.32, 0.11</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line">test    :0       :0               19:37   ?xdm?  22.41s  0.00s &#x2F;usr&#x2F;lib&#x2F;gdm3&#x2F;g</span><br></pre></td></tr></table></figure></li>
+<li>uptime：查看平均负载的最简单的命令<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VirtualBox:~$ uptime</span><br><span class="line"> 19:40:21 up 3 min,  1 user,  load average: 0.19, 0.25, 0.10</span><br></pre></td></tr></table></figure>
+<h3 id="怎么解释load-average的参数呢？"><a href="#怎么解释load-average的参数呢？" class="headerlink" title="怎么解释load average的参数呢？"></a>怎么解释load average的参数呢？</h3>从上面的命令输出的结果可以看到：load balance的参数带有单个值，分别对应1分钟、5分钟以及15分钟内cpu的平均负载。对参数值的解释有：</li>
+<li>如果平均值为 0.0，意味着系统处于空闲状态</li>
+<li>如果 1min 平均值高于 5min 或 15min 平均值，则负载正在增加</li>
+<li>如果 1min 平均值低于 5min 或 15min 平均值，则负载正在减少</li>
+</ol>
+<p>其次，需要注意的是loadbalance本身的值是没有具体意义的，它与机器内核数有关。</p>
+<ol>
+<li>以一个单核的机器为例：<ol>
+<li>load=0.5，表示CPU还有一半的资源可以处理其他的线程请求 </li>
+<li>load=1表示CPU所有的资源都在处理请求，没有剩余的资源可以利用了</li>
+<li>load=2则表示CPU已经超负荷运作，另外还有一倍的线程正在等待处理。 </li>
+</ol>
+</li>
+<li>对于双核处理器来说：<ol>
+<li>load=2表示CPU所有的资源都在处理请求，没有剩余的资源可以利用了。</li>
+</ol>
+</li>
+</ol>
+<p><strong>结论：</strong> 多核处理器中，Load average不应该高于处理器核心的总数量。如果它们高于处理器核心的数量，那么系统很可能会遇到性能问题。</p>
+<h3 id="如何排查load-average过高的问题呢？"><a href="#如何排查load-average过高的问题呢？" class="headerlink" title="如何排查load average过高的问题呢？"></a>如何排查load average过高的问题呢？</h3><ol>
+<li>首先我们可以确认当前load balance的值：watch -d uptime<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Every 2.0s: uptime       iauto-VirtualBox: Tue Apr  6 20:19:45 2021</span><br><span class="line"></span><br><span class="line"> 20:19:45 up 42 min,  1 user,  load average: 1.00, 0.82, 0.48</span><br></pre></td></tr></table></figure></li>
+<li>查看当前系统cpu的核心数以及是否开启了超核线程：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;cpuinfo (获取你系统上的每个处理器的信息。如果你只想得到数字，那么就使用下面的命令：grep &#39;model name&#39; &#x2F;proc&#x2F;cpuinfo | wc -l)</span><br></pre></td></tr></table></figure>
+查看当前系统cpu的核心数: 单核<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VirtualBox:~$ cat &#x2F;proc&#x2F;cpuinfo |grep &quot;cpu core&quot;|wc -l</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+查看是否开启了超核线程：因为cpu核心数也是1，所以没有开启<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VirtualBox:~$ cat &#x2F;proc&#x2F;cpuinfo | grep &quot;processor&quot; | wc -l</span><br><span class="line">1</span><br></pre></td></tr></table></figure></li>
+<li>每五秒打印一次cpu的使用率：可以看到是近乎于百分百的<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mpstat -P ALL 5</span><br><span class="line">Linux 5.8.0-43-generic (VirtualBox) 	2021年04月06日 	_x86_64_	(1 CPU)</span><br><span class="line"></span><br><span class="line">20时16分06秒  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">20时16分11秒  all   99.40    0.00    0.60    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line">20时16分11秒    0   99.40    0.00    0.60    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line"></span><br><span class="line">20时16分11秒  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">20时16分16秒  all   98.80    0.00    1.20    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line">20时16分16秒    0   98.80    0.00    1.20    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br></pre></td></tr></table></figure></li>
+<li>打印进程id号，查看使用cpu最高的进程，可以看到是Stress，因为我之前用stress进行了压力测试<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pidstat -u 5 1</span><br><span class="line">Linux 5.8.0-43-generic (VirtualBox) 	2021年04月06日 	_x86_64_	(1 CPU)</span><br><span class="line"></span><br><span class="line">20时16分42秒   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command</span><br><span class="line">20时16分47秒  1000      1286    0.20    0.00    0.00    0.00    0.20     0  Xorg</span><br><span class="line">20时16分47秒  1000      1420    0.00    0.20    0.00    0.00    0.20     0  VBoxClient</span><br><span class="line">20时16分47秒  1000      1497    0.40    0.00    0.00    0.40    0.40     0  gnome-shell</span><br><span class="line">20时16分47秒  1000      2406    0.20    0.00    0.00    0.00    0.20     0  gnome-terminal-</span><br><span class="line">20时16分47秒  1000     25441   98.60    0.00    0.00    1.20   98.60     0  stress</span><br></pre></td></tr></table></figure></li>
 </ol>
 
     </div>
@@ -460,7 +491,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E6%A0%B7%E6%9F%A5%E7%9C%8Blinux%E7%B3%BB%E7%BB%9F%E5%BD%93%E5%89%8D%E7%9A%84%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">怎样查看linux系统当前的平均负载</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFload-average%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是load average？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E6%A0%B7%E6%9F%A5%E7%9C%8Blinux%E7%B3%BB%E7%BB%9F%E5%BD%93%E5%89%8D%E7%9A%84%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD"><span class="nav-number">2.</span> <span class="nav-text">怎样查看linux系统当前的平均负载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E8%A7%A3%E9%87%8Aload-average%E7%9A%84%E5%8F%82%E6%95%B0%E5%91%A2%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">怎么解释load average的参数呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8E%92%E6%9F%A5load-average%E8%BF%87%E9%AB%98%E7%9A%84%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">如何排查load average过高的问题呢？</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -533,12 +564,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">72k</span>
+    <span title="站点总字数">75k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:06</span>
+    <span title="站点阅读时长">1:08</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -546,7 +577,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共32.1k字</span>
+  <span class="post-count">博客全站共33.1k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
