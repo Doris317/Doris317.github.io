@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-06T11:20:15.031Z</updated>
+  <updated>2021-04-06T11:21:38.486Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,17 +21,17 @@
     <link href="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/"/>
     <id>http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/</id>
     <published>2021-04-06T07:26:34.000Z</published>
-    <updated>2021-04-06T11:20:15.031Z</updated>
+    <updated>2021-04-06T11:21:38.486Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;Part 4: Product development at the system level&lt;br&gt;本文件由技术委员会ISO/TC22、道路车辆小组委员会、SC32、电气和电子元件以及一般系统方面编写。&lt;/p&gt;
-&lt;h3 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot;</summary>
-        
-      
+&lt;h3 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h3&gt;&lt;p&gt;ISO26262系列标准改编IEC61508系列标准，以满足道路车辆内电气和/或电子（E/E）系统的行业特定需求。&lt;br&gt;此改编功能适用于由电气、电子和软件组件组成的安全相关系统的安全生命周期内的所有活动。&lt;br&gt;安全是道路车辆发展中的关键问题之一。汽车功能的开发和集成加强了对功能安全的需求和提供满足功能安全目标的证据的需求。&lt;br&gt;&lt;br&gt;随着技术复杂性、软件内容和机电实现的增长趋势，系统故障和随机硬件故障的风险不断增加，这些风险被考虑在功能安全范围内。ISO26262系列标准包括:通过提供适当的要求和流程来降低这些风险的指导。&lt;br&gt;&lt;br&gt;为了达到功能安全的目的，ISO26262系列标准：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;为汽车安全生命周期提供参考，并支持在生命周期阶段要开展的活动的定制化，即开发、生产、运营、服务和退役；&lt;/li&gt;
+&lt;li&gt;提供基于汽车特定风险来确定完整性等级的方法（ASILS）；&lt;/li&gt;
+&lt;li&gt;使用ASILS指定使用ISO26262哪些要求适用于避免不合理的剩余风险；&lt;/li&gt;
+&lt;li&gt;为功能安全管理、设计、实现、检验、验证和确认措施提供要求；&lt;/li&gt;
+&lt;li&gt;为客户和供应商间的关系提供要求。&lt;/li&gt;&lt;/ol&gt;</summary>
     
     
     
