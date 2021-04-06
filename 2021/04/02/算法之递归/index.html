@@ -30,7 +30,7 @@
 <meta property="og:description" content="什么是递归？用我弟弟最爱挂在嘴边哄孩子的一个故事来阐述下什么是递归吧：从前有座山，山里有座庙，庙里有个老和尚，老和尚给小和尚讲故事：从前有座山，山里有座庙…(其实我每次听我弟讲这个故事的时候，我就想拿小锤锤揍他…）。这个故事阐述了一种递归的特性，就是不停的自我调用。与递归算法唯一的不同点就是该故事是没有结尾的，是一个死循环。 所以我们总结以下什么是递归算法： 递归算法就是将原问题不断分解为规模缩小">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-02T01:12:39.000Z">
-<meta property="article:modified_time" content="2021-04-06T05:36:22.772Z">
+<meta property="article:modified_time" content="2021-04-06T06:18:51.292Z">
 <meta property="article:author" content="Doris">
 <meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
@@ -274,7 +274,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>606</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -293,7 +293,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="什么是递归？"><a href="#什么是递归？" class="headerlink" title="什么是递归？"></a>什么是递归？</h4><p>用我弟弟最爱挂在嘴边哄孩子的一个故事来阐述下什么是递归吧：<br>从前有座山，<br>山里有座庙，<br>庙里有个老和尚，<br>老和尚给小和尚讲故事：<br>从前有座山，<br>山里有座庙<br>…<br><br>(其实我每次听我弟讲这个故事的时候，我就想拿小锤锤揍他…）。<br><br>这个故事阐述了一种递归的特性，就是<code>不停的自我调用</code>。与递归算法唯一的不同点就是该故事是没有结尾的，是一个死循环。 所以我们总结以下什么是递归算法：</p>
+        <h4 id="什么是递归？"><a href="#什么是递归？" class="headerlink" title="什么是递归？"></a>什么是递归？</h4><p>用我弟弟最爱挂在嘴边哄孩子的一个故事来阐述下什么是递归吧：<br>从前有座山，<br>山里有座庙，<br>庙里有个老和尚，<br>老和尚给小和尚讲故事：<br>从前有座山，<br>山里有座庙<br>…<br>(其实我每次听我弟讲这个故事的时候，我就想拿小锤锤揍他…）。<br>这个故事阐述了一种递归的特性，就是<code>不停的自我调用</code>。与递归算法唯一的不同点就是该故事是没有结尾的，是一个死循环。 所以我们总结以下什么是递归算法：</p>
 <p><code>递归算法就是将原问题不断分解为规模缩小的子问题，然后递归调用方法来表示问题的解</code></p>
 <h4 id="递归算法的设计要素"><a href="#递归算法的设计要素" class="headerlink" title="递归算法的设计要素"></a>递归算法的设计要素</h4><ol>
 <li>明确递归终止条件（不然就像上面的故事一样，死循环）</li>
@@ -306,8 +306,9 @@
 <li>递归的深度过深的时候，会造成StackOverFlow问题。</li>
 </ol>
 <h4 id="递归的经典算法题"><a href="#递归的经典算法题" class="headerlink" title="递归的经典算法题"></a>递归的经典算法题</h4><ol>
-<li>斐波拉契函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li>LeetCode50 计算x的n次方问题</li>
+<li>斐波拉契函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public int fib(int N) &#123;</span><br><span class="line">    if (N &#x3D;&#x3D; 0 || N &#x3D;&#x3D; 1) &#123;</span><br><span class="line">        return N;</span><br><span class="line">    &#125;</span><br><span class="line">    return fib(N - 1) + fib(N - 2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+上面的代码就是出现了大量的重复计算，代码简洁但是效率较低，优化后的代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public int fib(int n) &#123;</span><br><span class="line">    if (n &lt; 2) &#123;</span><br><span class="line">        return n;</span><br><span class="line">    &#125;</span><br><span class="line">    int a &#x3D; 0, b &#x3D; 1;</span><br><span class="line">    for (int i &#x3D; 2; i &lt;&#x3D; n ; i++) &#123;</span><br><span class="line">       b +&#x3D; a;</span><br><span class="line">       a &#x3D; b - a;</span><br><span class="line">    &#125;</span><br><span class="line">    return b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>LeetCode50 计算x的n次方问题<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static double myPow(double x, int n) &#123;</span><br><span class="line">    if(n&#x3D;&#x3D;0)  return 1;</span><br><span class="line">    if(n&#x3D;&#x3D;1)  return x;</span><br><span class="line">    if(n&#x3D;&#x3D;-1) return 1&#x2F;x;</span><br><span class="line"></span><br><span class="line">    double half&#x3D;myPow(x,n&#x2F;2);</span><br><span class="line">    double rest&#x3D;myPow(x,n%2);</span><br><span class="line">    return half*half*rest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 
     </div>
@@ -553,7 +554,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共28.7k字</span>
+  <span class="post-count">博客全站共28.9k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
