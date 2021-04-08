@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-08T13:01:30.248Z</updated>
+  <updated>2021-04-08T13:04:44.999Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,16 +21,10 @@
     <link href="http://example.com/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/"/>
     <id>http://example.com/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/</id>
     <published>2021-04-08T12:15:51.000Z</published>
-    <updated>2021-04-08T13:01:30.248Z</updated>
+    <updated>2021-04-08T13:04:44.999Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;LeetCode153-寻找旋转排序数组中的最小值&quot;&gt;&lt;a href=&quot;#LeetCode153-寻找旋转排序数组中的最小值&quot; class=&quot;headerlink&quot; title=&quot;LeetCode153.</summary>
-        
-      
+    <summary type="html">&lt;h3 id=&quot;LeetCode153-寻找旋转排序数组中的最小值&quot;&gt;&lt;a href=&quot;#LeetCode153-寻找旋转排序数组中的最小值&quot; class=&quot;headerlink&quot; title=&quot;LeetCode153. 寻找旋转排序数组中的最小值&quot;&gt;&lt;/a&gt;LeetCode153. 寻找旋转排序数组中的最小值&lt;/h3&gt;&lt;p&gt;题目：&lt;br&gt;&lt;br&gt;已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：&lt;br&gt;&lt;br&gt;若旋转 4 次，则可以得到 [4,5,6,7,0,1,2]&lt;br&gt;&lt;br&gt;若旋转 7 次，则可以得到 [0,1,2,4,5,6,7]&lt;br&gt;&lt;br&gt;注意，数组 [a[0], a[1], a[2], …, a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], …, a[n-2]]。&lt;br&gt;&lt;br&gt;给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。&lt;/p&gt;</summary>
     
     
     
@@ -48,16 +42,12 @@
     <link href="http://example.com/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&amp;II/"/>
     <id>http://example.com/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&amp;II/</id>
     <published>2021-04-07T12:22:08.000Z</published>
-    <updated>2021-04-08T12:35:14.170Z</updated>
+    <updated>2021-04-08T13:04:59.193Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;LeetCode33-搜索旋转排序数组I&quot;&gt;&lt;a href=&quot;#LeetCode33-搜索旋转排序数组I&quot; class=&quot;headerlink&quot; title=&quot;LeetCode33 搜索旋转排序数组I&quot;&gt;&lt;/a&gt;LeetCode33</summary>
-        
-      
+    <summary type="html">&lt;h3 id=&quot;LeetCode33-搜索旋转排序数组I&quot;&gt;&lt;a href=&quot;#LeetCode33-搜索旋转排序数组I&quot; class=&quot;headerlink&quot; title=&quot;LeetCode33 搜索旋转排序数组I&quot;&gt;&lt;/a&gt;LeetCode33 搜索旋转排序数组I&lt;/h3&gt;&lt;p&gt;题目：&lt;br&gt;&lt;br&gt;　　整数数组 nums 按升序排列，数组中的值互不相同。在传递给函数之前，nums 在预先未知的某个下标 k（0 &amp;lt;= k &amp;lt; nums.length）上进行了 旋转，使数组变为 [nums[k], nums[k+1], …, nums[n-1], nums[0], nums[1], …, nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 在下标 3 处经旋转后可能变为 [4,5,6,7,0,1,2] 。&lt;br&gt;给你旋转后的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。&lt;/p&gt;
+&lt;p&gt;示例 1：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;输入：nums &amp;#x3D; [4,5,6,7,0,1,2], target &amp;#x3D; 0&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;输出：4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
     
     
     
