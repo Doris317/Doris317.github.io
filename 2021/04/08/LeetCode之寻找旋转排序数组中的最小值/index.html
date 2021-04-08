@@ -22,23 +22,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言昨儿评审公司项目的某通信模块的设计，本次评审的着重点在于序列化的设计，因此结束后趁热打铁的总结下序列化与反序列化。 什么是序列化以及为什么要学序列化序列化： 将对象转换成二进制数据的过程反序列化： 把字节序列还原为对象的过程 序列化最终的目的是为了对象可以跨平台存储，和进行网络传输，即IO。而支持的数据格式是字节数组，因此对象是不能直接在网络中传输的，所以我们需要提前把它转成可传输的二进制，并">
+  <meta name="description" content="LeetCode153. 寻找旋转排序数组中的最小值题目：已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums &#x3D; [0,1,2,4,5,6,7] 在变化后可能得到：若旋转 4 次，则可以得到 [4,5,6,7,0,1,2]若旋转 7 次，则可以得到 [0,1,2,4,5,6,7]注意，数组 [a[0], a[1], a[2], …,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="序列化与反序列化">
-<meta property="og:url" content="http://example.com/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:title" content="LeetCode153之寻找旋转排序数组中的最小值">
+<meta property="og:url" content="http://example.com/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
-<meta property="og:description" content="前言昨儿评审公司项目的某通信模块的设计，本次评审的着重点在于序列化的设计，因此结束后趁热打铁的总结下序列化与反序列化。 什么是序列化以及为什么要学序列化序列化： 将对象转换成二进制数据的过程反序列化： 把字节序列还原为对象的过程 序列化最终的目的是为了对象可以跨平台存储，和进行网络传输，即IO。而支持的数据格式是字节数组，因此对象是不能直接在网络中传输的，所以我们需要提前把它转成可传输的二进制，并">
+<meta property="og:description" content="LeetCode153. 寻找旋转排序数组中的最小值题目：已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums &#x3D; [0,1,2,4,5,6,7] 在变化后可能得到：若旋转 4 次，则可以得到 [4,5,6,7,0,1,2]若旋转 7 次，则可以得到 [0,1,2,4,5,6,7]注意，数组 [a[0], a[1], a[2], …,">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-04-01T01:30:35.000Z">
-<meta property="article:modified_time" content="2021-04-01T02:17:17.994Z">
+<meta property="article:published_time" content="2021-04-08T12:15:51.000Z">
+<meta property="article:modified_time" content="2021-04-08T13:01:30.248Z">
 <meta property="article:author" content="Doris">
-<meta property="article:tag" content="C++">
 <meta property="article:tag" content="Java">
-<meta property="article:tag" content="RPC">
-<meta property="article:tag" content="编码">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+<link rel="canonical" href="http://example.com/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/">
 
 
 <script id="page-configurations">
@@ -51,7 +49,7 @@
   };
 </script>
 
-  <title>序列化与反序列化 | Doris的搬砖日记</title>
+  <title>LeetCode153之寻找旋转排序数组中的最小值 | Doris的搬砖日记</title>
   
 
 
@@ -205,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/WebImage.jpg">
@@ -218,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          序列化与反序列化
+          LeetCode153之寻找旋转排序数组中的最小值
         </h1>
 
         <div class="post-meta">
@@ -230,7 +228,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-01 09:30:35" itemprop="dateCreated datePublished" datetime="2021-04-01T09:30:35+08:00">2021-04-01</time>
+              <time title="创建时间：2021-04-08 20:15:51" itemprop="dateCreated datePublished" datetime="2021-04-08T20:15:51+08:00">2021-04-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,12 +236,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">编码</span></a>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
                 </span>
             </span>
 
           
-            <span id="/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="post-meta-item leancloud_visitors" data-flag-title="序列化与反序列化" title="热度">
+            <span id="/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/" class="post-meta-item leancloud_visitors" data-flag-title="LeetCode153之寻找旋转排序数组中的最小值" title="热度">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -266,8 +264,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -277,7 +275,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -296,36 +294,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>昨儿评审公司项目的某通信模块的设计，本次评审的着重点在于序列化的设计，因此结束后趁热打铁的总结下序列化与反序列化。</p>
-<h3 id="什么是序列化以及为什么要学序列化"><a href="#什么是序列化以及为什么要学序列化" class="headerlink" title="什么是序列化以及为什么要学序列化"></a>什么是序列化以及为什么要学序列化</h3><p><strong>序列化：</strong> 将对象转换成二进制数据的过程<br><br><strong>反序列化：</strong> 把字节序列还原为对象的过程</p>
-<p>序列化最终的目的是为了对象可以跨平台存储，和进行网络传输，即IO。而支持的数据格式是字节数组，因此对象是不能直接在网络中传输的，所以我们需要提前把它转成可传输的二进制，并且要求转换算法是可逆的，即序列化与反序列化。</p>
-<h3 id="常见的序列化框架"><a href="#常见的序列化框架" class="headerlink" title="常见的序列化框架"></a>常见的序列化框架</h3><p>序列化框架的核心就是设计可以将对象的类型、属性类型、属性值一一按照固定的格式写到二进制字节流中来完成序列化，再按照固定的格式一一读出对象的类型、属性类型、属性值，通过这些信息重新创建出一个新的对象，来完成反序列化的协议。</p>
-<span id="more"></span>
-<h4 id="1-Json"><a href="#1-Json" class="headerlink" title="1. Json"></a>1. Json</h4><p>JSON 是典型的 Key-Value 方式，没有数据类型，是一种文本型序列化框架。<br><br><strong>优点：</strong>　简单、可读性高<br><br><strong>缺点：</strong>　</p>
-<ol>
-<li>空间开销大,意味着需要巨大的内存和磁盘开销；</li>
-<li>JSON 没有类型，对Java这种强类型语言不太友好，因为后者需要通过反射统一解决，所以性能不会太好。</li>
-</ol>
-<h4 id="2-Hessian"><a href="#2-Hessian" class="headerlink" title="2. Hessian"></a>2. Hessian</h4><p>Hessian是动态类型、二进制、紧凑的，并且可跨语言移植的一种序列化框架。<br><br><strong>优点：</strong> 空间开销小，兼容性和稳定性比较高<br><br><strong>缺点：</strong> 缺少对Java部分数据类型的支持，比如：</p>
-<ol>
-<li>Linked 系列，LinkedHashMap、LinkedHashSet 等，但是可以通过扩展 CollectionDeserializer 类修复；</li>
-<li>Locale 类，可以通过扩展 ContextSerializerFactory 类修复；</li>
-<li>Byte/Short 反序列化的时候变成 Integer。</li>
-</ol>
-<h4 id="3-Protobuf"><a href="#3-Protobuf" class="headerlink" title="3. Protobuf"></a>3. Protobuf</h4><p>Protobuf是Google提出的一种轻便、高效的结构化数据存储格式，可以用于结构化数据序列化，支持 Java、Python、C++、Go 等语言。<br><br>Protobuf定义了一种文件类型.proto，定义了文件格式；然后使用不同语言的 IDL 编译器将上面的文件生成序列化工具类<br><br><strong>优点：</strong></p>
-<ol>
-<li>序列化后体积相比 JSON、Hessian 小很多；</li>
-<li>IDL 能清晰地描述语义，所以足以帮助并保证应用程序之间的类型不会丢失，无需类似 XML 解析器；</li>
-<li>序列化反序列化速度很快，不需要通过反射获取类型；</li>
-<li>消息格式升级和兼容性不错，可以做到向后兼容。</li>
-</ol>
-<h3 id="如何选择序列化？"><a href="#如何选择序列化？" class="headerlink" title="如何选择序列化？"></a>如何选择序列化？</h3><p>从以下几个点考虑来选择序列化框架：</p>
-<ol>
-<li>性能和效率：因为序列化与反序列化过程是网络通信数据传输中一个必不可少的环节。</li>
-<li>空间开销：因为序列化生成的文件大小对网络传输的性能有影响，序列化的文件过大还会导致网络传输延迟。</li>
-<li>通用性和兼容性：因为序列化协议的通用性和兼容性直接关系到服务调用的稳定性和可用率的，因此对于服务的性能来说，服务的可靠性显然更加重要。</li>
-<li>安全性：存在漏洞的序列化协议会带来服务入侵的风险。</li>
-</ol>
+        <h3 id="LeetCode153-寻找旋转排序数组中的最小值"><a href="#LeetCode153-寻找旋转排序数组中的最小值" class="headerlink" title="LeetCode153. 寻找旋转排序数组中的最小值"></a>LeetCode153. 寻找旋转排序数组中的最小值</h3><p>题目：<br><br>已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：<br><br>若旋转 4 次，则可以得到 [4,5,6,7,0,1,2]<br><br>若旋转 7 次，则可以得到 [0,1,2,4,5,6,7]<br><br>注意，数组 [a[0], a[1], a[2], …, a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], …, a[n-2]]。<br><br>给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：nums &#x3D; [3,4,5,1,2]</span><br><span class="line">输出：1</span><br><span class="line">解释：原数组为 [1,2,3,4,5] ，旋转 3 次得到输入数组。</span><br></pre></td></tr></table></figure>
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：nums &#x3D; [4,5,6,7,0,1,2]</span><br><span class="line">输出：0</span><br><span class="line">解释：原数组为 [0,1,2,4,5,6,7] ，旋转 4 次得到输入数组。</span><br></pre></td></tr></table></figure>
+<p>示例 3：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：nums &#x3D; [11,13,15,17]</span><br><span class="line">输出：11</span><br><span class="line">解释：原数组为 [11,13,15,17] ，旋转 4 次得到输入数组。</span><br></pre></td></tr></table></figure>
+<p>提示：<br><br>　　n == nums.length<br><br>　　1 &lt;= n &lt;= 5000<br><br>　　-5000 &lt;= nums[i] &lt;= 5000<br><br>　　nums 中的所有整数 互不相同<br><br>　　nums 原来是一个升序排序的数组，并进行了 1 至 n 次旋转</p>
+<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>老套路，有序数组，查找用什么——<em><strong>二分</strong></em>，上代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> public int findMin(int[] nums) &#123;</span><br><span class="line">    int low &#x3D; 0, high &#x3D; nums.length -1, middle &#x3D; 0;</span><br><span class="line">    while (low &lt;&#x3D; high) &#123;</span><br><span class="line">        if (nums[low] &lt;&#x3D; nums[high]) &#123;  &#x2F;&#x2F; 判断是否原排序数组，如果是，第一个元素就是最小元素</span><br><span class="line">            return nums[low];</span><br><span class="line">        &#125;</span><br><span class="line">        middle &#x3D; (high - low) &#x2F; 2 + low;</span><br><span class="line">        &#x2F;&#x2F; 上面判断过不是原数组，所以通过比较得出有序区间，找最小值应对应的区间</span><br><span class="line">        if (nums[middle] &gt;&#x3D; nums[low]) &#123; </span><br><span class="line">            low &#x3D; middle + 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            high &#x3D; middle;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return nums[low];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -372,7 +350,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="序列化与反序列化">http://example.com/2021/04/01/序列化与反序列化/</a>
+    <a href="http://example.com/2021/04/08/LeetCode%E4%B9%8B%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/" title="LeetCode153之寻找旋转排序数组中的最小值">http://example.com/2021/04/08/LeetCode之寻找旋转排序数组中的最小值/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -412,10 +390,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/C/" rel="tag"># C++</a>
               <a href="/tags/Java/" rel="tag"># Java</a>
-              <a href="/tags/RPC/" rel="tag"># RPC</a>
-              <a href="/tags/%E7%BC%96%E7%A0%81/" rel="tag"># 编码</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
           </div>
 
         
@@ -424,13 +400,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/" rel="prev" title="C++之sizeof">
-      <i class="fa fa-chevron-left"></i> C++之sizeof
+    <a href="/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&II/" rel="prev" title="LeetCode之搜索旋转排序数组I&II">
+      <i class="fa fa-chevron-left"></i> LeetCode之搜索旋转排序数组I&II
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" rel="next" title="Java内存结构与Java对象的内存布局">
-      Java内存结构与Java对象的内存布局 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -490,7 +463,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%BA%8F%E5%88%97%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AD%A6%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">什么是序列化以及为什么要学序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6"><span class="nav-number">3.</span> <span class="nav-text">常见的序列化框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Json"><span class="nav-number">3.1.</span> <span class="nav-text">1. Json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Hessian"><span class="nav-number">3.2.</span> <span class="nav-text">2. Hessian</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Protobuf"><span class="nav-number">3.3.</span> <span class="nav-text">3. Protobuf</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">如何选择序列化？</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#LeetCode153-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC"><span class="nav-number">1.</span> <span class="nav-text">LeetCode153. 寻找旋转排序数组中的最小值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">1.1.</span> <span class="nav-text">题解</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
