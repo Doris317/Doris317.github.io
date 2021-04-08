@@ -25,7 +25,7 @@
   <meta name="description" content="前言Redis的底层包含9种基本数据结构：  String： List: 列表对象的编码可以是ziplist或者linkedlist。 Hash Set Sorted Set bitmap GeoHash HyperLogLog Streams  本文侧重从源码的角度分析下List的底层数据结构之一——adlist.c。 什么是adlist？adlist是 redis 自定义的一种双向链表，3.0">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis数据结构之List_1.adlist">
-<meta property="og:url" content="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList/index.html">
+<meta property="og:url" content="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
 <meta property="og:description" content="前言Redis的底层包含9种基本数据结构：  String： List: 列表对象的编码可以是ziplist或者linkedlist。 Hash Set Sorted Set bitmap GeoHash HyperLogLog Streams  本文侧重从源码的角度分析下List的底层数据结构之一——adlist.c。 什么是adlist？adlist是 redis 自定义的一种双向链表，3.0">
 <meta property="og:locale" content="zh_CN">
@@ -38,7 +38,7 @@
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList/">
+<link rel="canonical" href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/">
 
 
 <script id="page-configurations">
@@ -205,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/WebImage.jpg">
@@ -243,7 +243,7 @@
             </span>
 
           
-            <span id="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList/" class="post-meta-item leancloud_visitors" data-flag-title="Redis数据结构之List_1.adlist" title="热度">
+            <span id="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/" class="post-meta-item leancloud_visitors" data-flag-title="Redis数据结构之List_1.adlist" title="热度">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -266,8 +266,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -368,7 +368,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList/" title="Redis数据结构之List_1.adlist">http://example.com/2021/04/08/Redis数据结构之List/</a>
+    <a href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/" title="Redis数据结构之List_1.adlist">http://example.com/2021/04/08/Redis数据结构之List_1.adlist/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
