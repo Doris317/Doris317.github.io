@@ -253,14 +253,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>2.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -291,7 +291,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums &#x3D; [2,5,6,0,0,1,2], target &#x3D; 3</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
 <p>提示：<br><br>　　1 &lt;= nums.length &lt;= 5000<br><br>　　-104 &lt;= nums[i] &lt;= 104<br><br>　　题目数据保证 nums 在预先未知的某个下标上进行了旋转<br><br>　　-104 &lt;= target &lt;= 104</p>
 <p>进阶：<br><br>　　这是搜索旋转排序数组 的延伸题目，本题中的 nums  可能包含重复元素。<br><br>　　这会影响到程序的时间复杂度吗？会有怎样的影响，为什么？</p>
-
+<h3 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h3><p>依旧是二分查找，确定有序区间，如果确定不了的话就左右指针各移动以下，缩圈再分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public boolean search2(int[] nums, int target) &#123;</span><br><span class="line">    if (nums.length &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    int low &#x3D; 0, high &#x3D; nums.length-1, middl &#x3D; 0;</span><br><span class="line">    while (low &lt;&#x3D; high) &#123;</span><br><span class="line">        middl &#x3D; (high - low) &#x2F; 2 + low;</span><br><span class="line">        if (nums[middl] &#x3D;&#x3D; target || nums[low] &#x3D;&#x3D; target || nums[high] &#x3D;&#x3D; target) &#123;</span><br><span class="line">            return  true;</span><br><span class="line">        &#125; else if (nums[middl] &gt; nums[low]) &#123;</span><br><span class="line">            if ((target &lt; nums[middl] ) &amp;&amp; (target &gt;&#x3D; nums[low])) &#123;</span><br><span class="line">                high &#x3D; middl -1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                low &#x3D; middl + 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else if (nums[middl] &lt; nums[high]) &#123;</span><br><span class="line">            if ((target &lt;&#x3D; nums[high] ) &amp;&amp; (target &gt; nums[middl])) &#123;</span><br><span class="line">                low &#x3D; middl + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                high &#x3D; middl - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            low++;</span><br><span class="line">            high--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -1025,7 +1026,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">83k</span>
+    <span title="站点总字数">84k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
@@ -1038,7 +1039,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共36.2k字</span>
+  <span class="post-count">博客全站共36.4k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
