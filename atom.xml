@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-09T03:43:13.709Z</updated>
+  <updated>2021-04-09T03:43:46.623Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,19 +21,24 @@
     <link href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/"/>
     <id>http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/</id>
     <published>2021-04-08T13:07:53.000Z</published>
-    <updated>2021-04-09T03:43:13.709Z</updated>
+    <updated>2021-04-09T03:43:46.623Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;Redis的底层包含9种基本数据结构：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;String：&lt;/li&gt;
-&lt;li&gt;List:</summary>
-        
-      
+&lt;li&gt;List: 列表对象的编码可以是ziplist或者linkedlist。&lt;/li&gt;
+&lt;li&gt;Hash&lt;/li&gt;
+&lt;li&gt;Set&lt;/li&gt;
+&lt;li&gt;Sorted Set&lt;/li&gt;
+&lt;li&gt;bitmap&lt;/li&gt;
+&lt;li&gt;GeoHash&lt;/li&gt;
+&lt;li&gt;HyperLogLog&lt;/li&gt;
+&lt;li&gt;Streams&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;本文侧重从源码的角度分析下List的底层数据结构之一——adlist.c。&lt;/p&gt;
+&lt;h3 id=&quot;什么是adlist？&quot;&gt;&lt;a href=&quot;#什么是adlist？&quot; class=&quot;headerlink&quot; title=&quot;什么是adlist？&quot;&gt;&lt;/a&gt;什么是adlist？&lt;/h3&gt;&lt;p&gt;adlist是 redis 自定义的一种双向链表，3.0及以前运用于list结构中，在3.2以后被quicklist取代。&lt;/p&gt;
+&lt;h3 id=&quot;adlist的数据结构&quot;&gt;&lt;a href=&quot;#adlist的数据结构&quot; class=&quot;headerlink&quot; title=&quot;adlist的数据结构&quot;&gt;&lt;/a&gt;adlist的数据结构&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;typedef struct listNode &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    struct listNode *prev;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    struct listNode *next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    void *value;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; listNode;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;&amp;#x2F; 双向迭代器&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;typedef struct listIter &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    listNode *next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int direction;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; listIter;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;typedef struct list &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    listNode *head; &amp;#x2F;&amp;#x2F; 头节点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    listNode *tail; &amp;#x2F;&amp;#x2F; 尾节点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#x2F;&amp;#x2F; 方法指针，外部设入&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    void *(*dup)(void *ptr); &amp;#x2F;&amp;#x2F; 复制节点的值&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    void (*free)(void *ptr); &amp;#x2F;&amp;#x2F; 释放节点的值&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int (*match)(void *ptr, void *key); &amp;#x2F;&amp;#x2F; 比较ptr与key是否相同的方法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned long len; &amp;#x2F;&amp;#x2F; 链表长度&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; list;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
     
     
     
