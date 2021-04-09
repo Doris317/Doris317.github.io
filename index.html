@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">39</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">40</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/WebImage.jpg">
@@ -210,7 +210,148 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/" class="post-title-link" itemprop="url">Redis数据结构之List_1.adlist</a>
+            <a href="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/" class="post-title-link" itemprop="url">Redis数据结构之List_2-ziplist</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-09 11:47:17" itemprop="dateCreated datePublished" datetime="2021-04-09T11:47:17+08:00">2021-04-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/" class="post-meta-item leancloud_visitors" data-flag-title="Redis数据结构之List_2-ziplist" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>Redis的底层包含9种基本数据结构：</p>
+<ol>
+<li>String：</li>
+<li>List: 列表对象的编码可以是ziplist或者linkedlist。</li>
+<li>Hash</li>
+<li>Set</li>
+<li>Sorted Set</li>
+<li>bitmap</li>
+<li>GeoHash</li>
+<li>HyperLogLog</li>
+<li>Streams</li>
+</ol>
+<p>本文侧重从源码的角度分析下List的底层数据结构之一——ziplist.c。</p>
+<h3 id="什么是ziplist？"><a href="#什么是ziplist？" class="headerlink" title="什么是ziplist？"></a>什么是ziplist？</h3><p>ziplist是一种特殊编码的双链表，其设计目的是提高内存效率。它同时存储字符串和整数值，其中，整数被编码为实际整数，而不是一系列字符。它允许在O(1)时间内在列表的任意一侧进行push和pop操作。但是，因为每个操作都需要重新分配ziplist所使用的内存，所以实际的复杂性与ziplist所使用的内存数量有关。<br><br>本质：字节数组</p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p><img src="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/ZipList%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="ZipList数据结构.png"></p>
+<ol>
+<li>zlbytes：32位，表示整个ziplits所占的字节数，包含zlbytes本身占用的四个字节。</li>
+<li>zltail：32位，是到ziplist最后一个entry的偏移量，用于从尾部出队时的操作，避免整个链表遍历</li>
+<li>zllen：16位，表示ziplist中所有entry的数目。如果超过2^16-2，则设值为 2^16-1，然后需要通过遍历来获取ziplist中所有的entry数目。</li>
+<li>zlend：8位，是一个特殊的entry，设值为255（0xff）。其他项都不会以255编码开头。</li>
+<li>Entry：压缩节点<h4 id="压缩节点的数据结构"><a href="#压缩节点的数据结构" class="headerlink" title="压缩节点的数据结构"></a>压缩节点的数据结构</h4><img src="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/zlentry%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="zlentry数据结构.png"><ol>
+<li><code>prevlen</code>：存储上一个节点的长度，用于倒序查找节点:<ol>
+<li>如果前一个entry的长度小于254，该字段会使用一个字节(即8 bit)表示长度;</li>
+<li>如果前一个entry的长度大于254，将会使用5个字节，此时第一个字节会被设置为254(FE)来表示一个较大的数值，后续4个字节表示前面一个entry的长度。<br></li>
+</ol>
+   <em><strong>ps: 255是个特殊字符，被zlend使用</strong></em></li>
+<li><code>encoding</code>：节点的content属性所保存数据的类型以及长度：当编码类型为字符串时，字符串的entry-data的长度就等同于该字符串的长度；而整数的entry-data的长度需要根据编码类型进行判断，并不一定等同于其entry-data字符串的长度。<ol>
+<li>当entry为字符串时，encoding的第一个字节的前2bit保存了编码类型，剩余的bit位表示字符串的长度；</li>
+<li>当entry为整数时，encoding仅占用1个字节，encoding的前2bit都设置为1，后续的2bit用于指定整数的类型，如int16_t，int32_t。<br><br>源码解释为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">* |00pppppp| - 1 byte</span><br><span class="line">       字符串的长度小于或等于63字节(6 bits)，&quot;pppppp&quot; 表示6bit长度的无符号整数.</span><br><span class="line">* |01pppppp|qqqqqqqq| - 2 bytes</span><br><span class="line">       字符串的长度小于或等于16383字节(14 bits).</span><br><span class="line">        IMPORTANT: 14 bit的数字使用大端序保存.</span><br><span class="line">* |10000000|qqqqqqqq|rrrrrrrr|ssssssss|tttttttt| - 5 bytes</span><br><span class="line">       字符串的长度大于或等于16384字节,只使用第1个字节之后的4个字节表示长度，最大为32^2-1，第一个</span><br><span class="line">       字节的低6位没有使用，设置为0。因此entry的最大长度为32</span><br><span class="line">       IMPORTANT: 32 bit的数字使用大端序保存.</span><br><span class="line">* |11000000| - 3 bytes</span><br><span class="line">       整数编码为int16_t (2 bytes).</span><br><span class="line">* |11010000| - 5 bytes</span><br><span class="line">       整数编码为int32_t (4 bytes).</span><br><span class="line">* |11100000| - 9 bytes</span><br><span class="line">       整数编码为int64_t (8 bytes).</span><br><span class="line">* |11110000| - 4 bytes</span><br><span class="line">       编码为24 bit的有符号整数 (3 bytes).</span><br><span class="line">* |11111110| - 2 bytes</span><br><span class="line">       编码为8 bit的有符号整数 (1 byte).</span><br><span class="line">* |1111xxxx| - (xxxx  取值为 0000 到 1101) 表示4bit的整数</span><br><span class="line">       无符号整数的取值为0到12，由于无法使用0000(被|11110000|编码占用)和1111(被zlend占用)，因此取值</span><br><span class="line">       为1到13,因此需要从低4位的整数减去1获得entry的值.</span><br><span class="line">* |11111111| - 表示ziplist的终止entry，即zlend</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><code>entry-data</code>：节点数据。 有时也可以直接用encoding代表节点自身，这种情况下可以省略entry-data（比如，短整形数据）<br></li>
+</ol>
+<strong>entry的源码：</strong>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">typedef struct zlentry &#123;</span><br><span class="line">&#x2F;&#x2F; 前一节点长度信息的长度</span><br><span class="line">unsigned int prevrawlensize; &#x2F;* Bytes used to encode the previous entry len*&#x2F; </span><br><span class="line">&#x2F;&#x2F; 前一节点长度</span><br><span class="line">unsigned int prevrawlen;     &#x2F;* Previous entry len. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点长度信息长度</span><br><span class="line">unsigned int lensize;        &#x2F;* Bytes used to encode this entry type&#x2F;len.</span><br><span class="line">                                For example strings have a 1, 2 or 5 bytes</span><br><span class="line">                                header. Integers always use a single byte.*&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点长度</span><br><span class="line">unsigned int len;            &#x2F;* Bytes used to represent the actual entry.</span><br><span class="line">                                For strings this is just the string length</span><br><span class="line">                                while for integers it is 1, 2, 3, 4, 8 or</span><br><span class="line">                                0 (for 4 bit immediate) depending on the</span><br><span class="line">                                number range. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点头部信息长度</span><br><span class="line">unsigned int headersize;     &#x2F;* prevrawlensize + lensize. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点数据编码</span><br><span class="line">unsigned char encoding;      &#x2F;* Set to ZIP_STR_* or ZIP_INT_* depending on</span><br><span class="line">                                the entry encoding. However for 4 bits</span><br><span class="line">                                immediate integers this can assume a range</span><br><span class="line">                                of values and must be range-checked. *&#x2F;</span><br><span class="line">unsigned char *p;            &#x2F;* Pointer to the very start of the entry, that</span><br><span class="line">                                is, this points to prev-entry-len field. *&#x2F;</span><br><span class="line">&#125; zlentry;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+     
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/" class="post-title-link" itemprop="url">Redis数据结构之List_1-adlist</a>
         </h2>
 
         <div class="post-meta">
@@ -235,7 +376,7 @@
             </span>
 
           
-            <span id="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/" class="post-meta-item leancloud_visitors" data-flag-title="Redis数据结构之List_1.adlist" title="热度">
+            <span id="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/" class="post-meta-item leancloud_visitors" data-flag-title="Redis数据结构之List_1-adlist" title="热度">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -251,8 +392,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -298,7 +439,7 @@
 <h3 id="adlist的数据结构"><a href="#adlist的数据结构" class="headerlink" title="adlist的数据结构"></a>adlist的数据结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">typedef struct listNode &#123;</span><br><span class="line">    struct listNode *prev;</span><br><span class="line">    struct listNode *next;</span><br><span class="line">    void *value;</span><br><span class="line">&#125; listNode;</span><br><span class="line">&#x2F;&#x2F; 双向迭代器</span><br><span class="line">typedef struct listIter &#123;</span><br><span class="line">    listNode *next;</span><br><span class="line">    int direction;</span><br><span class="line">&#125; listIter;</span><br><span class="line"></span><br><span class="line">typedef struct list &#123;</span><br><span class="line">    listNode *head; &#x2F;&#x2F; 头节点</span><br><span class="line">    listNode *tail; &#x2F;&#x2F; 尾节点</span><br><span class="line">    &#x2F;&#x2F; 方法指针，外部设入</span><br><span class="line">    void *(*dup)(void *ptr); &#x2F;&#x2F; 复制节点的值</span><br><span class="line">    void (*free)(void *ptr); &#x2F;&#x2F; 释放节点的值</span><br><span class="line">    int (*match)(void *ptr, void *key); &#x2F;&#x2F; 比较ptr与key是否相同的方法</span><br><span class="line">    unsigned long len; &#x2F;&#x2F; 链表长度</span><br><span class="line">&#125; list;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/#more" rel="contents">
+              <a class="btn" href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -671,125 +812,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/WebImage.jpg">
-      <meta itemprop="name" content="Doris">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Doris的搬砖日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/" class="post-title-link" itemprop="url">算法之递归</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-02 09:12:39" itemprop="dateCreated datePublished" datetime="2021-04-02T09:12:39+08:00">2021-04-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/" class="post-meta-item leancloud_visitors" data-flag-title="算法之递归" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span>℃</span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="什么是递归？"><a href="#什么是递归？" class="headerlink" title="什么是递归？"></a>什么是递归？</h4><p>用我弟弟最爱挂在嘴边哄孩子的一个故事来阐述下什么是递归吧：<br>从前有座山，<br>山里有座庙，<br>庙里有个老和尚，<br>老和尚给小和尚讲故事：<br>从前有座山，<br>山里有座庙<br>…<br>(其实我每次听我弟讲这个故事的时候，我就想拿小锤锤揍他…）。<br>这个故事阐述了一种递归的特性，就是<code>不停的自我调用</code>。与递归算法唯一的不同点就是该故事是没有结尾的，是一个死循环。 所以我们总结以下什么是递归算法：</p>
-<p><code>递归算法就是将原问题不断分解为规模缩小的子问题，然后递归调用方法来表示问题的解</code></p>
-<h4 id="递归算法的设计要素"><a href="#递归算法的设计要素" class="headerlink" title="递归算法的设计要素"></a>递归算法的设计要素</h4><ol>
-<li>明确递归终止条件（不然就像上面的故事一样，死循环）</li>
-<li>给出递归终止时的处理办法；</li>
-<li>提取重复的逻辑，缩小问题规模。</li></ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/04/02/%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%92%E5%BD%92/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -861,7 +883,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -918,12 +940,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">90k</span>
+    <span title="站点总字数">93k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:22</span>
+    <span title="站点阅读时长">1:25</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -931,7 +953,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共38.3k字</span>
+  <span class="post-count">博客全站共39.5k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>

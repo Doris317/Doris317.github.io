@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-09T03:43:46.623Z</updated>
+  <updated>2021-04-09T12:21:53.679Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,45 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Redis数据结构之List_1.adlist</title>
-    <link href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/"/>
-    <id>http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1.adlist/</id>
+    <title>Redis数据结构之List_2-ziplist</title>
+    <link href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/"/>
+    <id>http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/</id>
+    <published>2021-04-09T03:47:17.000Z</published>
+    <updated>2021-04-09T12:21:53.679Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;Redis的底层包含9种基本数据结构：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;String：&lt;/li&gt;
+&lt;li&gt;List:</summary>
+        
+      
+    
+    
+    
+    <category term="Redis" scheme="http://example.com/categories/Redis/"/>
+    
+    
+    <category term="数据结构" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="c" scheme="http://example.com/tags/c/"/>
+    
+    <category term="缓存" scheme="http://example.com/tags/%E7%BC%93%E5%AD%98/"/>
+    
+    <category term="数据库" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis数据结构之List_1-adlist</title>
+    <link href="http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/"/>
+    <id>http://example.com/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/</id>
     <published>2021-04-08T13:07:53.000Z</published>
-    <updated>2021-04-09T03:43:46.623Z</updated>
+    <updated>2021-04-09T03:50:59.480Z</updated>
     
     
     <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;Redis的底层包含9种基本数据结构：&lt;/p&gt;
@@ -486,25 +520,6 @@
     
     
     
-    
-    
-  </entry>
-  
-  <entry>
-    <title>C++11之default与delete关键字</title>
-    <link href="http://example.com/2021/03/29/C-11%E4%B9%8Bdefault%E4%B8%8Edelete%E5%85%B3%E9%94%AE%E5%AD%97/"/>
-    <id>http://example.com/2021/03/29/C-11%E4%B9%8Bdefault%E4%B8%8Edelete%E5%85%B3%E9%94%AE%E5%AD%97/</id>
-    <published>2021-03-29T02:14:31.000Z</published>
-    <updated>2021-03-29T12:29:56.433Z</updated>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;在讲default与delete关键字之前，我们先了解下C++的几个特殊函数。&lt;br&gt;&lt;br&gt;C++98编译器会隐式的产生四个函数：缺省构造函数，析构函数，拷贝构造函数和拷贝赋值运算符，它们称为特殊成员函数，负责创建、初始化、销毁，或者拷贝类的对象。&lt;br&gt;在 C++11 中，除了上面四个外，特殊成员函数还有两个：移动构造函数和移动赋值算符。例：&lt;/p&gt;
-&lt;figure class=&quot;highlight lasso&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;class &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; ();                  &lt;span class=&quot;comment&quot;&gt;// 缺省构造函数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ~&lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; ();                 &lt;span class=&quot;comment&quot;&gt;// 析构函数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; (const &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; &amp;amp; rhs);         　 　  &lt;span class=&quot;comment&quot;&gt;// 拷贝构造函数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; &amp;amp; operator=(const &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; &amp;amp; rhs);    &lt;span class=&quot;comment&quot;&gt;// 拷贝赋值运算符&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; (const &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; &amp;amp;&amp;amp; rhs);         &lt;span class=&quot;comment&quot;&gt;// 移动构造函数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; &amp;amp; operator=(&lt;span class=&quot;built_in&quot;&gt;Data&lt;/span&gt; &amp;amp;&amp;amp; rhs);    &lt;span class=&quot;comment&quot;&gt;// 移动赋值算符&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h3 id=&quot;C-的特殊成员函数&quot;&gt;&lt;a href=&quot;#C-的特殊成员函数&quot; class=&quot;headerlink&quot; title=&quot;C++的特殊成员函数&quot;&gt;&lt;/a&gt;C++的特殊成员函数&lt;/h3&gt;&lt;h4 id=&quot;缺省构造函数与析构函数&quot;&gt;&lt;a href=&quot;#缺省构造函数与析构函数&quot; class=&quot;headerlink&quot; title=&quot;缺省构造函数与析构函数&quot;&gt;&lt;/a&gt;缺省构造函数与析构函数&lt;/h4&gt;&lt;p&gt;缺省构造函数指不需要参数就能初始化的构造函数，包含无参和所有参数有默认值两种类型的构造函数。 一个缺省的构造函数只有在类中没有声明任何构造函数的情况下才会被编译器自动生成。&lt;br&gt;&lt;br&gt;特殊成员函数被隐式生成为public和inline，并且它们是nonvirtual，除非是在派生类中的析构函数，并且这个派生类继承自带virtual析构函数的基类。在这种情况下，派生类中，编译器生成的析构函数也是virtual。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="C++" scheme="http://example.com/categories/C/"/>
     
     
   </entry>

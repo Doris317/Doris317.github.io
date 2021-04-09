@@ -22,25 +22,26 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言今天跟老大讨论C++的char*与char[]的内存大小的计算方式，引申出指针和对象的问题，也就顺便扯到了java没有指针只有对象的特性。既然扯到了java的对象，那么我就来扯一扯java的内存结构以及java对象在内存中的布局。 java的内存结构JVM的运行时数据区主要分为：程序计数器、虚拟机栈、本地方法栈、堆、方法区。其中程序计数器，虚拟机栈，本地方法栈是线程私有的；而堆和方法区属于线程">
+  <meta name="description" content="前言Redis的底层包含9种基本数据结构：  String： List: 列表对象的编码可以是ziplist或者linkedlist。 Hash Set Sorted Set bitmap GeoHash HyperLogLog Streams  本文侧重从源码的角度分析下List的底层数据结构之一——ziplist.c。 什么是ziplist？ziplist是一种特殊编码的双链表，其设计目的是提">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java内存结构与Java对象的内存布局">
-<meta property="og:url" content="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/index.html">
+<meta property="og:title" content="Redis数据结构之List_2-ziplist">
+<meta property="og:url" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
-<meta property="og:description" content="前言今天跟老大讨论C++的char*与char[]的内存大小的计算方式，引申出指针和对象的问题，也就顺便扯到了java没有指针只有对象的特性。既然扯到了java的对象，那么我就来扯一扯java的内存结构以及java对象在内存中的布局。 java的内存结构JVM的运行时数据区主要分为：程序计数器、虚拟机栈、本地方法栈、堆、方法区。其中程序计数器，虚拟机栈，本地方法栈是线程私有的；而堆和方法区属于线程">
+<meta property="og:description" content="前言Redis的底层包含9种基本数据结构：  String： List: 列表对象的编码可以是ziplist或者linkedlist。 Hash Set Sorted Set bitmap GeoHash HyperLogLog Streams  本文侧重从源码的角度分析下List的底层数据结构之一——ziplist.c。 什么是ziplist？ziplist是一种特殊编码的双链表，其设计目的是提">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/MarKWord.png">
-<meta property="article:published_time" content="2021-04-01T02:22:38.000Z">
-<meta property="article:modified_time" content="2021-04-06T07:24:04.452Z">
+<meta property="og:image" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/ZipList%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/zlentry%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
+<meta property="article:published_time" content="2021-04-09T03:47:17.000Z">
+<meta property="article:modified_time" content="2021-04-09T12:21:53.679Z">
 <meta property="article:author" content="Doris">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="缓存">
+<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png">
+<meta name="twitter:image" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/ZipList%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
 
-<link rel="canonical" href="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/">
+<link rel="canonical" href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/">
 
 
 <script id="page-configurations">
@@ -53,7 +54,7 @@
   };
 </script>
 
-  <title>Java内存结构与Java对象的内存布局 | Doris的搬砖日记</title>
+  <title>Redis数据结构之List_2-ziplist | Doris的搬砖日记</title>
   
 
 
@@ -207,7 +208,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/WebImage.jpg">
@@ -220,7 +221,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Java内存结构与Java对象的内存布局
+          Redis数据结构之List_2-ziplist
         </h1>
 
         <div class="post-meta">
@@ -232,7 +233,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-01 10:22:38" itemprop="dateCreated datePublished" datetime="2021-04-01T10:22:38+08:00">2021-04-01</time>
+              <time title="创建时间：2021-04-09 11:47:17" itemprop="dateCreated datePublished" datetime="2021-04-09T11:47:17+08:00">2021-04-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -240,12 +241,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">JVM原理</span></a>
+                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
                 </span>
             </span>
 
           
-            <span id="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" class="post-meta-item leancloud_visitors" data-flag-title="Java内存结构与Java对象的内存布局" title="热度">
+            <span id="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/" class="post-meta-item leancloud_visitors" data-flag-title="Redis数据结构之List_2-ziplist" title="热度">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -268,8 +269,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -279,14 +280,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.6k</span>
+              <span>2.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -298,31 +299,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>今天跟老大讨论C++的char*与char[]的内存大小的计算方式，引申出指针和对象的问题，也就顺便扯到了java没有指针只有对象的特性。<br>既然扯到了java的对象，那么我就来扯一扯java的内存结构以及java对象在内存中的布局。</p>
-<h3 id="java的内存结构"><a href="#java的内存结构" class="headerlink" title="java的内存结构"></a>java的内存结构</h3><p><img src="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png" alt="JVM内存结构.png"><br>JVM的运行时数据区主要分为：程序计数器、虚拟机栈、本地方法栈、堆、方法区。其中程序计数器，虚拟机栈，本地方法栈是线程私有的；而堆和方法区属于线程共享区域。</p>
-<span id="more"></span>
-<h4 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h4><p>也就是我们常说的PC寄存器。<br>每个线程刚创建时，会创建一个程序计数器，它的生命周期跟线程的生命周期一致，属于线程私有的。<br><strong>主要作用：</strong> 保存着当前线程执行的虚拟机字节码指令的内存地址，是当前线程所执行程序的字节码的行号指示器，通过它可以获取下一条需要执行的字节码指令。<br>程序计数器是唯一一个在Java规范中没有规定任何OutOfMemory场景的区域。</p>
-<h4 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h4><p>线程私有的，与线程生命周期相同，用于存储局部变量表，操作栈，方法返回值。局部变量表放着基本数据类型，还有对象的引用。</p>
-<h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>跟虚拟机栈很像，不过它是为虚拟机使用到的Native方法服务。</p>
-<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p>所有线程共享的一块内存区域，对象实例几乎都在这分配内存。</p>
-<h4 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h4><p>各个线程共享的区域，储存虚拟机加载的类信息，常量，静态变量，编译后的代码。</p>
-<h5 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h5><p>代表运行时每个class文件中的常量表。包括几种常量：编译时的数字常量、方法或者域的引用。</p>
-<h3 id="java对象在内存中的布局"><a href="#java对象在内存中的布局" class="headerlink" title="java对象在内存中的布局"></a>java对象在内存中的布局</h3><p><img src="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/%E5%AF%B9%E8%B1%A1%E5%AE%9E%E4%BE%8B%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png" alt="对象实例内存结构.png"></p>
-<p>如上图所示，共分为三个部分：对象头、实例数据以及对齐填充(非必须项)。</p>
-<h4 id="对象头"><a href="#对象头" class="headerlink" title="对象头"></a>对象头</h4><p>对象头包括了关于堆对象的布局、类型、GC状态、同步状态和标识哈希码的基本信息。元素的对象头共分为两个部分：markword与类型指针，但是数组元素还存在第三个部分——数组长度。</p>
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>Redis的底层包含9种基本数据结构：</p>
 <ol>
-<li>MarkWord：用于存储对象自身的运行时数据，如HashCode、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时间戳等等。<br><img src="/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/MarKWord.png" alt="MarKWord.png"><ul>
-<li>锁标志位：用于区分锁状态或者GC，只有为11时表示对象等待GC回收，其余都是锁状态</li>
-<li>是否偏向锁：由于无锁和偏向锁的锁标识都是 01，所以引入一位的偏向锁标识位用来区分。</li>
-<li>分代年龄：表示对象被GC的次数，当该次数到达阈值的时候，对象就会转移到老年代。</li>
-<li>对象的hashcode：运行期间调用System.identityHashCode()来计算，延迟计算，并把结果赋值到这里。</li>
-<li>偏向锁的线程ID（JavaThread）：偏向锁模式的时候，当某个线程持有对象的时候，对象这里就会被置为该线程的ID。 在后面的操作中，就无需再进行尝试获取锁的动作。</li>
-<li>epoch：偏向锁在CAS锁操作过程中，偏向性标识，表示对象更偏向哪个锁。</li>
-<li>指向栈中锁记录的指针：轻量级锁状态下，指向栈中锁记录的指针。当锁获取是无竞争的时，JVM使用原子操作而不是OS互斥。这种技术称为轻量级锁定。在轻量级锁定的情况下，JVM通过CAS操作在对象的标题字中设置指向锁记录的指针。</li>
-<li>指向互斥锁的指针：重量级锁状态下，指向对象监视器Monitor的指针。如果两个不同的线程同时在同一个对象上竞争，则必须将轻量级锁定升级到Monitor以管理等待的线程。在重量级锁定的情况下，JVM在对象的ptr_to_heavyweight_monitor设置指向Monitor的指针。</li>
-</ul>
+<li>String：</li>
+<li>List: 列表对象的编码可以是ziplist或者linkedlist。</li>
+<li>Hash</li>
+<li>Set</li>
+<li>Sorted Set</li>
+<li>bitmap</li>
+<li>GeoHash</li>
+<li>HyperLogLog</li>
+<li>Streams</li>
+</ol>
+<p>本文侧重从源码的角度分析下List的底层数据结构之一——ziplist.c。</p>
+<h3 id="什么是ziplist？"><a href="#什么是ziplist？" class="headerlink" title="什么是ziplist？"></a>什么是ziplist？</h3><p>ziplist是一种特殊编码的双链表，其设计目的是提高内存效率。它同时存储字符串和整数值，其中，整数被编码为实际整数，而不是一系列字符。它允许在O(1)时间内在列表的任意一侧进行push和pop操作。但是，因为每个操作都需要重新分配ziplist所使用的内存，所以实际的复杂性与ziplist所使用的内存数量有关。<br><br>本质：字节数组</p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p><img src="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/ZipList%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="ZipList数据结构.png"></p>
+<ol>
+<li>zlbytes：32位，表示整个ziplits所占的字节数，包含zlbytes本身占用的四个字节。</li>
+<li>zltail：32位，是到ziplist最后一个entry的偏移量，用于从尾部出队时的操作，避免整个链表遍历</li>
+<li>zllen：16位，表示ziplist中所有entry的数目。如果超过2^16-2，则设值为 2^16-1，然后需要通过遍历来获取ziplist中所有的entry数目。</li>
+<li>zlend：8位，是一个特殊的entry，设值为255（0xff）。其他项都不会以255编码开头。</li>
+<li>Entry：压缩节点<h4 id="压缩节点的数据结构"><a href="#压缩节点的数据结构" class="headerlink" title="压缩节点的数据结构"></a>压缩节点的数据结构</h4><img src="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/zlentry%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="zlentry数据结构.png"><ol>
+<li><code>prevlen</code>：存储上一个节点的长度，用于倒序查找节点:<ol>
+<li>如果前一个entry的长度小于254，该字段会使用一个字节(即8 bit)表示长度;</li>
+<li>如果前一个entry的长度大于254，将会使用5个字节，此时第一个字节会被设置为254(FE)来表示一个较大的数值，后续4个字节表示前面一个entry的长度。<br></li>
+</ol>
+   <em><strong>ps: 255是个特殊字符，被zlend使用</strong></em></li>
+<li><code>encoding</code>：节点的content属性所保存数据的类型以及长度：当编码类型为字符串时，字符串的entry-data的长度就等同于该字符串的长度；而整数的entry-data的长度需要根据编码类型进行判断，并不一定等同于其entry-data字符串的长度。<ol>
+<li>当entry为字符串时，encoding的第一个字节的前2bit保存了编码类型，剩余的bit位表示字符串的长度；</li>
+<li>当entry为整数时，encoding仅占用1个字节，encoding的前2bit都设置为1，后续的2bit用于指定整数的类型，如int16_t，int32_t。<br><br>源码解释为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">* |00pppppp| - 1 byte</span><br><span class="line">       字符串的长度小于或等于63字节(6 bits)，&quot;pppppp&quot; 表示6bit长度的无符号整数.</span><br><span class="line">* |01pppppp|qqqqqqqq| - 2 bytes</span><br><span class="line">       字符串的长度小于或等于16383字节(14 bits).</span><br><span class="line">        IMPORTANT: 14 bit的数字使用大端序保存.</span><br><span class="line">* |10000000|qqqqqqqq|rrrrrrrr|ssssssss|tttttttt| - 5 bytes</span><br><span class="line">       字符串的长度大于或等于16384字节,只使用第1个字节之后的4个字节表示长度，最大为32^2-1，第一个</span><br><span class="line">       字节的低6位没有使用，设置为0。因此entry的最大长度为32</span><br><span class="line">       IMPORTANT: 32 bit的数字使用大端序保存.</span><br><span class="line">* |11000000| - 3 bytes</span><br><span class="line">       整数编码为int16_t (2 bytes).</span><br><span class="line">* |11010000| - 5 bytes</span><br><span class="line">       整数编码为int32_t (4 bytes).</span><br><span class="line">* |11100000| - 9 bytes</span><br><span class="line">       整数编码为int64_t (8 bytes).</span><br><span class="line">* |11110000| - 4 bytes</span><br><span class="line">       编码为24 bit的有符号整数 (3 bytes).</span><br><span class="line">* |11111110| - 2 bytes</span><br><span class="line">       编码为8 bit的有符号整数 (1 byte).</span><br><span class="line">* |1111xxxx| - (xxxx  取值为 0000 到 1101) 表示4bit的整数</span><br><span class="line">       无符号整数的取值为0到12，由于无法使用0000(被|11110000|编码占用)和1111(被zlend占用)，因此取值</span><br><span class="line">       为1到13,因此需要从低4位的整数减去1获得entry的值.</span><br><span class="line">* |11111111| - 表示ziplist的终止entry，即zlend</span><br></pre></td></tr></table></figure></li>
+</ol>
 </li>
-<li>类型指针：对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例。<h4 id="实例数据"><a href="#实例数据" class="headerlink" title="实例数据"></a>实例数据</h4>主要是存放类的数据信息，父类的信息，对象字段属性信息。<h4 id="对齐填充"><a href="#对齐填充" class="headerlink" title="对齐填充"></a>对齐填充</h4>为了字节对齐，填充的数据，不是必须的。<br>默认情况下，Java虚拟机堆中对象的起始地址需要对齐至8的倍数。如果一个对象用不到8N个字节则需要对其填充，以此来补齐对象头和实例数据占用内存之后剩余的空间大小。如果对象头和实例数据已经占满了JVM所分配的内存空间，那么就不用再进行对齐填充了。</li>
+<li><code>entry-data</code>：节点数据。 有时也可以直接用encoding代表节点自身，这种情况下可以省略entry-data（比如，短整形数据）<br></li>
+</ol>
+<strong>entry的源码：</strong>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">typedef struct zlentry &#123;</span><br><span class="line">&#x2F;&#x2F; 前一节点长度信息的长度</span><br><span class="line">unsigned int prevrawlensize; &#x2F;* Bytes used to encode the previous entry len*&#x2F; </span><br><span class="line">&#x2F;&#x2F; 前一节点长度</span><br><span class="line">unsigned int prevrawlen;     &#x2F;* Previous entry len. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点长度信息长度</span><br><span class="line">unsigned int lensize;        &#x2F;* Bytes used to encode this entry type&#x2F;len.</span><br><span class="line">                                For example strings have a 1, 2 or 5 bytes</span><br><span class="line">                                header. Integers always use a single byte.*&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点长度</span><br><span class="line">unsigned int len;            &#x2F;* Bytes used to represent the actual entry.</span><br><span class="line">                                For strings this is just the string length</span><br><span class="line">                                while for integers it is 1, 2, 3, 4, 8 or</span><br><span class="line">                                0 (for 4 bit immediate) depending on the</span><br><span class="line">                                number range. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点头部信息长度</span><br><span class="line">unsigned int headersize;     &#x2F;* prevrawlensize + lensize. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点数据编码</span><br><span class="line">unsigned char encoding;      &#x2F;* Set to ZIP_STR_* or ZIP_INT_* depending on</span><br><span class="line">                                the entry encoding. However for 4 bits</span><br><span class="line">                                immediate integers this can assume a range</span><br><span class="line">                                of values and must be range-checked. *&#x2F;</span><br><span class="line">unsigned char *p;            &#x2F;* Pointer to the very start of the entry, that</span><br><span class="line">                                is, this points to prev-entry-len field. *&#x2F;</span><br><span class="line">&#125; zlentry;</span><br></pre></td></tr></table></figure></li>
 </ol>
 
     </div>
@@ -370,7 +380,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2021/04/01/Java%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84%E4%B8%8EJava%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" title="Java内存结构与Java对象的内存布局">http://example.com/2021/04/01/Java内存结构与Java对象的内存布局/</a>
+    <a href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/" title="Redis数据结构之List_2-ziplist">http://example.com/2021/04/09/Redis数据结构之List-2-ziplist/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -410,8 +420,10 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Java/" rel="tag"># Java</a>
-              <a href="/tags/JVM/" rel="tag"># JVM</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+              <a href="/tags/c/" rel="tag"># c</a>
+              <a href="/tags/%E7%BC%93%E5%AD%98/" rel="tag"># 缓存</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
           </div>
 
         
@@ -420,13 +432,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/04/01/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="prev" title="序列化与反序列化">
-      <i class="fa fa-chevron-left"></i> 序列化与反序列化
+    <a href="/2021/04/08/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList_1-adlist/" rel="prev" title="Redis数据结构之List_1-adlist">
+      <i class="fa fa-chevron-left"></i> Redis数据结构之List_1-adlist
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/04/01/Redis%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-zmalloc/" rel="next" title="Redis内存分配_zmalloc">
-      Redis内存分配_zmalloc <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -486,7 +495,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">java的内存结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="nav-number">2.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">2.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86"><span class="nav-number">2.4.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="nav-number">2.5.</span> <span class="nav-text">方法区</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="nav-number">2.5.1.</span> <span class="nav-text">运行时常量池</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E5%AF%B9%E8%B1%A1%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80"><span class="nav-number">3.</span> <span class="nav-text">java对象在内存中的布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%A4%B4"><span class="nav-number">3.1.</span> <span class="nav-text">对象头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E6%95%B0%E6%8D%AE"><span class="nav-number">3.2.</span> <span class="nav-text">实例数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E9%BD%90%E5%A1%AB%E5%85%85"><span class="nav-number">3.3.</span> <span class="nav-text">对齐填充</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFziplist%EF%BC%9F"><span class="nav-number"></span> <span class="nav-text">什么是ziplist？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number"></span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E8%8A%82%E7%82%B9%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">压缩节点的数据结构</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
