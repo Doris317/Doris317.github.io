@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">40</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">41</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -192,6 +192,126 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/17/Linux%E7%9A%84load-average/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/17/Linux%E7%9A%84load-average/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/" class="post-title-link" itemprop="url">C++学习之__attribute__机制</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-17 15:24:08" itemprop="dateCreated datePublished" datetime="2021-03-17T15:24:08+08:00">2021-03-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/03/17/Linux%E7%9A%84load-average/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/" class="post-meta-item leancloud_visitors" data-flag-title="C++学习之__attribute__机制" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/17/Linux%E7%9A%84load-average/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/17/Linux%E7%9A%84load-average/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>__attribute__是GNU C特色之一，可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute)等.</p>
+<p>语法格式： __attribute __((abute-list))</p>
+<p>位置：声明结束符“；”的前面</p>
+<p><em>在使用__attribute__参数时，你也可以在参数的前后都加上“__”（两个下划线），例如，使用__aligned__而不是aligned，这样，你就可以在相应的头文件里使用它而不用关心头文件里是否有重名的宏定义。</em></p>
+<h1 id="函数属性"><a href="#函数属性" class="headerlink" title="函数属性"></a>函数属性</h1><p>函数属性可以帮助开发者把一些特性添加到函数声明中，从而可以使编译器在错误检查方面的功能更强大。</p>
+<p>GNU CC需要使用 –Wall，这是控制警告信息的一个很好的方式。</p>
+<p>下面是常见的属性参数：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/17/Linux%E7%9A%84load-average/C-%E5%AD%A6%E4%B9%A0%E4%B9%8B-attribute/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+     
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -726,148 +846,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/18/Linux%E7%9A%84load-average/Annotation-java%E6%B3%A8%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/WebImage.jpg">
-      <meta itemprop="name" content="Doris">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Doris的搬砖日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/03/18/Linux%E7%9A%84load-average/Annotation-java%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">Annotation(java注解)</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-03-18 20:04:24" itemprop="dateCreated datePublished" datetime="2018-03-18T20:04:24+08:00">2018-03-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/03/18/Linux%E7%9A%84load-average/Annotation-java%E6%B3%A8%E8%A7%A3/" class="post-meta-item leancloud_visitors" data-flag-title="Annotation(java注解)" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span>℃</span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/03/18/Linux%E7%9A%84load-average/Annotation-java%E6%B3%A8%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/18/Linux%E7%9A%84load-average/Annotation-java%E6%B3%A8%E8%A7%A3/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>注解提供一种为程序元素设置元数据的方法。元数据就是关于数据的数据，可以用来生成文档，进行代码分析或者使编译器对元数据进行编译检查。<br>可以使用注解解析工具或编译器对其进行解析，也可以指定注解在编译期或运行期有效。<br>　　　　　　　　　　　　　　　　　　　　　　<br>注解的基本原则是：无论增加或者删除一个注解都不能对代码造成干扰。</p>
-<h2 id="系统注解"><a href="#系统注解" class="headerlink" title="系统注解"></a>系统注解</h2><p>　　1. Override：保证override函数的正确生明</p>
-<p>　　2. Deprecated：对于过时不再使用的函数添加该注解，当该函数被调用时，编译时会提示。与javadoc的@deprecated类似，但前者不可以带参数</p>
-<p>　　3. SupressWarnings： 配合参数表示关闭特定的警告信息。参数有：</p>
-<p>　　　　　|参数名 | 语法格式 |<br>        | :— |  :—  |<br>     　　| deprecation | 使用了过时的类或者方法的警告  |<br>    　　 | unchecked |  执行了未检查的转换时警告  |<br>        | fallthrough |  switch语句某case下没有break语句直接通往下一个case的警告  |<br>    　　 | path |  在类路径或者源文件路径中存在不存在的路径的警告  |<br>        | finally |  finally语句不能正确执行的警告 |<br>        | all |  关闭所有警告信息  |</p>
-<h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><pre><code>元注解的作用就是负责注解其他注解。Java5定义了4个标准的Meta Annotation类型，它们被用来提供对其它 Annotation类型作说明。
-</code></pre>
-<p>　　　1. Target</p>
-<p>　　　　　　作用：用于描述注解的使用范围，即被描述的注解可以用在什么地方</p>
-<p>　　　　　　用法： @Target(ElementType.参数,…)</p>
-<p>　　　　　　参数：</p>
-<p>　　　　　　　　　CONSTRUCTOR：用于描述构造器</p>
-<p>　　　　　　　　　FIELD：用于描述域</p>
-<p>　　　　　　　　　LOCAL_VARIABLE：用于描述局部变量</p>
-<p>　　　　　　　　　METHOD：用于描述方法</p>
-<p>　　　　　　　　　PACKAGE：用于描述包</p>
-<p>　　　　　　　　　PARAMETER：用于描述参数</p>
-<p>　　　　　　　　　TYPE：用于描述类、接口(包括注解类型) 或enum声明</p>
-<p>　　　2. Retention</p>
-<p>　　　　　　作用： 标识该Annotation的生命周期</p>
-<p>　　　　　　用法：　@Retention(RetentionPolicy.参数)</p>
-<p>　　　　　　参数：</p>
-<p>　　　　　　　　　SOURCE:在源文件中有效（即源文件保留），被编译器丢弃</p>
-<p>　　　　　　　　　CLASS:在class文件中有效（即class保留），编译在class文件中的Annotation可能会被虚拟机忽略</p>
-<p>　　　　　　　　　RUNTIME:在运行时有效（即运行时保留）</p>
-<p>　　　3. Documented</p>
-<p>　　　　　　<em><strong>@Documented是一个标记注解，没有成员</strong></em></p>
-<p>　　　　　　作用：用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。</p>
-<p>　　　4.　Inherited</p>
-<p>　　　　　　<em><strong>@Inherited 是一个标记注解。</strong></em></p>
-<p>　　　　　  　作用: 如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个Annotation将被用于该class的子类。</p>
-<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>　　　Annotation类型使用关键字@interface而非interface，注意开头的@符号。interface可以被实现或者继承，Annotation不可以。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -935,7 +917,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -992,12 +974,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">93k</span>
+    <span title="站点总字数">94k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:25</span>
+    <span title="站点阅读时长">1:26</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -1005,7 +987,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共39.5k字</span>
+  <span class="post-count">博客全站共39.9k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
