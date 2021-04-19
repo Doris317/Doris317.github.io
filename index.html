@@ -613,7 +613,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
+              <span>3.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -665,7 +665,67 @@
 </li>
 <li><code>entry-data</code>：节点数据。 有时也可以直接用encoding代表节点自身，这种情况下可以省略entry-data（比如，短整形数据）<br></li>
 </ol>
-<strong>entry的源码：</strong>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">typedef struct zlentry &#123;</span><br><span class="line">&#x2F;&#x2F; 前一节点长度信息的长度</span><br><span class="line">unsigned int prevrawlensize; &#x2F;* Bytes used to encode the previous entry len*&#x2F; </span><br><span class="line">&#x2F;&#x2F; 前一节点长度</span><br><span class="line">unsigned int prevrawlen;     &#x2F;* Previous entry len. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点长度信息长度</span><br><span class="line">unsigned int lensize;        &#x2F;* Bytes used to encode this entry type&#x2F;len.</span><br><span class="line">                                For example strings have a 1, 2 or 5 bytes</span><br><span class="line">                                header. Integers always use a single byte.*&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点长度</span><br><span class="line">unsigned int len;            &#x2F;* Bytes used to represent the actual entry.</span><br><span class="line">                                For strings this is just the string length</span><br><span class="line">                                while for integers it is 1, 2, 3, 4, 8 or</span><br><span class="line">                                0 (for 4 bit immediate) depending on the</span><br><span class="line">                                number range. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点头部信息长度</span><br><span class="line">unsigned int headersize;     &#x2F;* prevrawlensize + lensize. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点数据编码</span><br><span class="line">unsigned char encoding;      &#x2F;* Set to ZIP_STR_* or ZIP_INT_* depending on</span><br><span class="line">                                the entry encoding. However for 4 bits</span><br><span class="line">                                immediate integers this can assume a range</span><br><span class="line">                                of values and must be range-checked. *&#x2F;</span><br><span class="line">unsigned char *p;            &#x2F;* Pointer to the very start of the entry, that</span><br><span class="line">                                is, this points to prev-entry-len field. *&#x2F;</span><br><span class="line">&#125; zlentry;</span><br></pre></td></tr></table></figure></li>
+<strong>entry的源码：</strong>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">typedef struct zlentry &#123;</span><br><span class="line">&#x2F;&#x2F; 前一节点长度信息的字节数</span><br><span class="line">unsigned int prevrawlensize; &#x2F;* Bytes used to encode the previous entry len*&#x2F; </span><br><span class="line">&#x2F;&#x2F; 前一节点长度</span><br><span class="line">unsigned int prevrawlen;     &#x2F;* Previous entry len. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点长度信息所占的字节数</span><br><span class="line">unsigned int lensize;        &#x2F;* Bytes used to encode this entry type&#x2F;len.</span><br><span class="line">                                For example strings have a 1, 2 or 5 bytes</span><br><span class="line">                                header. Integers always use a single byte.*&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点长度</span><br><span class="line">unsigned int len;            &#x2F;* Bytes used to represent the actual entry.</span><br><span class="line">                                For strings this is just the string length</span><br><span class="line">                                while for integers it is 1, 2, 3, 4, 8 or</span><br><span class="line">                                0 (for 4 bit immediate) depending on the</span><br><span class="line">                                number range. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点头部信息长度</span><br><span class="line">unsigned int headersize;     &#x2F;* prevrawlensize + lensize. *&#x2F;</span><br><span class="line">&#x2F;&#x2F; 当前节点数据编码</span><br><span class="line">unsigned char encoding;      &#x2F;* Set to ZIP_STR_* or ZIP_INT_* depending on</span><br><span class="line">                                the entry encoding. However for 4 bits</span><br><span class="line">                                immediate integers this can assume a range</span><br><span class="line">                                of values and must be range-checked. *&#x2F;</span><br><span class="line">unsigned char *p;            &#x2F;* Pointer to the very start of the entry, that</span><br><span class="line">                                is, this points to prev-entry-len field. *&#x2F;</span><br><span class="line">&#125; zlentry;</span><br></pre></td></tr></table></figure>
+节点的编码方式:<table>
+<thead>
+<tr>
+<th>编码方式</th>
+<th>定义</th>
+<th>字节数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ZIP_STR_06B</td>
+<td>#define ZIP_STR_06B (0 &lt;&lt; 6)</td>
+<td>1字节</td>
+<td>00000000</td>
+</tr>
+<tr>
+<td>ZIP_STR_14B</td>
+<td>#define ZIP_STR_14B (1 &lt;&lt; 6)</td>
+<td>2字节</td>
+<td>01000000</td>
+</tr>
+<tr>
+<td>ZIP_STR_32B</td>
+<td>#define ZIP_STR_32B (2 &lt;&lt; 6)</td>
+<td>5字节</td>
+<td>10000000</td>
+</tr>
+<tr>
+<td>ZIP_INT_16B</td>
+<td>#define ZIP_INT_16B (0xc0 或 0&lt;&lt;4)</td>
+<td>2字节</td>
+<td>11000000</td>
+</tr>
+<tr>
+<td>ZIP_INT_32B</td>
+<td>#define ZIP_INT_32B (0xc0 或 1&lt;&lt;4)</td>
+<td>4字节</td>
+<td>11010000</td>
+</tr>
+<tr>
+<td>ZIP_INT_64B</td>
+<td>#define ZIP_INT_64B (0xc0 或 2&lt;&lt;4)</td>
+<td>8字节</td>
+<td>11100000</td>
+</tr>
+<tr>
+<td>ZIP_INT_24B</td>
+<td>#define ZIP_INT_24B (0xc0 或 3&lt;&lt;4)</td>
+<td>3字节</td>
+<td>11110000</td>
+</tr>
+<tr>
+<td>ZIP_INT_8B</td>
+<td>#define ZIP_INT_8B 0xfe</td>
+<td>1字节</td>
+<td>11111110</td>
+</tr>
+</tbody></table>
+<h4 id="创建一个新的ziplist"><a href="#创建一个新的ziplist" class="headerlink" title="创建一个新的ziplist"></a>创建一个新的ziplist</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">unsigned char *ziplistNew(void) &#123;</span><br><span class="line">    unsigned int bytes &#x3D; ZIPLIST_HEADER_SIZE+ZIPLIST_END_SIZE; &#x2F;&#x2F; zlbytes+zltail+zllen+zlend所占的字节数（32*2+16+8 bit&#x3D; 11B）</span><br><span class="line">    unsigned char *zl &#x3D; zmalloc(bytes);</span><br><span class="line">    ZIPLIST_BYTES(zl) &#x3D; intrev32ifbe(bytes); &#x2F;&#x2F;初始化zlbytes</span><br><span class="line">    ZIPLIST_TAIL_OFFSET(zl) &#x3D; intrev32ifbe(ZIPLIST_HEADER_SIZE); &#x2F;&#x2F; 初始化zltail信息</span><br><span class="line">    ZIPLIST_LENGTH(zl) &#x3D; 0; &#x2F;&#x2F; 初始化zllen信息</span><br><span class="line">    zl[bytes-1] &#x3D; ZIP_END; &#x2F;&#x2F; 结束码255，占一个字节</span><br><span class="line">    return zl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="新增一个zlentry"><a href="#新增一个zlentry" class="headerlink" title="新增一个zlentry"></a>新增一个zlentry</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure></li>
 </ol>
 
       
@@ -940,12 +1000,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">99k</span>
+    <span title="站点总字数">100k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:30</span>
+    <span title="站点阅读时长">1:31</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -953,7 +1013,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共41.3k字</span>
+  <span class="post-count">博客全站共41.5k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
