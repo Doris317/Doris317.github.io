@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-19T12:27:04.479Z</updated>
+  <updated>2021-04-19T12:47:04.067Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode27之移除元素</title>
+    <link href="http://example.com/2021/04/19/LeetCode27%E4%B9%8B%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/"/>
+    <id>http://example.com/2021/04/19/LeetCode27%E4%B9%8B%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/</id>
+    <published>2021-04-19T12:32:30.000Z</published>
+    <updated>2021-04-19T12:47:04.067Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;LeetCode27-移除元素&quot;&gt;&lt;a href=&quot;#LeetCode27-移除元素&quot; class=&quot;headerlink&quot; title=&quot;LeetCode27 移除元素&quot;&gt;&lt;/a&gt;LeetCode27 移除元素&lt;/h3&gt;&lt;p&gt;题目:&lt;br&gt;　　给你一个数组</summary>
+        
+      
+    
+    
+    
+    <category term="算法" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+    <category term="算法" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode208之实现Trie(前缀树)</title>
@@ -515,32 +542,6 @@
     <category term="数据结构" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     <category term="java" scheme="http://example.com/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>_builtin_expect</title>
-    <link href="http://example.com/2021/03/29/builtin-expect/"/>
-    <id>http://example.com/2021/03/29/builtin-expect/</id>
-    <published>2021-03-29T05:46:43.000Z</published>
-    <updated>2021-03-30T13:32:39.918Z</updated>
-    
-    
-    <summary type="html">&lt;h5 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h5&gt;&lt;p&gt;今天在看项目代码的时候看到了unliekly和likely的使用，往上追溯代码的时候找到了如下的宏定义：&lt;/p&gt;
-&lt;figure class=&quot;highlight less&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;selector-id&quot;&gt;#if&lt;/span&gt; &lt;span class=&quot;selector-tag&quot;&gt;defined&lt;/span&gt; &lt;span class=&quot;selector-tag&quot;&gt;__GNUC__&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;selector-id&quot;&gt;#define&lt;/span&gt; &lt;span class=&quot;selector-tag&quot;&gt;likely&lt;/span&gt;(x) &lt;span class=&quot;selector-tag&quot;&gt;__builtin_expect&lt;/span&gt;((x), &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;selector-id&quot;&gt;#define&lt;/span&gt; &lt;span class=&quot;selector-tag&quot;&gt;unlikely&lt;/span&gt;(x) &lt;span class=&quot;selector-tag&quot;&gt;__builtin_expect&lt;/span&gt;((x), &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;对于__builtin_expect因为了解的不多，于是就打算整理下笔记，认真学习下这个宏定义。&lt;/p&gt;
-&lt;h5 id=&quot;builtin-expect作用&quot;&gt;&lt;a href=&quot;#builtin-expect作用&quot; class=&quot;headerlink&quot; title=&quot;__builtin_expect作用&quot;&gt;&lt;/a&gt;__builtin_expect作用&lt;/h5&gt;&lt;p&gt;该指令是由gcc引入的，其作用是允许程序员将”分支转移”的信息告诉编译器，以便编译器对代码进行优化，来减少指令跳转带来的性能下降问题。&lt;br&gt;&lt;br&gt;原型为：&lt;/p&gt;
-&lt;figure class=&quot;highlight excel&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;__builtin_expect(&lt;span class=&quot;built_in&quot;&gt;exp&lt;/span&gt;, &lt;span class=&quot;built_in&quot;&gt;N&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;表示exp==N的概率很大。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="C++" scheme="http://example.com/categories/C/"/>
-    
-    
-    <category term="linux" scheme="http://example.com/tags/linux/"/>
-    
-    <category term="编译优化" scheme="http://example.com/tags/%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   

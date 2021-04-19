@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">42</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -192,6 +192,121 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">C++之sizeof</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-31 21:26:07" itemprop="dateCreated datePublished" datetime="2021-03-31T21:26:07+08:00">2021-03-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c++</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/" class="post-meta-item leancloud_visitors" data-flag-title="C++之sizeof" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近在看Redis6.0的源码，发现一个出现频率还不低的C库函数，再加上自己之前的了解不够全面，于是就在复习与学习中不断总结与收获啦。<br><br>题外话：Redis是一个存储在内存上的缓存数据库，所以会对内存的使用是抠之又抠。</p>
+<h3 id="什么是sizeof"><a href="#什么是sizeof" class="headerlink" title="什么是sizeof"></a>什么是sizeof</h3><p>sizeof是C语言中保留的关键字，也可以认为是一种单目运算符，其作用是返回一个对象或者类型所占的内存字节数。<br><br>MSDN上的解释为：<br>　　The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type (including aggregate types).<br>This keyword returns a value of type size_t.<br>　　sizeof关键字给出了变量或者类型（包含聚合类型）存储时的字节数，其返回值类型为size_t。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/31/Linux%E7%9A%84load-average/C++%E4%B9%8BsizeOf%E8%AF%A6%E8%A7%A3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+     
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -659,125 +774,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/29/builtin-expect/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/WebImage.jpg">
-      <meta itemprop="name" content="Doris">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Doris的搬砖日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/29/builtin-expect/" class="post-title-link" itemprop="url">_builtin_expect</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-29 13:46:43" itemprop="dateCreated datePublished" datetime="2021-03-29T13:46:43+08:00">2021-03-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2021/03/29/builtin-expect/" class="post-meta-item leancloud_visitors" data-flag-title="_builtin_expect" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span>℃</span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/03/29/builtin-expect/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/29/builtin-expect/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>596</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>今天在看项目代码的时候看到了unliekly和likely的使用，往上追溯代码的时候找到了如下的宏定义：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#if</span> <span class="selector-tag">defined</span> <span class="selector-tag">__GNUC__</span></span><br><span class="line"><span class="selector-id">#define</span> <span class="selector-tag">likely</span>(x) <span class="selector-tag">__builtin_expect</span>((x), <span class="number">1</span>)    </span><br><span class="line"><span class="selector-id">#define</span> <span class="selector-tag">unlikely</span>(x) <span class="selector-tag">__builtin_expect</span>((x), <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<p>对于__builtin_expect因为了解的不多，于是就打算整理下笔记，认真学习下这个宏定义。</p>
-<h5 id="builtin-expect作用"><a href="#builtin-expect作用" class="headerlink" title="__builtin_expect作用"></a>__builtin_expect作用</h5><p>该指令是由gcc引入的，其作用是允许程序员将”分支转移”的信息告诉编译器，以便编译器对代码进行优化，来减少指令跳转带来的性能下降问题。<br><br>原型为：</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__builtin_expect(<span class="built_in">exp</span>, <span class="built_in">N</span>)</span><br></pre></td></tr></table></figure>
-<p>表示exp==N的概率很大。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/29/builtin-expect/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -849,7 +845,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -906,12 +902,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">98k</span>
+    <span title="站点总字数">99k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:29</span>
+    <span title="站点阅读时长">1:30</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -919,7 +915,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共40.7k字</span>
+  <span class="post-count">博客全站共41.3k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
