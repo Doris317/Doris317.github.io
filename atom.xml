@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-19T12:47:04.067Z</updated>
+  <updated>2021-04-20T12:27:24.146Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode28之实现strStr()</title>
+    <link href="http://example.com/2021/04/20/LeetCode28%E4%B9%8B%E5%AE%9E%E7%8E%B0strStr/"/>
+    <id>http://example.com/2021/04/20/LeetCode28%E4%B9%8B%E5%AE%9E%E7%8E%B0strStr/</id>
+    <published>2021-04-20T12:24:45.000Z</published>
+    <updated>2021-04-20T12:27:24.146Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;LeetCode28-实现strStr&quot;&gt;&lt;a href=&quot;#LeetCode28-实现strStr&quot; class=&quot;headerlink&quot; title=&quot;LeetCode28 实现strStr()&quot;&gt;&lt;/a&gt;LeetCode28</summary>
+        
+      
+    
+    
+    
+    <category term="算法" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+    <category term="算法" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode27之移除元素</title>
@@ -102,7 +129,7 @@
     <link href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/"/>
     <id>http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/</id>
     <published>2021-04-09T03:47:17.000Z</published>
-    <updated>2021-04-19T13:37:20.909Z</updated>
+    <updated>2021-04-20T13:23:59.191Z</updated>
     
     
       
@@ -511,37 +538,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode74.搜索二维矩阵</title>
-    <link href="http://example.com/2021/03/30/LeetCode74-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5/"/>
-    <id>http://example.com/2021/03/30/LeetCode74-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5/</id>
-    <published>2021-03-30T01:45:28.000Z</published>
-    <updated>2021-03-30T13:34:59.862Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;题目（LeetCode摘抄）：&lt;br&gt;&lt;br&gt;　　编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有如下特性：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;每行中的整数从左到右按升序排列。&lt;/li&gt;
-&lt;li&gt;每行的第一个整数大于前一行的最后一个整数。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;示例1：&lt;/p&gt;
-&lt;figure class=&quot;highlight lua&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;输入：matrix = &lt;span class=&quot;string&quot;&gt;[[1,3,5,7],[10,11,16,20],[23,30,34,60]]&lt;/span&gt;, target = &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;输出：&lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;示例2：&lt;/p&gt;
-&lt;figure class=&quot;highlight lua&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;输入：matrix = &lt;span class=&quot;string&quot;&gt;[[1,3,5,7],[10,11,16,20],[23,30,34,60]]&lt;/span&gt;, target = &lt;span class=&quot;number&quot;&gt;13&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;输出：&lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;提示：&lt;/p&gt;
-&lt;figure class=&quot;highlight maxima&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;m == &lt;span class=&quot;built_in&quot;&gt;matrix&lt;/span&gt;.&lt;span class=&quot;built_in&quot;&gt;length&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;n == &lt;span class=&quot;built_in&quot;&gt;matrix&lt;/span&gt;[i].&lt;span class=&quot;built_in&quot;&gt;length&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &amp;lt;= m, n &amp;lt;= &lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-&lt;span class=&quot;number&quot;&gt;104&lt;/span&gt; &amp;lt;= &lt;span class=&quot;built_in&quot;&gt;matrix&lt;/span&gt;[i][j], target &amp;lt;= &lt;span class=&quot;number&quot;&gt;104&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    <category term="算法" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-    <category term="数据结构" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    <category term="java" scheme="http://example.com/tags/java/"/>
     
   </entry>
   
