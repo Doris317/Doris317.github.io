@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">44</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">45</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -192,6 +192,129 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/11/RocketMQ%E4%B9%8BRemotingCommand/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/11/RocketMQ%E4%B9%8BRemotingCommand/" class="post-title-link" itemprop="url">RocketMQ源码解析之RemotingCommand</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-11 12:08:28" itemprop="dateCreated datePublished" datetime="2021-03-11T12:08:28+08:00">2021-03-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/03/11/RocketMQ%E4%B9%8BRemotingCommand/" class="post-meta-item leancloud_visitors" data-flag-title="RocketMQ源码解析之RemotingCommand" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/11/RocketMQ%E4%B9%8BRemotingCommand/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/11/RocketMQ%E4%B9%8BRemotingCommand/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>rocketmq-remoting模块是RocketMQ消息队列中负责网络通信的模块，底层框架是依赖于Netty的。<br><br>为了实现客户端与服务器之间高效的数据请求与接收，RocketMQ自定义了通信协议。</p>
+<h1 id="通信协议及编解码方式"><a href="#通信协议及编解码方式" class="headerlink" title="通信协议及编解码方式"></a>通信协议及编解码方式</h1><p>RemotingCommand这个类封装了消息消息传输过程中的所有数据内容，并负责消息的编码和解码操作。</p>
+<h2 id="RocketMQ的消息格式"><a href="#RocketMQ的消息格式" class="headerlink" title="RocketMQ的消息格式"></a>RocketMQ的消息格式</h2><p>RocketMQ的一条消息包含四个部分：<br><img src="/2021/03/11/RocketMQ%E4%B9%8BRemotingCommand/%E6%B6%88%E6%81%AF%E6%A0%BC%E5%BC%8F.png" alt="消息格式.png"></p>
+<ol>
+<li>消息长度：消息的总长度，占4个字节</li>
+<li>序列化类型&amp;消息头长度：占4个字节，第一个字节代表序列化类型，后三个字节为消息头的长度</li>
+<li>消息头：RocketMQ定义的通用消息头数据加上不同请求或者响应的自定义字段</li>
+<li>消息正文</li>
+</ol>
+<p>下面是RocketMQ官方定义的消息头的字段：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/11/RocketMQ%E4%B9%8BRemotingCommand/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+     
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -812,7 +935,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -874,7 +997,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:35</span>
+    <span title="站点阅读时长">1:36</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -882,7 +1005,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共42.9k字</span>
+  <span class="post-count">博客全站共43.2k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
