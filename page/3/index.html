@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">45</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">46</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -192,6 +192,127 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/" class="post-title-link" itemprop="url">功能安全ISO26262-4</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-06 15:26:34" itemprop="dateCreated datePublished" datetime="2021-04-06T15:26:34+08:00">2021-04-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">功能安全</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/" class="post-meta-item leancloud_visitors" data-flag-title="功能安全ISO26262-4" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Part 4: Product development at the system level<br>本文件由技术委员会ISO/TC22、道路车辆小组委员会、SC32、电气和电子元件以及一般系统方面编写。</p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>ISO26262系列标准改编IEC61508系列标准，以满足道路车辆内电气和/或电子（E/E）系统的行业特定需求。<br>此改编功能适用于由电气、电子和软件组件组成的安全相关系统的安全生命周期内的所有活动。<br>安全是道路车辆发展中的关键问题之一。汽车功能的开发和集成加强了对功能安全的需求和提供满足功能安全目标的证据的需求。<br><br>随着技术复杂性、软件内容和机电实现的增长趋势，系统故障和随机硬件故障的风险不断增加，这些风险被考虑在功能安全范围内。ISO26262系列标准包括:通过提供适当的要求和流程来降低这些风险的指导。<br><br>为了达到功能安全的目的，ISO26262系列标准：</p>
+<ol>
+<li>为汽车安全生命周期提供参考，并支持在生命周期阶段要开展的活动的定制化，即开发、生产、运营、服务和退役；</li>
+<li>提供基于汽车特定风险来确定完整性等级的方法（ASILS）；</li>
+<li>使用ASILS指定使用ISO26262哪些要求适用于避免不合理的剩余风险；</li>
+<li>为功能安全管理、设计、实现、检验、验证和确认措施提供要求；</li>
+<li>为客户和供应商间的关系提供要求。</li></ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/06/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8ISO26262-4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+     
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -769,130 +890,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/01/Redis%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-zmalloc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/WebImage.jpg">
-      <meta itemprop="name" content="Doris">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Doris的搬砖日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/01/Redis%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-zmalloc/" class="post-title-link" itemprop="url">Redis内存分配_zmalloc</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-01 11:28:11" itemprop="dateCreated datePublished" datetime="2021-04-01T11:28:11+08:00">2021-04-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2021/04/01/Redis%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-zmalloc/" class="post-meta-item leancloud_visitors" data-flag-title="Redis内存分配_zmalloc" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span>℃</span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/04/01/Redis%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-zmalloc/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/01/Redis%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-zmalloc/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>9.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>zmalloc是一个对内存分配进行简单封装的库。</p>
-<h3 id="分配器"><a href="#分配器" class="headerlink" title="分配器"></a>分配器</h3><p>从zmalloc.h文件中可以看到如下的宏定义：可以看到redis的内存分配根据不同的宏定义分别是对不同的库：google的tcmalloc、jemalloc以及libc的malloc进行了封装。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(USE_TCMALLOC)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ZMALLOC_LIB (<span class="meta-string">&quot;tcmalloc-&quot;</span> __xstr(TC_VERSION_MAJOR) <span class="meta-string">&quot;.&quot;</span> __xstr(TC_VERSION_MINOR))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;google/tcmalloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> (TC_VERSION_MAJOR == 1 &amp;&amp; TC_VERSION_MINOR &gt;= 6) || (TC_VERSION_MAJOR &gt; 1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAVE_MALLOC_SIZE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> zmalloc_size(p) tc_malloc_size(p)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">error</span> <span class="meta-string">&quot;Newer version of tcmalloc required&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined(USE_JEMALLOC)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ZMALLOC_LIB (<span class="meta-string">&quot;jemalloc-&quot;</span> __xstr(JEMALLOC_VERSION_MAJOR) <span class="meta-string">&quot;.&quot;</span> __xstr(JEMALLOC_VERSION_MINOR) <span class="meta-string">&quot;.&quot;</span> __xstr(JEMALLOC_VERSION_BUGFIX))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jemalloc/jemalloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> (JEMALLOC_VERSION_MAJOR == 2 &amp;&amp; JEMALLOC_VERSION_MINOR &gt;= 1) || (JEMALLOC_VERSION_MAJOR &gt; 2)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAVE_MALLOC_SIZE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> zmalloc_size(p) je_malloc_usable_size(p)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">error</span> <span class="meta-string">&quot;Newer version of jemalloc required&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined(__APPLE__)  操作系統提供的宏，如果打开就可以提供一个 malloc_size ()，用于查看指针指向内存的大小，该函数是libc不提供的</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc/malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAVE_MALLOC_SIZE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> zmalloc_size(p) malloc_size(p)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ZMALLOC_LIB</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ZMALLOC_LIB <span class="meta-string">&quot;libc&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __GLIBC__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAVE_MALLOC_SIZE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> zmalloc_size(p) malloc_usable_size(p)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(USE_JEMALLOC) &amp;&amp; defined(JEMALLOC_FRAG_HINT)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HAVE_DEFRAG</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>tcmalloc：由google用于优化C++多线程应用而开发。Redis 需要1.6以上的版本。</li>
-<li>jemalloc：第一次用在FreeBSD 的allocator，于2005年释出的版本。强调降低碎片化，可扩展的并行支持。Redis需要2.1以上版本。</li>
-<li>libc：最常使用的libc库。GNU libc，默认使用此allocator。</li></ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/04/01/Redis%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-zmalloc/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -960,7 +961,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1017,12 +1018,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">105k</span>
+    <span title="站点总字数">109k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:36</span>
+    <span title="站点阅读时长">1:39</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -1030,7 +1031,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共43.2k字</span>
+  <span class="post-count">博客全站共43.9k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>

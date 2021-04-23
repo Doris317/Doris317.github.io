@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-23T12:34:01.686Z</updated>
+  <updated>2021-04-23T13:24:42.060Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,19 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>生产者与消费者模式</title>
+    <link href="http://example.com/2021/04/23/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://example.com/2021/04/23/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/</id>
+    <published>2021-04-23T13:24:42.000Z</published>
+    <updated>2021-04-23T13:24:42.060Z</updated>
+    
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Redis数据结构解析</title>
@@ -156,7 +169,7 @@
     <link href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/"/>
     <id>http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/</id>
     <published>2021-04-09T03:47:17.000Z</published>
-    <updated>2021-04-23T12:20:42.858Z</updated>
+    <updated>2021-04-23T13:38:09.761Z</updated>
     
     
     <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;Redis的底层包含9种基本数据结构：&lt;/p&gt;
@@ -540,31 +553,6 @@
     <category term="数据库" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
     <category term="数据结构" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux的load_average</title>
-    <link href="http://example.com/2021/03/30/Linux%E7%9A%84load-average/"/>
-    <id>http://example.com/2021/03/30/Linux%E7%9A%84load-average/</id>
-    <published>2021-03-30T13:03:59.000Z</published>
-    <updated>2021-04-06T12:26:16.185Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;前段时间公司项目需求要写一个负载均衡的demo。在研究负载均衡的计算条件时，不可避免地考虑到了一些linux平台的性能指标，其中就有常被用来和负载均衡load-balance混淆的平均负载load-avearge。&lt;/p&gt;
-&lt;h3 id=&quot;什么是load-average？&quot;&gt;&lt;a href=&quot;#什么是load-average？&quot; class=&quot;headerlink&quot; title=&quot;什么是load average？&quot;&gt;&lt;/a&gt;什么是load average？&lt;/h3&gt;&lt;p&gt;平均负载是指cpu在一段时间内正在处理以及等待CPU处理的进程数之和的统计信息，也就是CPU使用队列的长度的统计信息。也可以说是一段时间内活跃进程的统计信息。&lt;/p&gt;
-&lt;h3 id=&quot;怎样查看linux系统当前的平均负载&quot;&gt;&lt;a href=&quot;#怎样查看linux系统当前的平均负载&quot; class=&quot;headerlink&quot; title=&quot;怎样查看linux系统当前的平均负载&quot;&gt;&lt;/a&gt;怎样查看linux系统当前的平均负载&lt;/h3&gt;&lt;p&gt;load average参数后的数值就代表系统当前的平均负载。具体的查看命令有：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;top命令：&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;VirtualBox:~$ top：最常见的命令了。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;top - 17:52:47 up 1 min,  1 user,  load average: 1.83, 0.63, 0.22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Tasks: 191 total,   2 running, 189 sleeping,   0 stopped,   0 zombie&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;%Cpu(s): 17.2 us,  1.4 sy,  0.0 ni, 80.7 id,  0.3 wa,  0.0 hi,  0.3 si,  0.0 st&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MiB Mem :   3936.0 total,   2012.7 free,    678.1 used,   1245.2 buff&amp;#x2F;cache&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   3011.9 avail Mem &lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/li&gt;&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="linux" scheme="http://example.com/categories/linux/"/>
-    
-    
-    <category term="性能优化" scheme="http://example.com/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    <category term="linux" scheme="http://example.com/tags/linux/"/>
     
   </entry>
   
