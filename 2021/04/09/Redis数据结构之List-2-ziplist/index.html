@@ -22,24 +22,25 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言Redis的底层包含9种基本数据结构：  String： List: 列表对象的编码可以是ziplist或者linkedlist。 Hash Set Sorted Set bitmap GeoHash HyperLogLog Streams  本文侧重从源码的角度分析下List的底层数据结构之一——ziplist.c。 什么是ziplist？ziplist是一种特殊编码的双链表，其设计目的是提">
+  <meta name="description" content="前言Redis的底层包含9种基本数据结构：   String： List: 列表对象的编码可以是ziplist或者linkedlist。 Hash Set Sorted Set bitmap GeoHash HyperLogLog Streams  本文侧重从源码的角度分析下List的底层数据结构之一——ziplist.c。 什么是ziplist？ziplist是一种特殊编码的双链表，其设计目的是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis数据结构之List_2-ziplist">
 <meta property="og:url" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/index.html">
 <meta property="og:site_name" content="Doris的搬砖日记">
-<meta property="og:description" content="前言Redis的底层包含9种基本数据结构：  String： List: 列表对象的编码可以是ziplist或者linkedlist。 Hash Set Sorted Set bitmap GeoHash HyperLogLog Streams  本文侧重从源码的角度分析下List的底层数据结构之一——ziplist.c。 什么是ziplist？ziplist是一种特殊编码的双链表，其设计目的是提">
+<meta property="og:description" content="前言Redis的底层包含9种基本数据结构：   String： List: 列表对象的编码可以是ziplist或者linkedlist。 Hash Set Sorted Set bitmap GeoHash HyperLogLog Streams  本文侧重从源码的角度分析下List的底层数据结构之一——ziplist.c。 什么是ziplist？ziplist是一种特殊编码的双链表，其设计目的是">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
 <meta property="og:image" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/ZipList%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
 <meta property="og:image" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/zlentry%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
 <meta property="article:published_time" content="2021-04-09T03:47:17.000Z">
-<meta property="article:modified_time" content="2021-04-20T13:23:59.191Z">
+<meta property="article:modified_time" content="2021-04-23T12:20:42.858Z">
 <meta property="article:author" content="Doris">
 <meta property="article:tag" content="c">
 <meta property="article:tag" content="缓存">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/ZipList%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
+<meta name="twitter:image" content="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png">
 
 <link rel="canonical" href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/">
 
@@ -300,6 +301,7 @@
 
       
         <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>Redis的底层包含9种基本数据结构：</p>
+<p><img src="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="数据结构.png"></p>
 <ol>
 <li>String：</li>
 <li>List: 列表对象的编码可以是ziplist或者linkedlist。</li>
@@ -319,7 +321,8 @@
 <li>zltail：32位，是到ziplist最后一个entry的偏移量，用于从尾部出队时的操作，避免整个链表遍历</li>
 <li>zllen：16位，表示ziplist中所有entry的数目。如果超过2^16-2，则设值为 2^16-1，然后需要通过遍历来获取ziplist中所有的entry数目。</li>
 <li>zlend：8位，是一个特殊的entry，设值为255（0xff）。其他项都不会以255编码开头。</li>
-<li>Entry：压缩节点<h4 id="压缩节点的数据结构"><a href="#压缩节点的数据结构" class="headerlink" title="压缩节点的数据结构"></a>压缩节点的数据结构</h4><img src="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/zlentry%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="zlentry数据结构.png"><ol>
+<li>Entry：压缩节点<span id="more"></span>   
+<h4 id="压缩节点的数据结构"><a href="#压缩节点的数据结构" class="headerlink" title="压缩节点的数据结构"></a>压缩节点的数据结构</h4><img src="/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/zlentry%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="zlentry数据结构.png"><ol>
 <li><code>prevlen</code>：存储上一个节点的长度，用于倒序查找节点:<ol>
 <li>如果前一个entry的长度小于254，该字段会使用一个字节(即8 bit)表示长度;</li>
 <li>如果前一个entry的长度大于254，将会使用5个字节，此时第一个字节会被设置为254(FE)来表示一个较大的数值，后续4个字节表示前面一个entry的长度。<br></li>
