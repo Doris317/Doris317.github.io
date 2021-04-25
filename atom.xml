@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-23T13:24:42.060Z</updated>
+  <updated>2021-04-25T13:36:59.424Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Redis数据结构之List_3-quicklist</title>
+    <link href="http://example.com/2021/04/25/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-3-quicklist/"/>
+    <id>http://example.com/2021/04/25/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-3-quicklist/</id>
+    <published>2021-04-25T13:02:56.000Z</published>
+    <updated>2021-04-25T13:36:59.424Z</updated>
+    
+    
+    <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;Redis的底层包含9种基本数据结构：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/04/25/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-3-quicklist/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png&quot; alt=&quot;数据结构.png&quot;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;String：&lt;/li&gt;
+&lt;li&gt;List: 列表对象的编码可以是ziplist或者linkedlist。quicklist是一个3.2版本之后新增的基础数据结构，是 redis 自定义的一种复杂数据结构，将ziplist和adlist结合到了一个数据结构中。主要是作为list的基础数据结构。&lt;/li&gt;
+&lt;li&gt;Hash&lt;/li&gt;
+&lt;li&gt;Set&lt;/li&gt;
+&lt;li&gt;Sorted Set&lt;/li&gt;
+&lt;li&gt;bitmap&lt;/li&gt;
+&lt;li&gt;GeoHash&lt;/li&gt;
+&lt;li&gt;HyperLogLog&lt;/li&gt;
+&lt;li&gt;Streams&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;本文侧重从源码的角度分析下List的底层数据结构之一——quicklist.c。&lt;/p&gt;
+&lt;h3 id=&quot;什么是quicklist？&quot;&gt;&lt;a href=&quot;#什么是quicklist？&quot; class=&quot;headerlink&quot; title=&quot;什么是quicklist？&quot;&gt;&lt;/a&gt;什么是quicklist？&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;/2021/04/25/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-3-quicklist/quickList%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png&quot; alt=&quot;quickList数据结构.png&quot;&gt;&lt;br&gt;quicklist在64位系统上是一个40个字节的数据结构。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;typedef struct quicklist &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    quicklistNode *head;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    quicklistNode *tail;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned long count; &amp;#x2F;&amp;#x2F; 元素总数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned long len; &amp;#x2F;&amp;#x2F; quicklist节点的数量&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int fill : QL_FILL_BITS; &amp;#x2F;&amp;#x2F; 是用户请求（或默认）填充因子&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int compress : QL_COMP_BITS; &amp;#x2F;&amp;#x2F; -1表示不压缩, 否则它是在快速列表的末端保持未压缩的快速列表节点的数量。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int bookmark_count: QL_BM_BITS;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    quicklistBookmark bookmarks[];  &amp;#x2F;&amp;#x2F; 重新分配内存使用的可选属性，在未使用时是不占内存的&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; quicklist;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;&amp;#x2F; 描述quicklist的一个压缩列表的32字节的数据结构&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;typedef struct quicklistNode &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    struct quicklistNode *prev; &amp;#x2F;&amp;#x2F; 前一个节点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    struct quicklistNode *next; &amp;#x2F;&amp;#x2F; 后一个节点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned char *zl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int sz;             &amp;#x2F;&amp;#x2F; ziplist的总字节大小&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int count : 16;     &amp;#x2F;&amp;#x2F; ziplist的节点数量&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int encoding : 2;   &amp;#x2F;&amp;#x2F; 存储形式 2bit，原生字节数组还是 LZF 压缩存储&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int container : 2;  &amp;#x2F;* NONE&amp;#x3D;&amp;#x3D;1 or ZIPLIST&amp;#x3D;&amp;#x3D;2 *&amp;#x2F;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int recompress : 1; &amp;#x2F;&amp;#x2F; 压缩标志, 为1 是压缩&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int attempted_compress : 1; &amp;#x2F;&amp;#x2F; 节点是否能够被压缩,只用在测试&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int extra : 10; &amp;#x2F;* more bits to steal for future usage *&amp;#x2F;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; quicklistNode;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="Redis" scheme="http://example.com/categories/Redis/"/>
+    
+    
+    <category term="c" scheme="http://example.com/tags/c/"/>
+    
+    <category term="缓存" scheme="http://example.com/tags/%E7%BC%93%E5%AD%98/"/>
+    
+    <category term="数据库" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="数据结构" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
   
   <entry>
     <title>生产者与消费者模式</title>
@@ -514,45 +554,6 @@
     
     <category term="c++" scheme="http://example.com/categories/c/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Redis数据结构之SDS</title>
-    <link href="http://example.com/2021/03/30/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BSDS/"/>
-    <id>http://example.com/2021/03/30/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BSDS/</id>
-    <published>2021-03-30T13:42:11.000Z</published>
-    <updated>2021-03-31T13:24:56.050Z</updated>
-    
-    
-    <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;Redis的底层包含9种基本数据结构：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;String：使用一种叫简单动态字符串（SDS）的数据类型来实现。&lt;/li&gt;
-&lt;li&gt;List&lt;/li&gt;
-&lt;li&gt;Hash&lt;/li&gt;
-&lt;li&gt;Set&lt;/li&gt;
-&lt;li&gt;Sorted Set&lt;/li&gt;
-&lt;li&gt;bitmap&lt;/li&gt;
-&lt;li&gt;GeoHash&lt;/li&gt;
-&lt;li&gt;HyperLogLog&lt;/li&gt;
-&lt;li&gt;Streams&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;本文侧重从源码的角度分析下String的底层数据结构——sds.c。&lt;/p&gt;
-&lt;h3 id=&quot;什么是sds&quot;&gt;&lt;a href=&quot;#什么是sds&quot; class=&quot;headerlink&quot; title=&quot;什么是sds&quot;&gt;&lt;/a&gt;什么是sds&lt;/h3&gt;&lt;p&gt;字符串是Redis中最为常见的数据存储类型，其底层实现是简单动态字符串sds(simple dynamic string)，是可以修改的字符串。它类似于Java中的ArrayList，它采用预分配冗余空间的方式来减少内存的频繁分配。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2021/03/30/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BSDS/SDS%E7%BB%93%E6%9E%84.png&quot; alt=&quot;SDS结构.png&quot;&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Redis" scheme="http://example.com/categories/Redis/"/>
-    
-    
-    <category term="c" scheme="http://example.com/tags/c/"/>
-    
-    <category term="缓存" scheme="http://example.com/tags/%E7%BC%93%E5%AD%98/"/>
-    
-    <category term="数据库" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    <category term="数据结构" scheme="http://example.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   

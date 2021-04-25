@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">46</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">47</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -192,6 +192,123 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/14/LeetCode208%E4%B9%8B%E5%AE%9E%E7%8E%B0Trie-%E5%89%8D%E7%BC%80%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WebImage.jpg">
+      <meta itemprop="name" content="Doris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Doris的搬砖日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/14/LeetCode208%E4%B9%8B%E5%AE%9E%E7%8E%B0Trie-%E5%89%8D%E7%BC%80%E6%A0%91/" class="post-title-link" itemprop="url">LeetCode208之实现Trie(前缀树)</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-14 19:21:42" itemprop="dateCreated datePublished" datetime="2021-04-14T19:21:42+08:00">2021-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/04/14/LeetCode208%E4%B9%8B%E5%AE%9E%E7%8E%B0Trie-%E5%89%8D%E7%BC%80%E6%A0%91/" class="post-meta-item leancloud_visitors" data-flag-title="LeetCode208之实现Trie(前缀树)" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span>℃</span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/04/14/LeetCode208%E4%B9%8B%E5%AE%9E%E7%8E%B0Trie-%E5%89%8D%E7%BC%80%E6%A0%91/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/14/LeetCode208%E4%B9%8B%E5%AE%9E%E7%8E%B0Trie-%E5%89%8D%E7%BC%80%E6%A0%91/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="LeetCode208-实现Trie-前缀树"><a href="#LeetCode208-实现Trie-前缀树" class="headerlink" title="LeetCode208 实现Trie(前缀树)"></a>LeetCode208 实现Trie(前缀树)</h3><p>题目：<br>　　Trie（发音类似 “try”）或者说 前缀树 是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。这一数据结构有相当多的应用情景，例如自动补完和拼写检查。 请你实现 Trie 类：</p>
+<p>　　Trie() 初始化前缀树对象。<br>　　void insert(String word) 向前缀树中插入字符串 word 。<br>　　boolean search(String word) 如果字符串 word 在前缀树中，返回 true（即，在检索之前已经插入）；否则，返回 false 。<br>　　boolean startsWith(String prefix) 如果之前已经插入的字符串 word 的前缀之一为 prefix ，返回 true ；否则，返回 false 。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">输入</span><br><span class="line">    [&quot;Trie&quot;, &quot;insert&quot;, &quot;search&quot;, &quot;search&quot;, &quot;startsWith&quot;, &quot;insert&quot;, &quot;search&quot;]</span><br><span class="line">    [[], [&quot;apple&quot;], [&quot;apple&quot;], [&quot;app&quot;], [&quot;app&quot;], [&quot;app&quot;], [&quot;app&quot;]]</span><br><span class="line">输出</span><br><span class="line">    [null, null, true, false, true, null, true</span><br><span class="line"></span><br><span class="line">解释</span><br><span class="line">    Trie trie &#x3D; new Trie();</span><br><span class="line">    trie.insert(&quot;apple&quot;);</span><br><span class="line">    trie.search(&quot;apple&quot;);   &#x2F;&#x2F; 返回 True</span><br><span class="line">    trie.search(&quot;app&quot;);     &#x2F;&#x2F; 返回 False</span><br><span class="line">    trie.startsWith(&quot;app&quot;); &#x2F;&#x2F; 返回 True</span><br><span class="line">    trie.insert(&quot;app&quot;);</span><br><span class="line">    trie.search(&quot;app&quot;);     &#x2F;&#x2F; 返回 True</span><br></pre></td></tr></table></figure>
+<p>提示：<br>　　1 &lt;= word.length, prefix.length &lt;= 2000<br>　　word 和 prefix 仅由小写英文字母组成<br>　　insert、search 和 startsWith 调用次数 总计 不超过 3 * 104 次</p>
+<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><p>我三个月前的解法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">public class Trie &#123;</span><br><span class="line">    class TireNode &#123;</span><br><span class="line">        int N &#x3D; 26;</span><br><span class="line">        boolean isEnd &#x3D; false;</span><br><span class="line">        private TireNode[] children &#x3D; new TireNode[N];</span><br><span class="line">        public boolean contains(char c) &#123;</span><br><span class="line">            return children[c-&#39;0&#39;] !&#x3D; null;</span><br><span class="line">        &#125;</span><br><span class="line">        public TireNode get(char c) &#123;</span><br><span class="line">            return children[c-&#39;0&#39;];</span><br><span class="line">        &#125;</span><br><span class="line">        public void insert(char c) &#123;</span><br><span class="line">            children[c-&#39;0&#39;] &#x3D; new TireNode();</span><br><span class="line">        &#125;</span><br><span class="line">        public void setEnd(boolean flag) &#123;</span><br><span class="line">            isEnd &#x3D; flag;</span><br><span class="line">        &#125;</span><br><span class="line">        public boolean getEnd() &#123;</span><br><span class="line">            return isEnd;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private TireNode root;</span><br><span class="line">    &#x2F;** Initialize your data structure here. *&#x2F;</span><br><span class="line">    public Trie() &#123;</span><br><span class="line">        root &#x3D; new TireNode();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** Inserts a word into the trie. *&#x2F;</span><br><span class="line">    public void insert(String word) &#123;</span><br><span class="line">        TireNode cur &#x3D; root;</span><br><span class="line">        for (char s: word.toCharArray()) &#123;</span><br><span class="line">            if (!cur.contains(s)) &#123;</span><br><span class="line">               cur.insert(s);</span><br><span class="line">            &#125;</span><br><span class="line">            cur &#x3D; cur.get(s);</span><br><span class="line">        &#125;</span><br><span class="line">        cur.setEnd(true);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** Returns if the word is in the trie. *&#x2F;</span><br><span class="line">    public boolean search(String word) &#123;</span><br><span class="line">        TireNode cur &#x3D; root;</span><br><span class="line">        for (char s: word.toCharArray()) &#123;</span><br><span class="line">            if (null &#x3D;&#x3D; cur || !cur.contains(s)) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            cur &#x3D; cur.get(s);</span><br><span class="line">        &#125;</span><br><span class="line">        return cur.getEnd();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** Returns if there is any word in the trie that starts with the given prefix. *&#x2F;</span><br><span class="line">    public boolean startsWith(String prefix) &#123;</span><br><span class="line">        TireNode cur &#x3D; root;</span><br><span class="line">        for (char s: prefix.toCharArray()) &#123;</span><br><span class="line">            if (null &#x3D;&#x3D; cur || !cur.contains(s)) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            cur &#x3D; cur.get(s);</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>二次刷题的解法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">class Trie &#123;</span><br><span class="line"></span><br><span class="line">   public Trie []root;</span><br><span class="line">    public boolean isEnd;</span><br><span class="line"></span><br><span class="line">    public Trie() &#123;</span><br><span class="line">        root &#x3D; new Trie[26];</span><br><span class="line">        isEnd &#x3D; false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** Inserts a word into the trie. *&#x2F;</span><br><span class="line">    public void insert(String word) &#123;</span><br><span class="line">        Trie cur &#x3D; this;</span><br><span class="line">        for (char c: word.toCharArray()) &#123;</span><br><span class="line">            if (cur.root[c-&#39;a&#39;] &#x3D;&#x3D; null) &#123;</span><br><span class="line">                cur.root[c-&#39;a&#39;] &#x3D; new Trie();</span><br><span class="line">            &#125;</span><br><span class="line">            cur &#x3D; cur.root[c-&#39;a&#39;];</span><br><span class="line">        &#125;</span><br><span class="line">        cur.isEnd &#x3D; true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** Returns if the word is in the trie. *&#x2F;</span><br><span class="line">    public boolean search(String word) &#123;</span><br><span class="line">        Trie cur &#x3D; this;</span><br><span class="line">        for (char c: word.toCharArray()) &#123;</span><br><span class="line">            if (cur.root[c-&#39;a&#39;] &#x3D;&#x3D; null) &#123;</span><br><span class="line">               return false;</span><br><span class="line">            &#125;</span><br><span class="line">            cur &#x3D; cur.root[c-&#39;a&#39;];</span><br><span class="line">        &#125;</span><br><span class="line">        return cur.isEnd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** Returns if there is any word in the trie that starts with the given prefix. *&#x2F;</span><br><span class="line">    public boolean startsWith(String prefix) &#123;</span><br><span class="line">        Trie cur &#x3D; this;</span><br><span class="line">        for (char c: prefix.toCharArray()) &#123;</span><br><span class="line">            if (cur.root[c-&#39;a&#39;] &#x3D;&#x3D; null) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            cur &#x3D; cur.root[c-&#39;a&#39;];</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+     
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -688,122 +805,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&II/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/WebImage.jpg">
-      <meta itemprop="name" content="Doris">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Doris的搬砖日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&II/" class="post-title-link" itemprop="url">LeetCode之搜索旋转排序数组I&II</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-07 20:22:08" itemprop="dateCreated datePublished" datetime="2021-04-07T20:22:08+08:00">2021-04-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&II/" class="post-meta-item leancloud_visitors" data-flag-title="LeetCode之搜索旋转排序数组I&II" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span>℃</span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&II/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&II/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="LeetCode33-搜索旋转排序数组I"><a href="#LeetCode33-搜索旋转排序数组I" class="headerlink" title="LeetCode33 搜索旋转排序数组I"></a>LeetCode33 搜索旋转排序数组I</h3><p>题目：<br><br>　　整数数组 nums 按升序排列，数组中的值互不相同。在传递给函数之前，nums 在预先未知的某个下标 k（0 &lt;= k &lt; nums.length）上进行了 旋转，使数组变为 [nums[k], nums[k+1], …, nums[n-1], nums[0], nums[1], …, nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 在下标 3 处经旋转后可能变为 [4,5,6,7,0,1,2] 。<br>给你旋转后的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums &#x3D; [4,5,6,7,0,1,2], target &#x3D; 0</span><br><span class="line">输出：4</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/04/07/LeetCode%E4%B9%8B%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84I&II/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -875,7 +876,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -932,12 +933,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">114k</span>
+    <span title="站点总字数">115k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:44</span>
+    <span title="站点阅读时长">1:45</span>
 </div>
 <!--
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
@@ -945,7 +946,7 @@
 -->
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共45k字</span>
+  <span class="post-count">博客全站共45.4k字</span>
 </div>
 
     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
