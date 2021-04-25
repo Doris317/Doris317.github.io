@@ -169,7 +169,7 @@
     <link href="http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/"/>
     <id>http://example.com/2021/04/09/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BList-2-ziplist/</id>
     <published>2021-04-09T03:47:17.000Z</published>
-    <updated>2021-04-23T13:38:09.761Z</updated>
+    <updated>2021-04-25T12:53:34.235Z</updated>
     
     
     <summary type="html">&lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;Redis的底层包含9种基本数据结构：&lt;/p&gt;
